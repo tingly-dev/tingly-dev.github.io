@@ -1,9 +1,9 @@
-name: Build and Deploy
+name: Deploy GitHub Pages
 
 on:
   push:
     branches:
-      - tingly-box-pages
+      - main
 
 permissions:
   contents: read
@@ -11,8 +11,11 @@ permissions:
   id-token: write
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+
+    environment:
+      name: github-pages
 
     steps:
       - name: Checkout
@@ -29,6 +32,12 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Verify build output
+        run: |
+          echo "==== dist contents ===="
+          ls -la dist
+          test -f dist/index.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
