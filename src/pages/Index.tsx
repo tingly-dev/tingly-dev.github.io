@@ -1,5 +1,16 @@
 import { useState } from "react";
-import { Copy, Check, Github, ExternalLink, Layers, Zap, Settings, Layout, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Copy,
+  Check,
+  Github,
+  ExternalLink,
+  Layers,
+  Zap,
+  Settings,
+  Layout,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import screenshotHome from "@/assets/screenshot-home.png";
@@ -15,8 +26,6 @@ const screenshots = [
   { src: screenshotSystem, alt: "Tingly Box Server Status & Control" },
   { src: screenshotHistory, alt: "Tingly Box Activity Log & History" },
 ];
-
-const installCommand = "pip install tingly-box";
 
 const features = [
   {
@@ -41,154 +50,7 @@ const features = [
   },
 ];
 
-const Hero = () => {
-  const [copied, setCopied] = useState(false);
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  const handleCopy = async () => {
-    await navigator.clipboard.writeText(installCommand);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % screenshots.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + screenshots.length) % screenshots.length);
-  };
-
-  return (
-    <section className="min-h-[80vh] flex flex-col items-center justify-center text-center px-4 py-20">
-      <h1 
-        className="text-5xl md:text-7xl font-bold mb-6 text-glow animate-fade-up"
-        style={{ animationDelay: "0ms" }}
-      >
-        <span className="text-primary">Tingly</span> Box
-      </h1>
-      
-      <p 
-        className="text-xl md:text-2xl text-muted-foreground max-w-2xl mb-10 animate-fade-up"
-        style={{ animationDelay: "100ms" }}
-      >
-        Provider-agnostic AI model proxy with unified API
-      </p>
-
-      {/* Screenshot Carousel */}
-      <div 
-        className="relative w-full max-w-4xl mb-10 animate-fade-up"
-        style={{ animationDelay: "150ms" }}
-      >
-        <div className="relative overflow-hidden rounded-lg border border-border bg-card shadow-lg">
-          <img 
-            src={screenshots[currentSlide].src} 
-            alt={screenshots[currentSlide].alt}
-            className="w-full h-auto transition-opacity duration-300"
-          />
-          
-          {/* Navigation Arrows */}
-          <button
-            onClick={prevSlide}
-            className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-background/80 hover:bg-background border border-border transition-colors"
-            aria-label="Previous screenshot"
-          >
-            <ChevronLeft className="w-5 h-5 text-foreground" />
-          </button>
-          <button
-            onClick={nextSlide}
-            className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-background/80 hover:bg-background border border-border transition-colors"
-            aria-label="Next screenshot"
-          >
-            <ChevronRight className="w-5 h-5 text-foreground" />
-          </button>
-        </div>
-        
-        {/* Dots Indicator */}
-        <div className="flex justify-center gap-2 mt-4">
-          {screenshots.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentSlide(index)}
-              className={`w-2 h-2 rounded-full transition-colors ${
-                index === currentSlide ? "bg-primary" : "bg-muted-foreground/30"
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
-        </div>
-      </div>
-
-      <div 
-        className="flex flex-col sm:flex-row items-center gap-4 mb-10 animate-fade-up"
-        style={{ animationDelay: "200ms" }}
-      >
-        <div className="flex items-center gap-2 bg-secondary rounded-lg px-4 py-3 font-mono text-sm">
-          <span className="text-muted-foreground">$</span>
-          <span>{installCommand}</span>
-          <button
-            onClick={handleCopy}
-            className="ml-2 p-1 hover:bg-muted rounded transition-colors"
-            aria-label="Copy install command"
-          >
-            {copied ? (
-              <Check className="w-4 h-4 text-primary" />
-            ) : (
-              <Copy className="w-4 h-4 text-muted-foreground" />
-            )}
-          </button>
-        </div>
-      </div>
-
-      <div 
-        className="flex flex-wrap justify-center gap-4 animate-fade-up"
-        style={{ animationDelay: "300ms" }}
-      >
-        <Button asChild size="lg" className="gap-2">
-          <a href="https://github.com/yourusername/tingly-box" target="_blank" rel="noopener noreferrer">
-            <Github className="w-5 h-5" />
-            GitHub
-          </a>
-        </Button>
-        <Button asChild variant="outline" size="lg" className="gap-2">
-          <a href="https://github.com/yourusername/tingly-box#readme" target="_blank" rel="noopener noreferrer">
-            <ExternalLink className="w-5 h-5" />
-            Documentation
-          </a>
-        </Button>
-      </div>
-    </section>
-  );
-};
-
-const Features = () => {
-  return (
-    <section className="py-20 px-4">
-      <div className="max-w-5xl mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-12">Features</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {features.map((feature, index) => (
-            <div
-              key={feature.title}
-              className="p-6 rounded-lg bg-card border border-border hover:border-primary/50 transition-colors animate-fade-up"
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              <feature.icon className="w-10 h-10 text-primary mb-4" />
-              <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-              <p className="text-muted-foreground">{feature.description}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const QuickStart = () => {
-  const [copiedPython, setCopiedPython] = useState(false);
-  const [copiedJson, setCopiedJson] = useState(false);
-  
-  const pythonExample = `import openai
+const pythonExample = `import openai
 
 client = openai.OpenAI(
   base_url="http://localhost:12580/openai",
@@ -201,7 +63,7 @@ response = client.chat.completions.create(
   messages=[{"role": "user", "content": "Hello!"}]
 )`;
 
-  const jsonExample = `{
+const jsonExample = `{
   "env": {
     "ANTHROPIC_AUTH_TOKEN": "{your-tingly-box-token}",
     "ANTHROPIC_BASE_URL": "http://localhost:8080/anthropic",
@@ -209,101 +71,155 @@ response = client.chat.completions.create(
   }
 }`;
 
-  const handleCopyPython = async () => {
-    await navigator.clipboard.writeText(pythonExample);
-    setCopiedPython(true);
-    setTimeout(() => setCopiedPython(false), 2000);
-  };
-
-  const handleCopyJson = async () => {
-    await navigator.clipboard.writeText(jsonExample);
-    setCopiedJson(true);
-    setTimeout(() => setCopiedJson(false), 2000);
-  };
+const Hero = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   return (
-    <section className="py-20 px-4 bg-card/50">
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-8">Quick Start</h2>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Python Example */}
-          <div className="relative rounded-lg bg-secondary border border-border overflow-hidden">
-            <div className="flex items-center justify-between px-4 py-2 border-b border-border">
-              <span className="text-sm text-muted-foreground font-mono">python</span>
-              <button
-                onClick={handleCopyPython}
-                className="p-1 hover:bg-muted rounded transition-colors"
-                aria-label="Copy Python code"
-              >
-                {copiedPython ? (
-                  <Check className="w-4 h-4 text-primary" />
-                ) : (
-                  <Copy className="w-4 h-4 text-muted-foreground" />
-                )}
-              </button>
-            </div>
-            <pre className="p-4 overflow-x-auto">
-              <code className="text-sm font-mono">{pythonExample}</code>
-            </pre>
+      <section className="min-h-[60vh] flex flex-col items-center justify-center text-center px-4 py-16">
+        <h1 className="text-5xl md:text-7xl font-bold mb-6">
+          <span className="text-primary">Tingly</span> Box
+        </h1>
+
+        <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mb-10">
+          Provider-agnostic AI model proxy with unified API
+        </p>
+
+        <div className="flex flex-wrap justify-center gap-4 mb-10">
+          <Button asChild size="lg" className="gap-2">
+            <a href="https://github.com/tingly-dev/tingly-box" target="_blank" rel="noopener noreferrer">
+              <Github className="w-5 h-5" />
+              GitHub
+            </a>
+          </Button>
+          <Button asChild variant="outline" size="lg" className="gap-2">
+            <a
+                href="https://github.com/tingly-dev/tingly-box/blob/main/README.md"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+              <ExternalLink className="w-5 h-5" />
+              Documentation
+            </a>
+          </Button>
+        </div>
+
+        <div className="relative w-full max-w-4xl">
+          <div className="relative overflow-hidden rounded-lg border bg-card shadow-lg">
+            <img
+                src={screenshots[currentSlide].src}
+                alt={screenshots[currentSlide].alt}
+                className="w-full h-auto"
+            />
+
+            <button
+                onClick={() =>
+                    setCurrentSlide((prev) => (prev - 1 + screenshots.length) % screenshots.length)
+                }
+                className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-background/80 border"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+
+            <button
+                onClick={() => setCurrentSlide((prev) => (prev + 1) % screenshots.length)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-background/80 border"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
           </div>
 
-          {/* JSON Example */}
-          <div className="relative rounded-lg bg-secondary border border-border overflow-hidden">
-            <div className="flex items-center justify-between px-4 py-2 border-b border-border">
-              <span className="text-sm text-muted-foreground font-mono">~/.claude/settings.json</span>
-              <button
-                onClick={handleCopyJson}
-                className="p-1 hover:bg-muted rounded transition-colors"
-                aria-label="Copy JSON config"
-              >
-                {copiedJson ? (
-                  <Check className="w-4 h-4 text-primary" />
-                ) : (
-                  <Copy className="w-4 h-4 text-muted-foreground" />
-                )}
-              </button>
-            </div>
-            <pre className="p-4 overflow-x-auto">
-              <code className="text-sm font-mono">{jsonExample}</code>
-            </pre>
+          <div className="flex justify-center gap-2 mt-4">
+            {screenshots.map((_, i) => (
+                <button
+                    key={i}
+                    onClick={() => setCurrentSlide(i)}
+                    className={`w-2 h-2 rounded-full ${i === currentSlide ? "bg-primary" : "bg-muted"}`}
+                />
+            ))}
           </div>
         </div>
-      </div>
-    </section>
+      </section>
   );
 };
 
-const Footer = () => {
+const Features = () => (
+    <section className="py-12 px-4">
+      <div className="max-w-5xl mx-auto">
+        <h2 className="text-3xl font-bold text-center mb-12">Features</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {features.map((f) => (
+              <div key={f.title} className="p-6 rounded-lg bg-card border">
+                <f.icon className="w-10 h-10 text-primary mb-4" />
+                <h3 className="text-xl font-semibold mb-2">{f.title}</h3>
+                <p className="text-muted-foreground">{f.description}</p>
+              </div>
+          ))}
+        </div>
+      </div>
+    </section>
+);
+
+const CodeBlock = ({ code }: { code: string }) => {
+  const [copied, setCopied] = useState(false);
+
+  const copy = async () => {
+    await navigator.clipboard.writeText(code);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
-    <footer className="py-12 px-4 border-t border-border">
+      <div className="relative rounded-lg bg-secondary border overflow-hidden">
+        <button
+            onClick={copy}
+            className="absolute top-2 right-2 p-1 rounded hover:bg-muted"
+        >
+          {copied ? <Check className="w-4 h-4 text-primary" /> : <Copy className="w-4 h-4" />}
+        </button>
+        <pre className="p-4 overflow-x-auto">
+        <code className="text-sm font-mono whitespace-pre-wrap">{code}</code>
+      </pre>
+      </div>
+  );
+};
+
+const QuickStart = () => (
+    <section className="py-12 px-4 bg-card/50">
+      <div className="max-w-4xl mx-auto">
+        <h2 className="text-3xl font-bold text-center mb-8">Quick Start</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <CodeBlock code={pythonExample} />
+          <CodeBlock code={jsonExample} />
+        </div>
+      </div>
+    </section>
+);
+
+const Footer = () => (
+    <footer className="py-12 px-4 border-t">
       <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="text-muted-foreground text-sm">
           MIT License © {new Date().getFullYear()} Tingly Box
         </div>
         <a
-          href="https://github.com/yourusername/tingly-box"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
+            href="https://github.com/tingly-dev/tingly-box"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
         >
-          <Github className="w-5 h-5" />
-          <span>GitHub</span>
+          <Github className="w-5 h-5" /> GitHub
         </a>
       </div>
     </footer>
-  );
-};
+);
 
-const Index = () => {
-  return (
+const Index = () => (
     <main className="min-h-screen">
       <Hero />
       <Features />
       <QuickStart />
       <Footer />
     </main>
-  );
-};
+);
 
 export default Index;
