@@ -52,7 +52,8 @@ client = openai.OpenAI(
 # Use as before
 response = client.chat.completions.create(
   model=\"tingly\",
-  messages=[{\"role\": \"user\", \"content\": \"Hello!\"}]
+  messages=[{\"role\": \"user\", 
+             \"content\": \"Hello!\"}]
 )`;
 
 const jsonExample = `{
@@ -63,20 +64,6 @@ const jsonExample = `{
   }
 }`;
 
-// Simple syntax highlighting with spans instead of external library
-const highlightCode = (code: string, lang: string) => {
-    if (lang === 'python') {
-        return code.replace(/(import|from|as|class|def|return|client|response)/g, '<span class="text-purple-400">$1</span>')
-            .replace(/("[^"]*")/g, '<span class="text-green-400">$1</span>')
-            .replace(/(#.*)/g, '<span class="text-gray-400">$1</span>');
-    } else if (lang === 'json') {
-        return code.replace(/("[^"]*"\s*:)/g, '<span class="text-blue-400">$1</span>')
-            .replace(/("[^"]*"\s*\})/g, '<span class="text-orange-400">$1</span>')
-            .replace(/\{|\}/g, '<span class="text-gray-400">$&</span>');
-    }
-    return code;
-};
-
 const CodeBlock = ({ code, language }: { code: string; language: string }) => {
     const [copied, setCopied] = useState(false);
     const copy = async () => {
@@ -85,16 +72,22 @@ const CodeBlock = ({ code, language }: { code: string; language: string }) => {
         setTimeout(() => setCopied(false), 2000);
     };
     return (
-        <div className="relative rounded-lg border overflow-hidden">
-            <div className="absolute top-2 left-2 px-2 py-0.5 text-xs font-bold rounded bg-gray-700 text-white">
+        <div className="relative rounded-lg border overflow-auto w-full">
+            <div className="absolute -top-1 left-2 px-2 py-0.5 text-xs font-bold rounded bg-gray-700 text-white z-10">
                 {language}
             </div>
-            <button onClick={copy} className="absolute top-2 right-2 p-1 rounded hover:bg-muted">
+            <button onClick={copy} className="absolute top-2 right-2 p-1 rounded hover:bg-muted z-10">
                 {copied ? <Check className="w-4 h-4 text-primary" /> : <Copy className="w-4 h-4" />}
             </button>
-            <SyntaxHighlighter language={language} style={oneDark} customStyle={{ margin: 0, padding: '1rem' }}>
-                {code}
-            </SyntaxHighlighter>
+            <div style={{ minWidth: '800px' }}>
+                <SyntaxHighlighter
+                    language={language}
+                    style={oneDark}
+                    customStyle={{ margin: 0, padding: '1rem', width: '100%', boxSizing: 'border-box' }}
+                >
+                    {code}
+                </SyntaxHighlighter>
+            </div>
         </div>
     );
 };
@@ -145,7 +138,7 @@ const Features = () => (
     <section className="py-12 px-4">
         <div className="max-w-5xl mx-auto">
             <h2 className="text-3xl font-bold text-center mb-12">Features</h2>
-            <div className="grid grid-cols-1 md:grid-cols-[1fr_1.3fr] gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {features.map((f) => (
                     <div key={f.title} className="p-6 rounded-lg bg-card border">
                         <f.icon className="w-10 h-10 text-primary mb-4" />
@@ -160,11 +153,15 @@ const Features = () => (
 
 const QuickStart = () => (
     <section className="py-12 px-4 bg-card/50">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-5xl mx-auto">
             <h2 className="text-3xl font-bold text-center mb-8">Quick Start</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <CodeBlock code={pythonExample} language="python" />
-                <CodeBlock code={jsonExample} language="json" />
+                <div className="w-full">
+                    <CodeBlock code={pythonExample} language="python" />
+                </div>
+                <div className="w-full">
+                    <CodeBlock code={jsonExample} language="json" />
+                </div>
             </div>
         </div>
     </section>
