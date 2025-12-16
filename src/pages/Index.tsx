@@ -45,49 +45,85 @@ const features = [
 const pythonExample = `import openai
 
 client = openai.OpenAI(
-  base_url=\"http://localhost:12580/openai\",
-  api_key=\"YOUR_TINGLY_BOX_KEY\"
+  base_url = "http://localhost:12580/openai",
+  api_key = "YOUR_TINGLY_BOX_KEY"
 )
 
 # Use as before
 response = client.chat.completions.create(
-  model=\"tingly\",
-  messages=[{\"role\": \"user\", 
-             \"content\": \"Hello!\"}]
+  model = "tingly",
+  messages = [{"role": "user","content": "Hello!"}]
 )`;
 
-const jsonExample = `{
-  \"env\": {
-    \"ANTHROPIC_AUTH_TOKEN\": \"{your-tingly-box-token}\",
-    \"ANTHROPIC_BASE_URL\": \"http://localhost:8080/anthropic\",
-    \"ANTHROPIC_MODEL\": \"tingly\"
+const jsonExample = `
+# Update your ~/.claude/settings.json
+{
+  "env": {
+    "ANTHROPIC_AUTH_TOKEN":"{tingly-box-token}",
+    "ANTHROPIC_BASE_URL":"http://localhost:8080/anthropic",
+    "ANTHROPIC_MODEL":"tingly"
   }
 }`;
 
 const CodeBlock = ({ code, language }: { code: string; language: string }) => {
     const [copied, setCopied] = useState(false);
+
     const copy = async () => {
         await navigator.clipboard.writeText(code);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
     };
+
     return (
-        <div className="relative rounded-lg border overflow-auto w-full">
-            <div className="absolute -top-1 left-2 px-2 py-0.5 text-xs font-bold rounded bg-gray-700 text-white z-10">
+        <div className="relative rounded-lg border w-full h-full overflow-hidden bg-[#282c34]">
+            {/* --- NUCLEAR CSS FIX --- */}
+            <style dangerouslySetInnerHTML={{ __html: `
+                .force-wrap pre {
+                    white-space: pre-wrap !important;
+                    word-break: break-all !important;
+                    overflow-wrap: anywhere !important;
+                }
+                .force-wrap code {
+                    white-space: pre-wrap !important;
+                }
+                .force-wrap span {
+                    white-space: pre-wrap !important;
+                    word-break: break-all !important;
+                }
+            `}} />
+
+            <div className="absolute top-0 left-2 px-2 py-0.5 text-xs font-bold rounded-b bg-gray-700 text-white z-10">
                 {language}
             </div>
-            <button onClick={copy} className="absolute top-2 right-2 p-1 rounded hover:bg-muted z-10">
-                {copied ? <Check className="w-4 h-4 text-primary" /> : <Copy className="w-4 h-4" />}
+
+            <button
+                onClick={copy}
+                className="absolute top-2 right-2 p-1.5 rounded hover:bg-white/10 z-20 transition-colors"
+            >
+                {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4 text-white/70" />}
             </button>
-            <div style={{ minWidth: '800px' }}>
-                <SyntaxHighlighter
-                    language={language}
-                    style={oneDark}
-                    customStyle={{ margin: 0, padding: '1rem', width: '100%', boxSizing: 'border-box' }}
-                >
-                    {code}
-                </SyntaxHighlighter>
-            </div>
+
+            <SyntaxHighlighter
+                language={language}
+                style={oneDark}
+                wrapLines={true}
+                wrapLongLines={true}
+                className="force-wrap" // Applies the nuclear styles
+                customStyle={{
+                    margin: 0,
+                    padding: '2.5rem 1rem 1.5rem 1rem',
+                    width: '100%',
+                    boxSizing: 'border-box',
+                    minHeight: '280px',
+                    height: '100%',
+                    fontSize: '0.85rem',
+                    lineHeight: '1.6',
+                    background: 'transparent', // Use container bg
+                    overflowX: 'hidden',
+                }}
+            >
+                {code}
+            </SyntaxHighlighter>
         </div>
     );
 };
@@ -99,7 +135,8 @@ const Hero = () => {
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
                 <span className="text-primary">Tingly</span> Box
             </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mb-10">
+            {/* Increased max-w slightly to balance the wider image below */}
+            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mb-10">
                 Provider-agnostic AI model proxy with unified API
             </p>
             <div className="flex flex-wrap justify-center gap-4 mb-10">
@@ -114,19 +151,35 @@ const Hero = () => {
                     </a>
                 </Button>
             </div>
-            <div className="relative w-full max-w-4xl">
+
+            {/* Changed from max-w-4xl to max-w-[1060px] to match your other sections */}
+            <div className="relative w-full max-w-[1060px]">
                 <div className="relative overflow-hidden rounded-lg border bg-card shadow-lg">
-                    <img src={screenshots[currentSlide].src} alt={screenshots[currentSlide].alt} className="w-full h-auto" />
-                    <button onClick={() => setCurrentSlide((prev) => (prev - 1 + screenshots.length) % screenshots.length)} className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-background/80 border">
+                    <img
+                        src={screenshots[currentSlide].src}
+                        alt={screenshots[currentSlide].alt}
+                        className="w-full h-auto transition-opacity duration-300"
+                    />
+                    <button
+                        onClick={() => setCurrentSlide((prev) => (prev - 1 + screenshots.length) % screenshots.length)}
+                        className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-background/80 border hover:bg-background transition-colors"
+                    >
                         <ChevronLeft className="w-5 h-5" />
                     </button>
-                    <button onClick={() => setCurrentSlide((prev) => (prev + 1) % screenshots.length)} className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-background/80 border">
+                    <button
+                        onClick={() => setCurrentSlide((prev) => (prev + 1) % screenshots.length)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-background/80 border hover:bg-background transition-colors"
+                    >
                         <ChevronRight className="w-5 h-5" />
                     </button>
                 </div>
                 <div className="flex justify-center gap-2 mt-4">
                     {screenshots.map((_, i) => (
-                        <button key={i} onClick={() => setCurrentSlide(i)} className={`w-2 h-2 rounded-full ${i === currentSlide ? "bg-primary" : "bg-muted"}`} />
+                        <button
+                            key={i}
+                            onClick={() => setCurrentSlide(i)}
+                            className={`w-2 h-2 rounded-full transition-all ${i === currentSlide ? "bg-primary w-4" : "bg-muted"}`}
+                        />
                     ))}
                 </div>
             </div>
@@ -136,7 +189,8 @@ const Hero = () => {
 
 const Features = () => (
     <section className="py-12 px-4">
-        <div className="max-w-5xl mx-auto">
+        {/* Custom width: slightly more than 5xl (1024px) but less than 6xl (1152px) */}
+        <div className="max-w-[1060px] mx-auto">
             <h2 className="text-3xl font-bold text-center mb-12">Features</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {features.map((f) => (
@@ -153,13 +207,14 @@ const Features = () => (
 
 const QuickStart = () => (
     <section className="py-12 px-4 bg-card/50">
-        <div className="max-w-5xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-8">Quick Start</h2>
+        <div className="max-w-[1060px] mx-auto">
+            <h2 className="text-3xl font-bold text-center mb-6">Quick Start</h2>
+            {/* Reduced gap to 4 to maximize internal code space */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="w-full">
+                <div className="min-w-0 w-full">
                     <CodeBlock code={pythonExample} language="python" />
                 </div>
-                <div className="w-full">
+                <div className="min-w-0 w-full">
                     <CodeBlock code={jsonExample} language="json" />
                 </div>
             </div>
