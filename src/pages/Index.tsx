@@ -1,6 +1,20 @@
 import { useState } from "react";
-import { Copy, Check, Github, ExternalLink, Layers, Zap, Settings, Layout } from "lucide-react";
+import { Copy, Check, Github, ExternalLink, Layers, Zap, Settings, Layout, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+
+import screenshotHome from "@/assets/screenshot-home.png";
+import screenshotCredentials from "@/assets/screenshot-credentials.png";
+import screenshotRules from "@/assets/screenshot-rules.png";
+import screenshotSystem from "@/assets/screenshot-system.png";
+import screenshotHistory from "@/assets/screenshot-history.png";
+
+const screenshots = [
+  { src: screenshotHome, alt: "Tingly Box Home - Model Proxy Config" },
+  { src: screenshotCredentials, alt: "Tingly Box Credentials Management" },
+  { src: screenshotRules, alt: "Tingly Box Proxy Rules Configuration" },
+  { src: screenshotSystem, alt: "Tingly Box Server Status & Control" },
+  { src: screenshotHistory, alt: "Tingly Box Activity Log & History" },
+];
 
 const installCommand = "pip install tingly-box";
 
@@ -29,11 +43,20 @@ const features = [
 
 const Hero = () => {
   const [copied, setCopied] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(installCommand);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % screenshots.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + screenshots.length) % screenshots.length);
   };
 
   return (
@@ -51,6 +74,50 @@ const Hero = () => {
       >
         Provider-agnostic AI model proxy with unified API
       </p>
+
+      {/* Screenshot Carousel */}
+      <div 
+        className="relative w-full max-w-4xl mb-10 animate-fade-up"
+        style={{ animationDelay: "150ms" }}
+      >
+        <div className="relative overflow-hidden rounded-lg border border-border bg-card shadow-lg">
+          <img 
+            src={screenshots[currentSlide].src} 
+            alt={screenshots[currentSlide].alt}
+            className="w-full h-auto transition-opacity duration-300"
+          />
+          
+          {/* Navigation Arrows */}
+          <button
+            onClick={prevSlide}
+            className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-background/80 hover:bg-background border border-border transition-colors"
+            aria-label="Previous screenshot"
+          >
+            <ChevronLeft className="w-5 h-5 text-foreground" />
+          </button>
+          <button
+            onClick={nextSlide}
+            className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-background/80 hover:bg-background border border-border transition-colors"
+            aria-label="Next screenshot"
+          >
+            <ChevronRight className="w-5 h-5 text-foreground" />
+          </button>
+        </div>
+        
+        {/* Dots Indicator */}
+        <div className="flex justify-center gap-2 mt-4">
+          {screenshots.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentSlide(index)}
+              className={`w-2 h-2 rounded-full transition-colors ${
+                index === currentSlide ? "bg-primary" : "bg-muted-foreground/30"
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+      </div>
 
       <div 
         className="flex flex-col sm:flex-row items-center gap-4 mb-10 animate-fade-up"
