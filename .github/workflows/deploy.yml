@@ -28,13 +28,9 @@ jobs:
     - name: Create tingly-box directory
       run: |
         mkdir -p tingly-box
+        ls -la dist/
         cp -r dist/* tingly-box/
-
-    - name: Setup SSH
-      run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.GITHUB_TOKEN }}" > ~/.ssh/token
-        chmod 600 ~/.ssh/token
+        ls -la tingly-box/
 
     - name: Deploy to gh-pages branch
       run: |
