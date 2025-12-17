@@ -11,7 +11,7 @@ import {
     ChevronLeft,
     ChevronRight,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@mui/material";
 
 // Syntax Highlighter Imports
 import SyntaxHighlighter from 'react-syntax-highlighter/dist/esm/prism-light';
@@ -43,10 +43,26 @@ const screenshots = [
 ];
 
 const features = [
-    { icon: Layers, title: "Multi-Provider Support", description: "Connect to OpenAI, Anthropic, Google, and more through a single interface." },
-    { icon: Zap, title: "Unified API", description: "OpenAI-compatible API that works with all your existing tools and libraries." },
-    { icon: Settings, title: "Config-Based Routing", description: "Route requests to different providers based on model names and custom rules." },
-    { icon: Layout, title: "Web Management UI", description: "Monitor usage, manage API keys, and configure providers through a clean interface." },
+    {
+        icon: Layers,
+        title: "Multi-Provider Support",
+        description: "Connect to OpenAI, Anthropic, Google, and more through a single interface."
+    },
+    {
+        icon: Zap,
+        title: "Unified API",
+        description: "OpenAI-compatible API that works with all your existing tools and libraries."
+    },
+    {
+        icon: Settings,
+        title: "Config-Based Routing",
+        description: "Route requests to different providers based on model names and custom rules."
+    },
+    {
+        icon: Layout,
+        title: "Web Management UI",
+        description: "Monitor usage, manage API keys, and configure providers through a clean interface."
+    },
 ];
 
 const pythonExample = `import openai
@@ -84,7 +100,8 @@ const CodeBlock = ({ code, language }: { code: string; language: string }) => {
     return (
         <div className="relative rounded-lg border w-full h-full overflow-hidden bg-[#282c34]">
             {/* The "Nuclear" wrap fix ensures long strings break regardless of library defaults */}
-            <style dangerouslySetInnerHTML={{ __html: `
+            <style dangerouslySetInnerHTML={{
+                __html: `
                 .force-wrap pre {
                     white-space: pre-wrap !important;
                     word-break: break-all !important;
@@ -98,7 +115,8 @@ const CodeBlock = ({ code, language }: { code: string; language: string }) => {
                     white-space: pre-wrap !important;
                     word-break: break-all !important;
                 }
-            `}} />
+            `
+            }} />
 
             <div className="absolute top-0 left-2 px-2 py-0.5 text-xs font-bold rounded-b bg-gray-700 text-white z-10">
                 {language}
@@ -147,15 +165,25 @@ const Hero = () => {
                 Provider-agnostic AI model proxy with unified API
             </p>
             <div className="flex flex-wrap justify-center gap-4 mb-10">
-                <Button asChild size="lg" className="gap-2">
-                    <a href="https://github.com/tingly-dev/tingly-box" target="_blank" rel="noopener noreferrer">
-                        <Github className="w-5 h-5" /> GitHub
-                    </a>
+                <Button
+                    variant="contained"
+                    size="large"
+                    component="a"
+                    href="https://github.com/tingly-dev/tingly-box"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <Github className="w-5 h-5" /> GitHub
                 </Button>
-                <Button asChild variant="outline" size="lg" className="gap-2">
-                    <a href="https://github.com/tingly-dev/tingly-box/blob/main/README.md" target="_blank" rel="noopener noreferrer">
-                        <ExternalLink className="w-5 h-5" /> Documentation
-                    </a>
+                <Button
+                    variant="outlined"
+                    size="large"
+                    component="a"
+                    href="https://github.com/tingly-dev/tingly-box/blob/main/README.md"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <ExternalLink className="w-5 h-5" /> Documentation
                 </Button>
             </div>
 
@@ -229,9 +257,11 @@ const QuickStart = () => (
 
 const Footer = () => (
     <footer className="py-12 px-4 border-t">
-        <div className="mx-auto flex flex-col sm:flex-row items-center justify-between gap-4" style={{ maxWidth: FULL_WIDTH }}>
+        <div className="mx-auto flex flex-col sm:flex-row items-center justify-between gap-4"
+             style={{ maxWidth: FULL_WIDTH }}>
             <div className="text-muted-foreground text-sm">MIT License © {new Date().getFullYear()} Tingly Box</div>
-            <a href="https://github.com/tingly-dev/tingly-box" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-muted-foreground hover:text-foreground">
+            <a href="https://github.com/tingly-dev/tingly-box" target="_blank" rel="noopener noreferrer"
+               className="flex items-center gap-2 text-muted-foreground hover:text-foreground">
                 <Github className="w-5 h-5" /> GitHub
             </a>
         </div>
