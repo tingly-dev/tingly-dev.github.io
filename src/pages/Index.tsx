@@ -345,12 +345,16 @@ const Footer = () => (
 const FAQ = () => {
     const faqs = [
         {
-            question: "Can i use tingly-box running on host  for applications in docker container?",
-            answer: "Yes, change your base url to http://host.docker.internal:12580/{anthropic/openai} accordingly"
+            question: "How does load balancing work?",
+            answer: "Tingly Box automatically distributes requests across multiple API tokens using routing strategies. By default, it uses round-robin with a request threshold of 100 (if not configured)."
         },
         {
-            question: "How does load balancing work?",
-            answer: "Tingly Box automatically distributes requests across multiple API tokens using routing tactics, by default round-robin with request threshold (100 if not configured)."
+            question: "How do I enable mirrored networking mode in WSL2?",
+            answer: "Add the following configuration to your .wslconfig file, then restart WSL:\n\n[wsl2]\nnetworkingMode=mirrored\n\nFor more details, see the official documentation: https://learn.microsoft.com/en-us/windows/wsl/wsl-config"
+        },
+        {
+            question: "Can I use tingly-box running on the host for applications in Docker containers?",
+            answer: "Yes. Just update the base URL to http://host.docker.internal:12580/{anthropic|openai} to connect from within the container."
         }
     ];
 
