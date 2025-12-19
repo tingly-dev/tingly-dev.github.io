@@ -123,13 +123,19 @@ const AnimatedBackground = () => {
 
     // Initialize particles with performance optimizations
     const initParticles = () => {
-      const particleCount = Math.min(35, Math.floor((window.innerWidth * window.innerHeight) / 25000));
+      // Responsive particle count based on screen size
+      const isMobile = window.innerWidth < 768;
+      const baseCount = isMobile ? 15 : 35;
+      const areaFactor = window.innerWidth * window.innerHeight;
+      const divisor = isMobile ? 35000 : 25000;
+      const particleCount = Math.min(baseCount, Math.floor(areaFactor / divisor));
       const particles: Particle[] = [];
 
       for (let i = 0; i < particleCount; i++) {
         const color = colors[Math.floor(Math.random() * colors.length)];
-        const maxRadius = Math.random() * 220 + 180;
-        const minRadius = Math.random() * 40 + 40;
+        // Smaller particles on mobile
+        const maxRadius = isMobile ? Math.random() * 150 + 120 : Math.random() * 220 + 180;
+        const minRadius = isMobile ? Math.random() * 25 + 25 : Math.random() * 40 + 40;
 
         particles.push({
           x: Math.random() * window.innerWidth,
@@ -229,11 +235,13 @@ const AnimatedBackground = () => {
         const dx = mouseX - particle.x;
         const dy = mouseY - particle.y;
         const distSq = dx * dx + dy * dy;
-        const effectRadiusSq = 300 * 300;
+        // Smaller interaction radius on mobile
+        const effectRadius = window.innerWidth < 768 ? 200 : 300;
+        const effectRadiusSq = effectRadius * effectRadius;
 
         if (distSq < effectRadiusSq) {
           const dist = Math.sqrt(distSq);
-          const force = (300 - dist) / 300 * 0.035;
+          const force = (effectRadius - dist) / effectRadius * 0.035;
           particle.vx += (dx / dist) * force * deltaFactor * 0.001;
           particle.vy += (dy / dist) * force * deltaFactor * 0.001;
         }
