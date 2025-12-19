@@ -39,12 +39,28 @@ const CodeBlock = ({ code, language }: { code: string; language: string }) => {
                     word-break: break-all !important;
                     overflow-wrap: anywhere !important;
                 }
+                @media (max-width: 768px) {
+                    .force-wrap pre {
+                        font-size: 0.65rem !important;
+                        padding: 2rem 0.5rem 0.75rem 0.5rem !important;
+                    }
+                }
             `}} />
 
             <div className="absolute top-0 left-2 px-2 py-0.5 text-[10px] font-bold rounded-b bg-gray-700 text-white z-10 uppercase">
                 {language}
             </div>
-            {/* ... button ... */}
+            {/* Copy button */}
+            <button
+                onClick={() => {
+                    navigator.clipboard.writeText(code);
+                    setCopied(true);
+                    setTimeout(() => setCopied(false), 2000);
+                }}
+                className="absolute top-2 right-2 p-1.5 rounded bg-gray-700 hover:bg-gray-600 text-white text-xs transition-colors z-10"
+            >
+                {copied ? 'Copied!' : 'Copy'}
+            </button>
 
             <SyntaxHighlighter
                 language={language}
@@ -54,14 +70,15 @@ const CodeBlock = ({ code, language }: { code: string; language: string }) => {
                 className="force-wrap"
                 customStyle={{
                     margin: 0,
-                    padding: '2.5rem 0.75rem 1rem 0.75rem', // Reduced side padding to prevent overflow
+                    padding: '2.5rem 0.75rem 1rem 0.75rem',
                     width: '100%',
                     boxSizing: 'border-box',
-                    minHeight: 'auto', // Fixes "too much blank" space
-                    fontSize: '0.75rem', // Slightly smaller font to fit half-columns better
+                    minHeight: 'auto',
+                    fontSize: '0.75rem',
                     lineHeight: '1.5',
                     background: 'transparent',
-                    overflowX: 'auto', // Enable scrolling if line is still too long
+                    overflowX: 'auto',
+                    maxWidth: '100%',
                 }}
             >
                 {code}
@@ -82,23 +99,23 @@ const Hero = () => {
 
     return (
         <>
-            <section className="min-h-[60vh] flex flex-col items-center justify-center text-center px-4 py-16">
-                <h1 className="text-5xl md:text-7xl font-bold mb-6">
+            <section className="min-h-[60vh] flex flex-col items-center justify-center text-center px-4 py-16 sm:py-20">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
                     <span className="text-primary">Tingly</span> Box
                 </h1>
-                <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mb-10">
+                <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-2xl mb-10 px-4">
                     Provider-agnostic AI model proxy with unified API
                 </p>
-                <div className="flex flex-wrap justify-center gap-4 mb-10">
+                <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-8 sm:mb-10">
                     <MuiButton
                         variant="contained"
                         href="https://github.com/tingly-dev/tingly-box"
                         target="_blank"
                         rel="noopener noreferrer"
-                        size="large"
-                        startIcon={<FaGithub className="w-5 h-5" />}
-                        sx={{ gap: '8px' }}
+                        size="medium"
+                        sx={{ gap: '8px', fontSize: { xs: '0.875rem', sm: '1rem' } }}
                     >
+                        <FaGithub className="w-4 h-4 sm:w-5 sm:h-5" />
                         GitHub
                     </MuiButton>
                     <MuiButton
@@ -106,16 +123,16 @@ const Hero = () => {
                         href="https://github.com/tingly-dev/tingly-box/releases"
                         target="_blank"
                         rel="noopener noreferrer"
-                        size="large"
-                        startIcon={<ExternalLink className="w-5 h-5" />}
-                        sx={{ gap: '8px' }}
+                        size="medium"
+                        sx={{ gap: '8px', fontSize: { xs: '0.875rem', sm: '1rem' } }}
                     >
+                        <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5" />
                         Releases
                     </MuiButton>
                 </div>
 
-                {/* Application of SCALED_WIDTH (0.9x) only to the carousel */}
-                <div className="relative w-full mx-auto" style={{ maxWidth: SCALED_WIDTH, width: '95%' }}>
+                {/* Application of SCALED_WIDTH only to the carousel */}
+                <div className="relative w-full mx-auto px-4" style={{ maxWidth: SCALED_WIDTH }}>
                     <div className="relative overflow-hidden rounded-2xl">
                         <img
                             src={screenshots[currentSlide].src}
@@ -125,23 +142,23 @@ const Hero = () => {
                         />
                         <button
                             onClick={() => setCurrentSlide((prev) => (prev - 1 + screenshots.length) % screenshots.length)}
-                            className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-background/90 border border-white/10 backdrop-blur-sm hover:bg-background transition-colors"
+                            className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 p-1.5 sm:p-2 rounded-full bg-background/90 border border-white/10 backdrop-blur-sm hover:bg-background transition-colors"
                         >
-                            <ChevronLeft className="w-5 h-5" />
+                            <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
                         </button>
                         <button
                             onClick={() => setCurrentSlide((prev) => (prev + 1) % screenshots.length)}
-                            className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-background/90 border border-white/10 backdrop-blur-sm hover:bg-background transition-colors"
+                            className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 p-1.5 sm:p-2 rounded-full bg-background/90 border border-white/10 backdrop-blur-sm hover:bg-background transition-colors"
                         >
-                            <ChevronRight className="w-5 h-5" />
+                            <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
                         </button>
                     </div>
-                    <div className="flex justify-center gap-2 mt-4">
+                    <div className="flex justify-center gap-1.5 sm:gap-2 mt-3 sm:mt-4">
                         {screenshots.map((_, i) => (
                             <button
                                 key={i}
                                 onClick={() => setCurrentSlide(i)}
-                                className={`w-2 h-2 rounded-full transition-all ${i === currentSlide ? "bg-primary w-4" : "bg-muted"}`}
+                                className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-all ${i === currentSlide ? "bg-primary w-3 sm:w-4" : "bg-muted"}`}
                             />
                         ))}
                     </div>
@@ -193,27 +210,29 @@ const Hero = () => {
 };
 
 const Features = () => (
-    <section className="py-20 px-4">
+    <section className="py-16 sm:py-20 px-4">
         {/* Background container with rounded corners */}
         <div className="mx-auto rounded-2xl bg-gradient-to-b from-card/60 to-card/80 backdrop-blur-sm shadow-xl border border-border/20"
-            style={{ maxWidth: FULL_WIDTH, width: '95%' }}>
-            <div className="px-6 sm:px-8 md:px-12 py-16">
-                <h2 className="text-3xl font-bold text-center mb-12">Features</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            style={{ maxWidth: FULL_WIDTH, width: '100%' }}>
+            <div className="px-4 sm:px-6 md:px-8 lg:px-12 py-12 sm:py-16">
+                <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8 sm:mb-12">Features</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                     {features.map((f) => (
                         <Card key={f.title} sx={{
                             backgroundColor: 'var(--card)',
                             border: '1px solid var(--border)',
                             opacity: 1,
+                            transition: 'all 0.2s ease-in-out',
                             '&:hover': {
                                 boxShadow: 'var(--shadow-lg)',
-                                opacity: 1.1,
+                                opacity: 1.05,
+                                transform: 'translateY(-2px)',
                             }
                         }}>
-                            <CardContent sx={{ p: 3 }}>
-                                <f.icon className="w-10 h-10 text-primary mb-4" />
-                                <h3 className="text-xl font-semibold mb-2">{f.title}</h3>
-                                <p className="text-muted-foreground">{f.description}</p>
+                            <CardContent sx={{ p: { xs: 2.5, sm: 3 } }}>
+                                <f.icon className="w-8 h-8 sm:w-10 sm:h-10 text-primary mb-3 sm:mb-4" />
+                                <h3 className="text-lg sm:text-xl font-semibold mb-2">{f.title}</h3>
+                                <p className="text-muted-foreground text-sm sm:text-base">{f.description}</p>
                             </CardContent>
                         </Card>
                     ))}
@@ -252,16 +271,11 @@ const STEPS = [
         title: "Add Providers",
         desc: "Configure API keys for your preferred model providers.",
         content: (
-            <div className="space-y-3 p-4 bg-secondary/20 rounded-lg border border-white/5">
+            <div className="space-y-3 p-3 sm:p-4 bg-secondary/20 rounded-lg border border-white/5">
                 <p className="text-sm font-medium">Access UI:</p>
-                <a
-                    href="http://localhost:12580/home?user_auth_token=tingly-box-user-token"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs text-cyan-400 font-mono break-all hover:underline block bg-black/20 p-2 rounded"
-                >
+                <div className="text-xs sm:text-sm text-cyan-400 font-mono break-all block bg-black/20 p-2 rounded">
                     http://localhost:12580/home?user_auth_token=tingly-box-user-token
-                </a>
+                </div>
                 <p className="text-xs text-muted-foreground italic">
                     Navigate to the <b>Provider</b> tab to add your API keys.
                 </p>
@@ -294,16 +308,11 @@ const STEPS = [
         title: "Choose Provider & Model",
         desc: "Access your ui homepage to select and activate your favorite models.",
         content: (
-            <div className="space-y-3 p-4 bg-secondary/20 rounded-lg border border-white/5">
+            <div className="space-y-3 p-3 sm:p-4 bg-secondary/20 rounded-lg border border-white/5">
                 <p className="text-sm font-medium">Go to UI:</p>
-                <a
-                    href="http://localhost:12580/home?user_auth_token=tingly-box-user-token"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs text-cyan-400 font-mono break-all hover:underline block bg-black/20 p-2 rounded"
-                >
+                <div className="text-xs sm:text-sm text-cyan-400 font-mono break-all block bg-black/20 p-2 rounded">
                     http://localhost:12580/home?user_auth_token=tingly-box-user-token
-                </a>
+                </div>
                 <p className="text-xs text-muted-foreground italic">
                     Simply click your favorite provider and model to start routing requests.
                 </p>
@@ -314,62 +323,99 @@ const STEPS = [
 
 const QuickStart = () => {
     return (
-        <section className="py-20 px-4">
+        <section className="py-16 sm:py-20 px-4">
             {/* Dark background container with limited width */}
             <div className="mx-auto rounded-2xl bg-gradient-to-b from-background/90 to-background/98 backdrop-blur-sm text-slate-200 shadow-2xl border border-border/30"
-                style={{ maxWidth: FULL_WIDTH, width: '95%' }}>
-                <div className="px-6 sm:px-8 md:px-12 py-12">
-                    <h2 className="text-3xl font-bold text-center mb-16 tracking-tight text-white">Quick Start</h2>
+                style={{ maxWidth: FULL_WIDTH, width: '100%' }}>
+                <div className="px-4 sm:px-6 md:px-8 lg:px-12 py-10 sm:py-12">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-center mb-12 sm:mb-16 tracking-tight text-white">Quick Start</h2>
 
                     <div className="relative">
-                        {/* Vertical Center Line */}
+                        {/* Vertical Center Line - Only show on md+ screens */}
                         <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-px bg-gradient-to-b from-transparent via-slate-800 to-transparent hidden md:block" />
 
-                        <div className="space-y-20">
+                        <div className="space-y-12 sm:space-y-16 md:space-y-20">
                             {STEPS.map((step, idx) => {
                                 const isTextOnRight = idx % 2 === 0; // Step 1 (0), Step 3 (2)
                                 const stepNum = idx + 1;
 
                                 return (
-                                    <div key={idx} className="relative flex flex-col md:flex-row items-center">
+                                    <div key={idx} className="relative flex flex-col md:flex-row items-center gap-4 md:gap-0">
                                         {/* Left Column */}
-                                        <div className="w-full md:w-1/2 px-10 flex flex-col items-end">
+                                        <div className="w-full md:w-1/2 px-4 sm:px-6 md:px-8 lg:px-10 flex flex-col">
                                             {!isTextOnRight ? (
-                                                /* Even Steps (2, 4): Text on Left, Number on Right near line */
-                                                <div className="text-right group w-full">
-                                                    <div className="flex items-center justify-end gap-4 mb-3">
-                                                        <h3 className="text-xl font-bold group-hover:text-cyan-400 transition-colors text-white">
+                                                /* Even Steps (2, 4): Text on Left, Number on Right near line on desktop */
+                                                <>
+                                                    {/* Mobile: Number above content */}
+                                                    <div className="md:hidden w-full text-center mb-2">
+                                                        <span className="w-8 h-8 bg-cyan-400 text-black rounded-full flex items-center justify-center font-bold shadow-[0_0_15px_rgba(34,211,238,0.4)] mx-auto">
+                                                            {stepNum}
+                                                        </span>
+                                                    </div>
+                                                    <div className="text-center md:text-right group w-full md:hidden mb-4">
+                                                        <h3 className="text-xl font-bold group-hover:text-cyan-400 transition-colors text-white mb-2">
                                                             {step.title}
                                                         </h3>
+                                                        <p className="text-slate-400 text-sm leading-relaxed">{step.desc}</p>
+                                                    </div>
+                                                    {/* Desktop: Text and Number aligned */}
+                                                    <div className="hidden md:flex items-center justify-end gap-4 mb-3">
+                                                        <div className="text-right group">
+                                                            <h3 className="text-xl font-bold group-hover:text-cyan-400 transition-colors text-white">
+                                                                {step.title}
+                                                            </h3>
+                                                            <p className="text-slate-400 text-sm leading-relaxed">{step.desc}</p>
+                                                        </div>
                                                         <span className="w-8 h-8 flex-shrink-0 bg-cyan-400 text-black rounded-full flex items-center justify-center font-bold shadow-[0_0_15px_rgba(34,211,238,0.4)]">
                                                             {stepNum}
                                                         </span>
                                                     </div>
-                                                    <p className="text-slate-400 text-sm leading-relaxed">{step.desc}</p>
-                                                </div>
+                                                </>
                                             ) : (
                                                 /* Odd Steps (1, 3): Code on Left */
-                                                <div className="w-full">
-                                                    {step.content}
-                                                </div>
+                                                <>
+                                                    {/* Mobile: Number above code */}
+                                                    <div className="md:hidden w-full text-center mb-2">
+                                                        <span className="w-8 h-8 bg-cyan-400 text-black rounded-full flex items-center justify-center font-bold shadow-[0_0_15px_rgba(34,211,238,0.4)] mx-auto">
+                                                            {stepNum}
+                                                        </span>
+                                                    </div>
+                                                    <div className="w-full">
+                                                        {step.content}
+                                                    </div>
+                                                </>
                                             )}
                                         </div>
 
+                                        {/* Desktop Number for odd steps - positioned absolutely at center line */}
+                                        {isTextOnRight && (
+                                            <div className="hidden md:block absolute left-1/2 -translate-x-1/2">
+                                                <span className="w-8 h-8 bg-cyan-400 text-black rounded-full flex items-center justify-center font-bold shadow-[0_0_15px_rgba(34,211,238,0.4)]">
+                                                    {stepNum}
+                                                </span>
+                                            </div>
+                                        )}
+
                                         {/* Right Column */}
-                                        <div className="w-full md:w-1/2 px-10 mt-8 md:mt-0 flex flex-col items-start">
+                                        <div className="w-full md:w-1/2 px-4 sm:px-6 md:px-8 lg:px-10 flex flex-col mt-4 md:mt-0">
                                             {isTextOnRight ? (
-                                                /* Odd Steps (1, 3): Text on Right, Number on Left near line */
-                                                <div className="text-left group w-full">
-                                                    <div className="flex items-center justify-start gap-4 mb-3">
-                                                        <span className="w-8 h-8 flex-shrink-0 bg-cyan-400 text-black rounded-full flex items-center justify-center font-bold shadow-[0_0_15px_rgba(34,211,238,0.4)]">
-                                                            {stepNum}
-                                                        </span>
-                                                        <h3 className="text-xl font-bold group-hover:text-cyan-400 transition-colors text-white">
+                                                /* Odd Steps (1, 3): Text on Right */
+                                                <>
+                                                    {/* Mobile text content */}
+                                                    <div className="text-center md:text-left group w-full md:hidden">
+                                                        <h3 className="text-xl font-bold group-hover:text-cyan-400 transition-colors text-white mb-2">
                                                             {step.title}
                                                         </h3>
+                                                        <p className="text-slate-400 text-sm leading-relaxed">{step.desc}</p>
                                                     </div>
-                                                    <p className="text-slate-400 text-sm leading-relaxed">{step.desc}</p>
-                                                </div>
+                                                    {/* Desktop layout with number already handled above */}
+                                                    <div className="hidden md:block text-left group w-full">
+                                                        <h3 className="text-xl font-bold group-hover:text-cyan-400 transition-colors text-white mb-2">
+                                                            {step.title}
+                                                        </h3>
+                                                        <p className="text-slate-400 text-sm leading-relaxed">{step.desc}</p>
+                                                    </div>
+                                                </>
                                             ) : (
                                                 /* Even Steps (2, 4): Visual/Link on Right */
                                                 <div className="w-full">
@@ -389,15 +435,15 @@ const QuickStart = () => {
 };
 
 const Footer = () => (
-    <footer className="py-12 px-4 border-t">
+    <footer className="py-8 sm:py-12 px-4 border-t">
         <div className="mx-auto flex flex-col sm:flex-row items-center justify-between gap-4"
-            style={{ maxWidth: FULL_WIDTH }}>
-            <div className="text-muted-foreground text-sm">Apache-2.0 License © {new Date().getFullYear()} Tingly Box</div>
+            style={{ maxWidth: FULL_WIDTH, width: '100%' }}>
+            <div className="text-muted-foreground text-sm text-center sm:text-left">Apache-2.0 License © {new Date().getFullYear()} Tingly Box</div>
             <MuiButton
                 href="https://github.com/tingly-dev/tingly-box"
                 target="_blank"
                 rel="noopener noreferrer"
-                startIcon={<FaGithub className="w-5 h-5" />}
+                startIcon={<FaGithub className="w-4 h-4 sm:w-5 sm:h-5" />}
                 sx={{
                     color: 'var(--muted-foreground)',
                     '&:hover': {
@@ -412,46 +458,48 @@ const Footer = () => (
 );
 
 const FAQ = () => {
-
-
     return (
-        <section className="py-16 px-4">
+        <section className="py-12 sm:py-16 px-4">
             <div id="faq-section" className="mx-auto rounded-2xl bg-gradient-to-t from-background via-background to-card/20 backdrop-blur-sm shadow-2xl border border-border/30"
-                style={{ maxWidth: FULL_WIDTH, width: '95%' }}>
-                <h2 className="text-3xl font-bold text-center mb-4">Frequently Asked Questions</h2>
-                <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
-                    Common questions about Tingly Box
-                </p>
+                style={{ maxWidth: FULL_WIDTH, width: '100%' }}>
+                <div className="px-4 sm:px-6 md:px-8 lg:px-12 py-10 sm:py-12">
+                    <h2 className="text-2xl sm:text-3xl font-bold text-center mb-3 sm:mb-4">Frequently Asked Questions</h2>
+                    <p className="text-center text-muted-foreground mb-8 sm:mb-12 max-w-2xl mx-auto px-4">
+                        Common questions about Tingly Box
+                    </p>
 
-                {/* Accordion-style FAQ */}
-                <div className="max-w-4xl mx-auto space-y-4">
-                    {faqs.map((faq, index) => (
-                        <div key={index} className="border-b border-border/50 pb-4 last:border-0">
-                            <h3 className="text-lg font-semibold mb-2 flex items-start gap-3">
-                                <span
-                                    className="flex-shrink-0 w-6 h-6 bg-primary/10 text-primary rounded-full flex items-center justify-center text-sm font-mono mt-0.5">
-                                    {String(index + 1).padStart(2, '0')}
-                                </span>
-                                <span className="text-foreground">{faq.question}</span>
-                            </h3>
-                            <p className="ml-9 text-muted-foreground leading-relaxed">{faq.answer}</p>
+                    {/* Accordion-style FAQ */}
+                    <div className="max-w-4xl mx-auto space-y-3 sm:space-y-4">
+                        {faqs.map((faq, index) => (
+                            <div key={index} className="border-b border-border/50 pb-3 sm:pb-4 last:border-0">
+                                <h3 className="text-base sm:text-lg font-semibold mb-2 flex items-start gap-2 sm:gap-3">
+                                    <span
+                                        className="flex-shrink-0 w-5 h-5 sm:w-6 sm:h-6 bg-primary/10 text-primary rounded-full flex items-center justify-center text-xs sm:text-sm font-mono mt-0.5">
+                                        {String(index + 1).padStart(2, '0')}
+                                    </span>
+                                    <span className="text-foreground leading-tight">{faq.question}</span>
+                                </h3>
+                                <p className="ml-7 sm:ml-9 text-muted-foreground leading-relaxed text-sm sm:text-base">{faq.answer}</p>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Additional help */}
+                    <div className="mt-12 sm:mt-16 text-center">
+                        <p className="text-base sm:text-lg mb-4">Still have questions?</p>
+                        <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
+                            <MuiButton
+                                variant="outlined"
+                                href="https://github.com/tingly-dev/tingly-box/issues"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                startIcon={<ExternalLink className="w-4 h-4" />}
+                                size="small"
+                                sx={{ fontSize: { xs: '0.875rem', sm: '1rem' } }}
+                            >
+                                Ask on GitHub
+                            </MuiButton>
                         </div>
-                    ))}
-                </div>
-
-                {/* Additional help */}
-                <div className="mt-16 text-center">
-                    <p className="text-lg mb-4">Still have questions?</p>
-                    <div className="flex flex-wrap justify-center gap-4">
-                        <MuiButton
-                            variant="outlined"
-                            href="https://github.com/tingly-dev/tingly-box/issues"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            startIcon={<ExternalLink className="w-4 h-4" />}
-                        >
-                            Ask on GitHub
-                        </MuiButton>
                     </div>
                 </div>
             </div>
