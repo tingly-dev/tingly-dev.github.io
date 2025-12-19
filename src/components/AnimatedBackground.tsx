@@ -58,13 +58,13 @@ const AnimatedBackground = () => {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Color palette for blue-purple-cyan tech theme
+    // Enhanced color palette for better visibility
     const colors = [
-      { r: 139, g: 92, b: 246 },  // Purple
-      { r: 59, g: 130, b: 246 },   // Blue
-      { r: 34, g: 211, b: 238 },   // Cyan
-      { r: 99, g: 102, b: 241 },   // Indigo
-      { r: 168, g: 85, b: 247 },   // Violet
+      { r: 168, g: 85, b: 247 },   // Vibrant Violet
+      { r: 99, g: 102, b: 241 },   // Bright Indigo
+      { r: 59, g: 130, b: 246 },   // Strong Blue
+      { r: 34, g: 211, b: 238 },   // Bright Cyan
+      { r: 139, g: 92, b: 246 },   // Purple
       { r: 6, g: 182, b: 212 },    // Light Blue
     ];
 
@@ -75,22 +75,22 @@ const AnimatedBackground = () => {
 
       for (let i = 0; i < particleCount; i++) {
         const color = colors[Math.floor(Math.random() * colors.length)];
-        const maxRadius = Math.random() * 150 + 100;
-        const minRadius = Math.random() * 30 + 20;
+        const maxRadius = Math.random() * 300 + 200;  // Increased from 150+100 to 300+200
+        const minRadius = Math.random() * 60 + 40;    // Increased from 30+20 to 60+40
 
         particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          vx: (Math.random() - 0.5) * 0.3,
-          vy: (Math.random() - 0.5) * 0.3,
+          vx: (Math.random() - 0.5) * 0.5,            // Slightly increased speed
+          vy: (Math.random() - 0.5) * 0.5,            // Slightly increased speed
           radius: Math.random() * (maxRadius - minRadius) + minRadius,
           maxRadius,
           minRadius,
           color: `rgba(${color.r}, ${color.g}, ${color.b}, `,
-          alpha: Math.random() * 0.15 + 0.05,
+          alpha: Math.random() * 0.15 + 0.15,          // Increased from 0.15+0.05 to 0.3+0.15
           targetX: Math.random() * canvas.width,
           targetY: Math.random() * canvas.height,
-          pulseSpeed: Math.random() * 0.01 + 0.005,
+          pulseSpeed: Math.random() * 0.015 + 0.008,   // Slightly increased pulse speed
           pulsePhase: Math.random() * Math.PI * 2,
         });
       }
@@ -139,15 +139,15 @@ const AnimatedBackground = () => {
         particle.x += particle.vx;
         particle.y += particle.vy;
 
-        // Attraction to mouse with subtle effect
+        // Attraction to mouse with expanded effect range
         const dx = mouseRef.current.x - particle.x;
         const dy = mouseRef.current.y - particle.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
 
-        if (distance < 200) {
-          const force = (200 - distance) / 200 * 0.02;
-          particle.vx += dx * force * 0.001;
-          particle.vy += dy * force * 0.001;
+        if (distance < 350) {  // Increased from 200 to 350
+          const force = (350 - distance) / 350 * 0.03;  // Increased force slightly
+          particle.vx += dx * force * 0.0015;
+          particle.vy += dy * force * 0.0015;
         }
 
         // Apply damping
@@ -187,13 +187,14 @@ const AnimatedBackground = () => {
           particle.radius * 2
         );
 
-        // Draw connections between nearby particles
+        // Draw connections between nearby particles with increased range
         particlesRef.current.slice(index + 1).forEach(otherParticle => {
           const pdx = particle.x - otherParticle.x;
           const pdy = particle.y - otherParticle.y;
           const pDistance = Math.sqrt(pdx * pdx + pdy * pdy);
 
-          if (pDistance < particle.radius + otherParticle.radius) {
+          // Increased connection range from particle.radius + otherParticle.radius to 1.5x
+          if (pDistance < (particle.radius + otherParticle.radius) * 1.5) {
             const connectionGradient = ctx.createLinearGradient(
               particle.x,
               particle.y,
@@ -208,15 +209,15 @@ const AnimatedBackground = () => {
               Math.pow(mouseRef.current.y - midY, 2)
             );
 
-            const connectionAlpha = Math.max(0, 0.15 - mouseToMidDistance / 2000) *
-                                 Math.min(particle.alpha, otherParticle.alpha);
+            const connectionAlpha = Math.max(0, 0.25 - mouseToMidDistance / 3000) *  // Increased from 0.15-2000 to 0.25-3000
+                                 Math.min(particle.alpha, otherParticle.alpha) * 1.2;  // Increased visibility
 
             connectionGradient.addColorStop(0, particle.color + connectionAlpha + ')');
-            connectionGradient.addColorStop(0.5, particle.color + (connectionAlpha * 1.5) + ')');
+            connectionGradient.addColorStop(0.5, particle.color + (connectionAlpha * 1.8) + ')');  // Increased from 1.5 to 1.8
             connectionGradient.addColorStop(1, otherParticle.color + connectionAlpha + ')');
 
             ctx.strokeStyle = connectionGradient;
-            ctx.lineWidth = 1;
+            ctx.lineWidth = 1.5;  // Increased from 1 to 1.5
             ctx.beginPath();
             ctx.moveTo(particle.x, particle.y);
             ctx.lineTo(otherParticle.x, otherParticle.y);
