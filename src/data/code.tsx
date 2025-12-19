@@ -134,11 +134,26 @@ export const STEPS = [
                 </div>
 
                 <div className={componentStyles.infoBox.container}>
-                    <Info size={18} className={componentStyles.infoBox.icon}/>
-                    <p className={componentStyles.infoBox.text}>
-                        Once the page opens, click the <b className="text-white">Add Your First API Key</b> button. You
-                        can connect OpenAI, Anthropic, or any compatible Open-Source provider.
-                    </p>
+                    <Info size={18} className={`${componentStyles.infoBox.icon} mt-1`}/>
+                    <div className="space-y-2">
+                        <p className={componentStyles.infoBox.text}>
+                            Once the page opens, click <b className="text-white">Add Your First API Key</b> to connect your preferred model providers.
+                        </p>
+                        {/* Integrated Reference Link */}
+                        <div className="pt-2 border-t border-white/5 flex items-center gap-1.5">
+                            <span className="text-xs text-muted-foreground">
+                            Find more model configuration at{" "}
+                                <a
+                                    href="https://www.model-api.info/"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-cyan-400/80 hover:text-cyan-400 transition-colors inline-flex items-center gap-1 font-medium"
+                                >
+                                model-api.info <ExternalLink size={10} />
+                            </a>
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
         ),
