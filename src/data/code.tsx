@@ -1,19 +1,25 @@
-import { useState } from "react";
-import { Button as MuiButton } from "@mui/material";
-import { FaGithub } from "react-icons/fa";
-import { ExternalLink } from "lucide-react";
+import {useState} from "react";
+import {Button as MuiButton} from "@mui/material";
+import {FaGithub} from "react-icons/fa";
+import {ExternalLink} from "lucide-react";
 // Syntax Highlighter Imports
 import bash from 'react-syntax-highlighter/dist/esm/languages/prism/bash';
 import json from 'react-syntax-highlighter/dist/esm/languages/prism/json';
 import python from 'react-syntax-highlighter/dist/esm/languages/prism/python';
 import SyntaxHighlighter from 'react-syntax-highlighter/dist/esm/prism-light';
-import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import {oneDark} from 'react-syntax-highlighter/dist/esm/styles/prism';
+import {Info, Sparkles, Settings2, MousePointerClick, RefreshCw} from 'lucide-react';
+
+import screenshotProviderAdd from "@/assets/ProviderAdd.png";
+import screenshotChooseProvider from "@/assets/ChooseProvider.png";
+
+import {componentStyles} from "@/theme";
 
 SyntaxHighlighter.registerLanguage('bash', bash);
 SyntaxHighlighter.registerLanguage('python', python);
 SyntaxHighlighter.registerLanguage('json', json);
 
-const CodeBlock = ({ code, language }: { code: string; language: string }) => {
+const CodeBlock = ({code, language}: { code: string; language: string }) => {
     const [copied, setCopied] = useState(false);
 
     return (
@@ -32,7 +38,7 @@ const CodeBlock = ({ code, language }: { code: string; language: string }) => {
                     }
                 }
             `
-            }} />
+            }}/>
 
             <div
                 className="absolute top-0 left-2 px-2 py-0.5 text-[10px] font-bold rounded-b bg-gray-700 text-white z-10 uppercase">
@@ -85,7 +91,7 @@ export const STEPS = [
                     <p className="text-[10px] uppercase tracking-widest text-cyan-400 font-bold">
                         Option 1: Node.js (Recommended)
                     </p>
-                    <CodeBlock language="bash" code="npx @tinglydev/tingly-box && tingly-box start" />
+                    <CodeBlock language="bash" code="npx @tinglydev/tingly-box && tingly-box start"/>
                 </div>
 
                 <div className="space-y-2">
@@ -104,32 +110,56 @@ export const STEPS = [
         title: "Add Providers",
         desc: "Configure API keys for your preferred model providers.",
         content: (
-            <div className="space-y-3 p-3 sm:p-4 bg-secondary/20 rounded-lg border border-white/5">
-                <p className="text-sm font-medium">Access UI:</p>
-                <div className="text-xs sm:text-sm text-cyan-400 font-mono break-all block bg-black/20 p-2 rounded">
-                    http://localhost:12580/home?user_auth_token=tingly-box-user-token
+            <div className="space-y-4">
+                <div className="space-y-2">
+                    <div className={componentStyles.statusIndicator.container}>
+                        <span className={componentStyles.statusIndicator.pulse}/>
+                        Auto-Launching Homepage
+                    </div>
                 </div>
-                <p className="text-xs text-muted-foreground italic">
-                    Navigate to the <b>Provider</b> tab to add your API keys.
-                </p>
+
+                {/* Added 'max-h' and 'object-top' to scale the taller empty-state image */}
+                <div className={`${componentStyles.imageWithOverlay.container} overflow-hidden max-h-[180px] sm:max-h-[226px]`}>
+                    <img
+                        src={screenshotProviderAdd}
+                        alt="Empty state for adding API keys"
+                        className={`${componentStyles.imageWithOverlay.image} object-cover object-top scale-105`}
+                    />
+                    <div className={componentStyles.imageWithOverlay.overlay}>
+                        <p className={componentStyles.imageWithOverlay.overlayText}>
+                            <Sparkles size={12} className="text-cyan-400"/>
+                            Look for the "Add Your First API Key" prompt on the Home screen.
+                        </p>
+                    </div>
+                </div>
+
+                <div className={componentStyles.infoBox.container}>
+                    <Info size={18} className={componentStyles.infoBox.icon}/>
+                    <p className={componentStyles.infoBox.text}>
+                        Once the page opens, click the <b className="text-white">Add Your First API Key</b> button. You
+                        can connect OpenAI, Anthropic, or any compatible Open-Source provider.
+                    </p>
+                </div>
             </div>
         ),
     },
     {
-        title: "Use It",
-        desc: "Seamlessly integrate with your Python applications or Claude Desktop settings.",
+        title: "Setup Model Routing",
+        desc: "Point your CLI tools and SDKs to local endpoints instead of default APIs.",
         content: (
             <div className="space-y-4">
                 <div className="space-y-2">
-                    <p className="text-[10px] font-bold text-muted-foreground uppercase">Python SDK</p>
+                    <p className={`${componentStyles.sectionHeader} ${componentStyles.sectionHeaderMuted}`}>Python
+                        SDK</p>
                     <CodeBlock
                         language="python"
                         code={`import openai\n\nclient = openai.OpenAI(\n    base_url = "http://localhost:12580/openai",\n    api_key = "YOUR_TINGLY_BOX_KEY"\n)\n\n# Use as before\nresponse = client.chat.completions.create(\n    model = "tingly",\n    messages = [{"role": "user", "content": "Hello!"}]\n)`}
                     />
                 </div>
                 <div className="space-y-2">
-                    <p className="text-[10px] font-bold text-muted-foreground uppercase">Claude Settings
-                        (~/.claude/settings.json)</p>
+                    <p className={`${componentStyles.sectionHeader} ${componentStyles.sectionHeaderMuted}`}>
+                        Claude Settings (~/.claude/settings.json)
+                    </p>
                     <CodeBlock
                         language="json"
                         code={`{\n  "env": {\n    "ANTHROPIC_AUTH_TOKEN": "{tingly-box-token}",\n    "ANTHROPIC_BASE_URL": "http://localhost:12580/anthropic",\n    "ANTHROPIC_MODEL": "tingly"\n  }\n}`}
@@ -138,18 +168,58 @@ export const STEPS = [
             </div>
         ),
     },
+
     {
         title: "Choose Provider & Model",
-        desc: "Access your ui homepage to select and activate your favorite models.",
+        desc: "Access your UI homepage to select and activate your favorite models.",
         content: (
-            <div className="space-y-3 p-3 sm:p-4 bg-secondary/20 rounded-lg border border-white/5">
-                <p className="text-sm font-medium">Go to UI:</p>
-                <div className="text-xs sm:text-sm text-cyan-400 font-mono break-all block bg-black/20 p-2 rounded">
-                    http://localhost:12580/home?user_auth_token=tingly-box-user-token
+            <div className="space-y-4">
+                {/* Step Guidance */}
+                <div className="space-y-2">
+                    <div className={componentStyles.statusIndicator.container}>
+                        <span className={componentStyles.statusIndicator.pulse}/>
+                        Configure Active Models
+                    </div>
                 </div>
-                <p className="text-xs text-muted-foreground italic">
-                    Simply click your favorite provider and model to start routing requests.
-                </p>
+
+                {/* Visual Guide with Screenshot */}
+                <div className={componentStyles.imageWithOverlay.container}>
+                    <img
+                        src={screenshotChooseProvider}
+                        alt="Provider and model selection interface"
+                        className={componentStyles.imageWithOverlay.image}
+                    />
+                    <div className={componentStyles.imageWithOverlay.overlay}>
+                        <p className={componentStyles.imageWithOverlay.overlayText}>
+                            <MousePointerClick size={12} className="text-cyan-400"/>
+                            Select a provider and click a model card to activate it.
+                        </p>
+                    </div>
+                </div>
+
+                {/* Detailed Instructions */}
+                <div className={componentStyles.infoBox.container}>
+                    <div className="flex flex-col gap-2">
+                        <div className="flex items-start gap-2">
+                            <div className="mt-1 bg-cyan-500/20 p-1 rounded">
+                                <RefreshCw size={14} className="text-cyan-400"/>
+                            </div>
+                            <p className={componentStyles.infoBox.text}>
+                                1. Click a provider (e.g., <b className="text-white">qwen</b>) and then click the <b
+                                className="text-white">Fetch Model List</b> button to sync available models.
+                            </p>
+                        </div>
+                        <div className="flex items-start gap-2">
+                            <div className="mt-1 bg-cyan-500/20 p-1 rounded">
+                                <Sparkles size={14} className="text-cyan-400"/>
+                            </div>
+                            <p className={componentStyles.infoBox.text}>
+                                2. Simply click your favorite <b className="text-white">model name</b> (e.g., <b
+                                className="text-white">qwq-plus</b>) to start routing requests.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         ),
     }

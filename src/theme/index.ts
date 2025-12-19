@@ -334,6 +334,46 @@ export const theme = {
 // Export theme colors for use in components
 export const colors = themeColors;
 
+// Component utility styles
+export const componentStyles = {
+  // Section headers
+  sectionHeader: "text-[10px] uppercase tracking-widest font-bold",
+  sectionHeaderCyan: "text-cyan-400",
+  sectionHeaderBlue: "text-blue-400",
+  sectionHeaderMuted: "text-muted-foreground",
+
+  // Status indicator
+  statusIndicator: {
+    container: "flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-cyan-500/80",
+    pulse: "flex h-2 w-2 rounded-full bg-cyan-500 animate-pulse",
+  },
+
+  // URL display
+  urlDisplay: "text-xs sm:text-sm text-cyan-400 font-mono break-all block bg-black/40 p-3 rounded-lg border border-cyan-500/20",
+
+  // Image with overlay
+  imageWithOverlay: {
+    container: "relative group overflow-hidden rounded-lg border border-white/10 bg-black/20",
+    image: "opacity-80 group-hover:opacity-100 transition-opacity duration-300",
+    overlay: "absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-3",
+    overlayText: "text-[11px] text-white/70 flex items-center gap-2",
+  },
+
+  // Info box
+  infoBox: {
+    container: "flex gap-3 bg-white/5 p-3 rounded-lg",
+    icon: "text-cyan-400 shrink-0",
+    text: "text-xs text-muted-foreground leading-relaxed",
+  },
+
+  // Link box
+  linkBox: {
+    container: "space-y-3 p-3 sm:p-4 bg-secondary/20 rounded-lg border border-white/5",
+    url: "text-xs sm:text-sm text-cyan-400 font-mono break-all block bg-black/20 p-2 rounded",
+    note: "text-xs text-muted-foreground italic",
+  },
+};
+
 // Export types and hook
 export * from "./types";
 export { useTheme } from "./use-theme";
