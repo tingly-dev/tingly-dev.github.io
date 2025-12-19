@@ -220,7 +220,7 @@ export const STEPS = [
                                 <RefreshCw size={14} className="text-cyan-400"/>
                             </div>
                             <p className={componentStyles.infoBox.text}>
-                                1. Click a provider (e.g., <b className="text-white">qwen</b>) and then click the <b
+                                1. Click a provider (e.g., <b className="text-white">Anthropic</b>) and then click the <b
                                 className="text-white">Fetch Model List</b> button to sync available models.
                             </p>
                         </div>
@@ -230,7 +230,7 @@ export const STEPS = [
                             </div>
                             <p className={componentStyles.infoBox.text}>
                                 2. Simply click your favorite <b className="text-white">model name</b> (e.g., <b
-                                className="text-white">qwq-plus</b>) to start routing requests.
+                                className="text-white">claude-3-5-haiku-20241022</b>) to start routing requests.
                             </p>
                         </div>
                     </div>
