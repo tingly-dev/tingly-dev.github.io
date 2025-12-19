@@ -21,7 +21,7 @@ SyntaxHighlighter.registerLanguage('json', json);
 
 // Layout Constants
 const SECTION_WIDTH = 1060;
-const WIDTH_SCALE = 0.9;
+const WIDTH_SCALE = 1;
 const SCALED_WIDTH = `${SECTION_WIDTH * WIDTH_SCALE}px`; // ~954px (Hero image only)
 const FULL_WIDTH = `${SECTION_WIDTH}px`; // 1060px (Content sections)
 
@@ -247,10 +247,12 @@ const STEPS = [
 
 const QuickStart = () => {
     return (
-        <section className="py-20 px-4 bg-[#0B0E14] text-slate-200">
-            {/* Force exact alignment with Features section */}
-            <div className="mx-auto w-full" style={{ maxWidth: FULL_WIDTH }}>
-                <h2 className="text-3xl font-bold text-center mb-16 tracking-tight text-white">Quick Start</h2>
+        <section className="py-20 px-4">
+            {/* Dark background container with limited width */}
+            <div className="mx-auto rounded-2xl bg-gradient-to-b from-background/90 to-background/98 backdrop-blur-sm text-slate-200 shadow-2xl border border-border/30"
+                 style={{ maxWidth: FULL_WIDTH, width: '95%' }}>
+                <div className="px-6 sm:px-8 md:px-12 py-12">
+                    <h2 className="text-3xl font-bold text-center mb-16 tracking-tight text-white">Quick Start</h2>
 
                 <div className="relative">
                     {/* Vertical Center Line */}
@@ -312,6 +314,7 @@ const QuickStart = () => {
                             );
                         })}
                     </div>
+                </div>
                 </div>
             </div>
         </section>
