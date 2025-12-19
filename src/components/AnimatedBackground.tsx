@@ -9,7 +9,7 @@ const BackgroundContainer = styled.div`
   height: 100%;
   z-index: -1;
   overflow: hidden;
-  background: #0a0a0f;
+  background: #0a0a0fda;
 `;
 
 const Canvas = styled.canvas`
@@ -26,37 +26,90 @@ interface Particle {
   vx: number;
   vy: number;
   radius: number;
-  color: string;
-  alpha: number;
-  targetX: number;
-  targetY: number;
+  targetRadius: number;
   maxRadius: number;
   minRadius: number;
   pulseSpeed: number;
   pulsePhase: number;
+  color: string;
+  baseAlpha: number;
 }
 
 const AnimatedBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animationRef = useRef<number>();
   const particlesRef = useRef<Particle[]>([]);
   const mouseRef = useRef({ x: 0, y: 0 });
+  const lastTimeRef = useRef<number>(0);
+  const bgCanvasRef = useRef<HTMLCanvasElement | null>(null);
+  const bgCtxRef = useRef<CanvasRenderingContext2D | null>(null);
+  const isVisibleRef = useRef(true);
   const [isInitialized, setIsInitialized] = useState(false);
+  const animationIdRef = useRef<number>();
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', {
+      alpha: false,
+      willReadFrequently: false,
+      desynchronized: true
+    });
     if (!ctx) return;
 
+    // Set canvas size with device pixel ratio for sharper rendering
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = width + 'px';
+      canvas.style.height = height + 'px';
+
+      ctx.scale(dpr, dpr);
+
+      // Update offscreen canvas for background
+      createBackgroundCanvas(width, height);
+    };
+
+    // Create offscreen canvas for static background
+    const createBackgroundCanvas = (width: number, height: number) => {
+      if (!bgCanvasRef.current) {
+        bgCanvasRef.current = document.createElement('canvas');
+        bgCtxRef.current = bgCanvasRef.current.getContext('2d', { alpha: false });
+      }
+
+      if (bgCanvasRef.current && bgCtxRef.current) {
+        bgCanvasRef.current.width = width;
+        bgCanvasRef.current.height = height;
+
+        // Create gradient background once
+        const bgGradient = bgCtxRef.current.createRadialGradient(
+          width / 2,
+          height / 2,
+          0,
+          width / 2,
+          height / 2,
+          Math.max(width, height) / 2
+        );
+        bgGradient.addColorStop(0, 'rgba(15, 15, 25, 0.9)');
+        bgGradient.addColorStop(0.5, 'rgba(10, 10, 20, 0.95)');
+        bgGradient.addColorStop(1, 'rgba(5, 5, 15, 1)');
+
+        bgCtxRef.current.fillStyle = bgGradient;
+        bgCtxRef.current.fillRect(0, 0, width, height);
+      }
     };
 
     resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+    let resizeTimeout: number;
+    const handleResize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = window.setTimeout(resizeCanvas, 250);
+    };
+    window.addEventListener('resize', handleResize, { passive: true });
 
     // Enhanced color palette for better visibility
     const colors = [
@@ -68,29 +121,28 @@ const AnimatedBackground = () => {
       { r: 6, g: 182, b: 212 },    // Light Blue
     ];
 
-    // Initialize particles
+    // Initialize particles with performance optimizations
     const initParticles = () => {
-      const particleCount = Math.min(50, Math.floor((window.innerWidth * window.innerHeight) / 15000));
+      const particleCount = Math.min(40, Math.floor((window.innerWidth * window.innerHeight) / 20000));
       const particles: Particle[] = [];
 
       for (let i = 0; i < particleCount; i++) {
         const color = colors[Math.floor(Math.random() * colors.length)];
-        const maxRadius = Math.random() * 300 + 200;  // Increased from 150+100 to 300+200
-        const minRadius = Math.random() * 60 + 40;    // Increased from 30+20 to 60+40
+        const maxRadius = Math.random() * 300 + 200;
+        const minRadius = Math.random() * 60 + 40;
 
         particles.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          vx: (Math.random() - 0.5) * 0.5,            // Slightly increased speed
-          vy: (Math.random() - 0.5) * 0.5,            // Slightly increased speed
-          radius: Math.random() * (maxRadius - minRadius) + minRadius,
+          x: Math.random() * window.innerWidth,
+          y: Math.random() * window.innerHeight,
+          vx: (Math.random() - 0.5) * 0.5,
+          vy: (Math.random() - 0.5) * 0.5,
+          radius: minRadius,
+          targetRadius: minRadius,
           maxRadius,
           minRadius,
-          color: `rgba(${color.r}, ${color.g}, ${color.b}, `,
-          alpha: Math.random() * 0.15 + 0.15,          // Increased from 0.15+0.05 to 0.3+0.15
-          targetX: Math.random() * canvas.width,
-          targetY: Math.random() * canvas.height,
-          pulseSpeed: Math.random() * 0.015 + 0.008,   // Slightly increased pulse speed
+          color: `rgba(${color.r}, ${color.g}, ${color.b}`,
+          baseAlpha: Math.random() * 0.15 + 0.15,
+          pulseSpeed: Math.random() * 0.015 + 0.008,
           pulsePhase: Math.random() * Math.PI * 2,
         });
       }
@@ -100,71 +152,120 @@ const AnimatedBackground = () => {
 
     initParticles();
 
-    // Mouse move handler
+    // Mouse move handler with throttling
+    let mouseUpdateTimeout: number;
     const handleMouseMove = (e: MouseEvent) => {
-      mouseRef.current = { x: e.clientX, y: e.clientY };
+      if (mouseUpdateTimeout) return;
+      mouseUpdateTimeout = requestAnimationFrame(() => {
+        mouseRef.current = { x: e.clientX, y: e.clientY };
+        mouseUpdateTimeout = 0;
+      });
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
 
-    // Animation loop
-    const animate = () => {
-      ctx.fillStyle = 'rgba(10, 10, 15, 0.1)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Visibility API to pause animation when tab is not visible
+    const handleVisibilityChange = () => {
+      isVisibleRef.current = document.visibilityState === 'visible';
+      if (isVisibleRef.current && !animationIdRef.current) {
+        lastTimeRef.current = performance.now();
+        animate(lastTimeRef.current);
+      }
+    };
 
-      // Create gradient background
-      const bgGradient = ctx.createRadialGradient(
-        canvas.width / 2,
-        canvas.height / 2,
-        0,
-        canvas.width / 2,
-        canvas.height / 2,
-        Math.max(canvas.width, canvas.height) / 2
-      );
-      bgGradient.addColorStop(0, 'rgba(15, 15, 25, 0.9)');
-      bgGradient.addColorStop(0.5, 'rgba(10, 10, 20, 0.95)');
-      bgGradient.addColorStop(1, 'rgba(5, 5, 15, 1)');
+    window.addEventListener('visibilitychange', handleVisibilityChange, { passive: true });
 
-      ctx.fillStyle = bgGradient;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Check for reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const motionFactor = prefersReducedMotion ? 0.1 : 1;
+
+    // Animation loop with performance optimizations
+    const animate = (currentTime: number) => {
+      if (!isVisibleRef.current) {
+        animationIdRef.current = 0;
+        return;
+      }
+
+      // Calculate delta time for frame-rate independent animation
+      const deltaTime = currentTime - lastTimeRef.current;
+      lastTimeRef.current = currentTime;
+
+      // Skip frames if delta is too small to save resources
+      if (deltaTime < 8) { // Slightly lower threshold for smoother animation
+        animationIdRef.current = requestAnimationFrame(animate);
+        return;
+      }
+
+      const deltaFactor = Math.min(deltaTime / 16.67, 2); // Normalize to 60fps
+
+      // Clear canvas with slight trail effect
+      ctx.fillStyle = 'rgba(10, 10, 15, 0.05)';
+      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+
+      // Draw cached background gradient
+      if (bgCtxRef.current && bgCanvasRef.current) {
+        ctx.globalAlpha = 0.98;
+        ctx.drawImage(bgCanvasRef.current, 0, 0);
+        ctx.globalAlpha = 1;
+      }
+
+      const mouseX = mouseRef.current.x;
+      const mouseY = mouseRef.current.y;
+      const particles = particlesRef.current;
 
       // Update and draw particles
-      particlesRef.current.forEach((particle) => {
+      for (let i = 0; i < particles.length; i++) {
+        const particle = particles[i];
+
         // Update pulse
-        particle.pulsePhase += particle.pulseSpeed;
+        particle.pulsePhase += particle.pulseSpeed * deltaFactor * motionFactor;
         const pulseFactor = Math.sin(particle.pulsePhase) * 0.5 + 0.5;
-        particle.radius = particle.minRadius + (particle.maxRadius - particle.minRadius) * pulseFactor;
+        particle.targetRadius = particle.minRadius + (particle.maxRadius - particle.minRadius) * pulseFactor;
 
-        // Slowly move particles
-        particle.x += particle.vx;
-        particle.y += particle.vy;
+        // Smooth radius transitions
+        particle.radius += (particle.targetRadius - particle.radius) * 0.1;
 
-        // Attraction to mouse with expanded effect range
-        const dx = mouseRef.current.x - particle.x;
-        const dy = mouseRef.current.y - particle.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
+        // Update position with delta time
+        particle.x += particle.vx * deltaFactor * motionFactor;
+        particle.y += particle.vy * deltaFactor * motionFactor;
 
-        if (distance < 350) {  // Increased from 200 to 350
-          const force = (350 - distance) / 350 * 0.03;  // Increased force slightly
-          particle.vx += dx * force * 0.0015;
-          particle.vy += dy * force * 0.0015;
+        // Mouse interaction with optimized distance calculation
+        const dx = mouseX - particle.x;
+        const dy = mouseY - particle.y;
+        const distSq = dx * dx + dy * dy;
+        const effectRadiusSq = 350 * 350;
+
+        if (distSq < effectRadiusSq) {
+          const dist = Math.sqrt(distSq);
+          const force = (350 - dist) / 350 * 0.03;
+          particle.vx += (dx / dist) * force * deltaFactor * 0.0015;
+          particle.vy += (dy / dist) * force * deltaFactor * 0.0015;
         }
 
         // Apply damping
         particle.vx *= 0.99;
         particle.vy *= 0.99;
 
-        // Bounce off edges
-        if (particle.x < 0 || particle.x > canvas.width) {
-          particle.vx = -particle.vx;
-          particle.x = Math.max(0, Math.min(canvas.width, particle.x));
+        // Boundary collision
+        const canvasWidth = window.innerWidth;
+        const canvasHeight = window.innerHeight;
+
+        if (particle.x < particle.radius || particle.x > canvasWidth - particle.radius) {
+          particle.vx = -particle.vx * 0.9;
+          particle.x = particle.x < particle.radius ? particle.radius : canvasWidth - particle.radius;
         }
-        if (particle.y < 0 || particle.y > canvas.height) {
-          particle.vy = -particle.vy;
-          particle.y = Math.max(0, Math.min(canvas.height, particle.y));
+        if (particle.y < particle.radius || particle.y > canvasHeight - particle.radius) {
+          particle.vy = -particle.vy * 0.9;
+          particle.y = particle.y < particle.radius ? particle.radius : canvasHeight - particle.radius;
         }
 
-        // Draw particle with gradient
+        // Draw particle with cached gradient
+        const alpha = particle.baseAlpha * (0.5 + pulseFactor * 0.5);
+
+        // Use save/restore for performance
+        ctx.save();
+        ctx.globalCompositeOperation = 'screen';
+
         const gradient = ctx.createRadialGradient(
           particle.x,
           particle.y,
@@ -174,10 +275,9 @@ const AnimatedBackground = () => {
           particle.radius
         );
 
-        const baseAlpha = particle.alpha * (0.5 + pulseFactor * 0.5);
-        gradient.addColorStop(0, particle.color + baseAlpha + ')');
-        gradient.addColorStop(0.4, particle.color + (baseAlpha * 0.5) + ')');
-        gradient.addColorStop(1, particle.color + '0)');
+        gradient.addColorStop(0, particle.color + ', ' + alpha + ')');
+        gradient.addColorStop(0.4, particle.color + ', ' + (alpha * 0.5) + ')');
+        gradient.addColorStop(1, particle.color + ', 0)');
 
         ctx.fillStyle = gradient;
         ctx.fillRect(
@@ -186,20 +286,33 @@ const AnimatedBackground = () => {
           particle.radius * 2,
           particle.radius * 2
         );
-      });
 
-      animationRef.current = requestAnimationFrame(animate);
+        ctx.restore();
+      }
+
+      animationIdRef.current = requestAnimationFrame(animate);
     };
 
-    animate();
+    // Start animation
+    lastTimeRef.current = performance.now();
+    animate(lastTimeRef.current);
     setIsInitialized(true);
 
     // Cleanup
     return () => {
-      window.removeEventListener('resize', resizeCanvas);
+      window.removeEventListener('resize', handleResize);
       window.removeEventListener('mousemove', handleMouseMove);
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
+      window.removeEventListener('visibilitychange', handleVisibilityChange);
+      clearTimeout(resizeTimeout);
+      if (mouseUpdateTimeout) {
+        cancelAnimationFrame(mouseUpdateTimeout);
+      }
+      if (animationIdRef.current) {
+        cancelAnimationFrame(animationIdRef.current);
+      }
+      if (bgCanvasRef.current) {
+        bgCanvasRef.current = null;
+        bgCtxRef.current = null;
       }
     };
   }, []);
