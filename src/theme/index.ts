@@ -1,80 +1,60 @@
 import { createTheme } from "@mui/material/styles";
 
-// Helper function to convert HSL to RGB
-const hslToRgb = (h: number, s: number, l: number): string => {
-  s /= 100;
-  l /= 100;
-  const k = (n: number) => (n + h / 30) % 12;
-  const a = s * Math.min(l, 1 - l);
-  const f = (n: number) =>
-    l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
-  const r = Math.round(255 * f(0));
-  const g = Math.round(255 * f(8));
-  const b = Math.round(255 * f(4));
-  return `rgb(${r}, ${g}, ${b})`;
-};
-
-// Helper function to convert HSL to Hex
-const hslToHex = (h: number, s: number, l: number): string => {
-  const [r, g, b] = hslToRgb(h, s, l).match(/\d+/g)!.map(Number);
-  return `#${[r, g, b].map(x => x.toString(16).padStart(2, '0')).join('')}`;
-};
-
-// Theme colors extracted from CSS variables
+// Theme colors extracted from CSS variables and custom colors
 const themeColors = {
-  // Background colors
-  background: hslToRgb(220, 20, 6),
-  foreground: hslToRgb(210, 40, 98),
+  // Background colors - transparent for animated background
+  background: 'transparent',
+  foreground: 'hsl(210, 40%, 98%)',
 
-  // Card colors
-  card: hslToRgb(220, 18, 10),
-  cardForeground: hslToRgb(210, 40, 98),
+  // Card colors - more transparent with subtle backdrop
+  card: 'rgba(15, 15, 25, 0.7)',
+  cardForeground: 'hsl(210, 40%, 98%)',
 
-  // Popover colors
-  popover: hslToRgb(220, 18, 10),
-  popoverForeground: hslToRgb(210, 40, 98),
+  // Popover colors - transparent
+  popover: 'rgba(15, 15, 25, 0.8)',
+  popoverForeground: 'hsl(210, 40%, 98%)',
 
-  // Primary colors
+  // Primary colors - using custom blue colors
   primary: {
-    main: hslToHex(175, 80, 50),
-    light: hslToHex(175, 80, 60),
-    dark: hslToHex(175, 80, 40),
-    contrastText: hslToRgb(220, 20, 6),
+    main: '#e8f4ff', // Light blue
+    light: '#ffffff',
+    dark: '#b8d8f8',
+    contrastText: '#0f172a', // Dark text for contrast
   },
 
   // Secondary colors
   secondary: {
-    main: hslToHex(220, 15, 15),
-    light: hslToHex(220, 15, 20),
-    dark: hslToHex(220, 15, 10),
-    contrastText: hslToRgb(210, 40, 98),
+    main: '#b8d8f8', // Medium blue
+    light: '#d4e4f7',
+    dark: '#9cc5f3',
+    contrastText: '#0f172a',
+  },
+
+  // Accent colors - using pink
+  accent: {
+    main: '#ffc8dd', // Light pink
+    contrastText: '#0f172a',
   },
 
   // Muted colors
-  muted: hslToRgb(220, 15, 15),
-  mutedForeground: hslToRgb(215, 20, 55),
-
-  // Accent colors
-  accent: {
-    main: hslToHex(175, 80, 50),
-    contrastText: hslToRgb(220, 20, 6),
-  },
+  muted: 'hsl(220, 15%, 15%)',
+  mutedForeground: 'hsl(215, 20%, 55%)',
 
   // Destructive colors
   destructive: {
-    main: hslToHex(0, 84.2, 60.2),
-    light: hslToHex(0, 84.2, 70),
-    dark: hslToHex(0, 84.2, 50),
-    contrastText: hslToRgb(210, 40, 98),
+    main: '#ff4757',
+    light: '#ff6b7a',
+    dark: '#ff3838',
+    contrastText: '#ffffff',
   },
 
   // Border colors
-  border: hslToRgb(220, 15, 20),
-  input: hslToRgb(220, 15, 20),
+  border: 'hsl(220, 15%, 20%)',
+  input: 'hsl(220, 15%, 20%)',
 
-  // Other colors
-  glow: hslToHex(175, 80, 50),
-  ring: hslToHex(175, 80, 50),
+  // Other colors - using theme colors
+  glow: '#b8d8f8', // Using secondary blue
+  ring: '#e8f4ff', // Using primary blue
 
   // Radius
   radius: 8, // 0.5rem = 8px
@@ -221,9 +201,10 @@ const baseTheme = createTheme({
           gap: '0.5rem',
         },
         contained: {
-          background: `linear-gradient(135deg, ${themeColors.primary.main}, ${themeColors.primary.dark})`,
+          background: `linear-gradient(135deg, ${themeColors.primary.main}, ${themeColors.secondary.main})`,
+          color: themeColors.primary.contrastText,
           '&:hover': {
-            background: `linear-gradient(135deg, ${themeColors.primary.light}, ${themeColors.primary.main})`,
+            background: `linear-gradient(135deg, ${themeColors.primary.dark}, ${themeColors.secondary.dark})`,
             transform: 'translateY(-1px)',
             boxShadow: `0 4px 8px -2px ${themeColors.primary.main}40`,
           },
@@ -253,6 +234,7 @@ const baseTheme = createTheme({
           '&:hover': {
             boxShadow: `0 4px 12px ${themeColors.primary.main}20`,
             borderColor: themeColors.primary.main,
+            transform: 'translateY(-2px)',
           },
         },
       },
@@ -342,10 +324,10 @@ const baseTheme = createTheme({
 export const theme = {
   ...baseTheme,
   custom: {
-    glow: `0 0 20px ${themeColors.glow}33, 0 0 40px ${themeColors.glow}1a`,
-    textGlow: `0 0 20px ${themeColors.glow}50, 0 0 40px ${themeColors.glow}30`,
+    glow: `0 0 20px ${themeColors.glow}40, 0 0 40px ${themeColors.glow}20`,
+    textGlow: `0 0 20px ${themeColors.glow}60, 0 0 40px ${themeColors.glow}30`,
     gradientBorder: `linear-gradient(${themeColors.background}, ${themeColors.background}) padding-box,
-                     linear-gradient(135deg, ${themeColors.primary.main}, ${themeColors.primary.main}4d) border-box`,
+                     linear-gradient(135deg, ${themeColors.primary.main}, ${themeColors.secondary.main}) border-box`,
   },
 };
 

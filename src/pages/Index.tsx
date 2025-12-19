@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { FaGithub } from "react-icons/fa";
+import AnimatedBackground from "@/components/AnimatedBackground";
 // Syntax Highlighter Imports
 import bash from 'react-syntax-highlighter/dist/esm/languages/prism/bash';
 import json from 'react-syntax-highlighter/dist/esm/languages/prism/json';
@@ -388,7 +389,8 @@ const FAQ = () => {
 };
 
 const Index = () => (
-    <main className="min-h-screen">
+    <main className="min-h-screen relative">
+        <AnimatedBackground />
         <Hero />
         <Features />
         <QuickStart />
