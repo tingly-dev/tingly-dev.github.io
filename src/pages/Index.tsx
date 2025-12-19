@@ -1,9 +1,10 @@
 import { faqs, features, screenshots } from "@/data/text";
-import { Card, CardContent, Button as MuiButton } from "@mui/material";
+import { Card, CardContent, Button as MuiButton, Dialog, DialogContent } from "@mui/material";
 import {
     ChevronLeft,
     ChevronRight,
-    ExternalLink
+    ExternalLink,
+    X
 } from "lucide-react";
 import { useState } from "react";
 import { FaGithub } from "react-icons/fa";
@@ -22,7 +23,7 @@ SyntaxHighlighter.registerLanguage('json', json);
 // Layout Constants
 const SECTION_WIDTH = 1060;
 const WIDTH_SCALE = 1;
-const SCALED_WIDTH = `${SECTION_WIDTH * WIDTH_SCALE}px`; // ~954px (Hero image only)
+const SCALED_WIDTH = `${SECTION_WIDTH * WIDTH_SCALE}px`; // 1060px (Hero image - full width)
 const FULL_WIDTH = `${SECTION_WIDTH}px`; // 1060px (Content sections)
 
 
@@ -71,94 +72,152 @@ const CodeBlock = ({ code, language }: { code: string; language: string }) => {
 
 const Hero = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
-    return (
-        <section className="min-h-[60vh] flex flex-col items-center justify-center text-center px-4 py-16">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6">
-                <span className="text-primary">Tingly</span> Box
-            </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mb-10">
-                Provider-agnostic AI model proxy with unified API
-            </p>
-            <div className="flex flex-wrap justify-center gap-4 mb-10">
-                <MuiButton
-                    variant="contained"
-                    href="https://github.com/tingly-dev/tingly-box"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    size="large"
-                    startIcon={<FaGithub className="w-5 h-5" />}
-                    sx={{ gap: '8px' }}
-                >
-                    GitHub
-                </MuiButton>
-                <MuiButton
-                    variant="outlined"
-                    href="https://github.com/tingly-dev/tingly-box/releases"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    size="large"
-                    startIcon={<ExternalLink className="w-5 h-5" />}
-                    sx={{ gap: '8px' }}
-                >
-                    Releases
-                </MuiButton>
-            </div>
+    const [previewOpen, setPreviewOpen] = useState(false);
+    const [previewImage, setPreviewImage] = useState(0);
 
-            {/* Application of SCALED_WIDTH (0.9x) only to the carousel */}
-            <div className="relative w-full mx-auto" style={{ maxWidth: SCALED_WIDTH }}>
-                <div className="relative overflow-hidden rounded-lg border bg-card shadow-lg">
-                    <img
-                        src={screenshots[currentSlide].src}
-                        alt={screenshots[currentSlide].alt}
-                        className="w-full h-auto transition-opacity duration-300"
-                    />
-                    <button
-                        onClick={() => setCurrentSlide((prev) => (prev - 1 + screenshots.length) % screenshots.length)}
-                        className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-background/80 border hover:bg-background transition-colors"
+    const handleImageClick = (index: number) => {
+        setPreviewImage(index);
+        setPreviewOpen(true);
+    };
+
+    return (
+        <>
+            <section className="min-h-[60vh] flex flex-col items-center justify-center text-center px-4 py-16">
+                <h1 className="text-5xl md:text-7xl font-bold mb-6">
+                    <span className="text-primary">Tingly</span> Box
+                </h1>
+                <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mb-10">
+                    Provider-agnostic AI model proxy with unified API
+                </p>
+                <div className="flex flex-wrap justify-center gap-4 mb-10">
+                    <MuiButton
+                        variant="contained"
+                        href="https://github.com/tingly-dev/tingly-box"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        size="large"
+                        startIcon={<FaGithub className="w-5 h-5" />}
+                        sx={{ gap: '8px' }}
                     >
-                        <ChevronLeft className="w-5 h-5" />
-                    </button>
-                    <button
-                        onClick={() => setCurrentSlide((prev) => (prev + 1) % screenshots.length)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-background/80 border hover:bg-background transition-colors"
+                        GitHub
+                    </MuiButton>
+                    <MuiButton
+                        variant="outlined"
+                        href="https://github.com/tingly-dev/tingly-box/releases"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        size="large"
+                        startIcon={<ExternalLink className="w-5 h-5" />}
+                        sx={{ gap: '8px' }}
                     >
-                        <ChevronRight className="w-5 h-5" />
-                    </button>
+                        Releases
+                    </MuiButton>
                 </div>
-                <div className="flex justify-center gap-2 mt-4">
-                    {screenshots.map((_, i) => (
-                        <button
-                            key={i}
-                            onClick={() => setCurrentSlide(i)}
-                            className={`w-2 h-2 rounded-full transition-all ${i === currentSlide ? "bg-primary w-4" : "bg-muted"}`}
+
+                {/* Application of SCALED_WIDTH (0.9x) only to the carousel */}
+                <div className="relative w-full mx-auto" style={{ maxWidth: SCALED_WIDTH, width: '95%' }}>
+                    <div className="relative overflow-hidden rounded-2xl">
+                        <img
+                            src={screenshots[currentSlide].src}
+                            alt={screenshots[currentSlide].alt}
+                            className="w-full h-auto transition-opacity duration-300 cursor-pointer hover:opacity-90 rounded-2xl shadow-xl"
+                            onClick={() => handleImageClick(currentSlide)}
                         />
-                    ))}
+                        <button
+                            onClick={() => setCurrentSlide((prev) => (prev - 1 + screenshots.length) % screenshots.length)}
+                            className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-background/90 border border-white/10 backdrop-blur-sm hover:bg-background transition-colors"
+                        >
+                            <ChevronLeft className="w-5 h-5" />
+                        </button>
+                        <button
+                            onClick={() => setCurrentSlide((prev) => (prev + 1) % screenshots.length)}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-background/90 border border-white/10 backdrop-blur-sm hover:bg-background transition-colors"
+                        >
+                            <ChevronRight className="w-5 h-5" />
+                        </button>
+                    </div>
+                    <div className="flex justify-center gap-2 mt-4">
+                        {screenshots.map((_, i) => (
+                            <button
+                                key={i}
+                                onClick={() => setCurrentSlide(i)}
+                                className={`w-2 h-2 rounded-full transition-all ${i === currentSlide ? "bg-primary w-4" : "bg-muted"}`}
+                            />
+                        ))}
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+
+            {/* Preview Dialog */}
+            <Dialog
+                open={previewOpen}
+                onClose={() => setPreviewOpen(false)}
+                maxWidth={false}
+                fullWidth
+                sx={{
+                    '& .MuiDialog-paper': {
+                        backgroundColor: 'transparent',
+                        boxShadow: 'none',
+                        overflow: 'hidden',
+                        margin: 0,
+                        maxWidth: '100vw',
+                        width: '100vw'
+                    }
+                }}
+            >
+                <DialogContent sx={{ p: 0, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <button
+                        onClick={() => setPreviewOpen(false)}
+                        className="absolute top-4 right-4 z-10 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
+                    >
+                        <X className="w-6 h-6" />
+                    </button>
+                    <img
+                        src={screenshots[previewImage].src}
+                        alt={screenshots[previewImage].alt}
+                        className="max-w-[95vw] max-h-[95vh] w-auto h-auto object-contain"
+                    />
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                        {screenshots.map((_, i) => (
+                            <button
+                                key={i}
+                                onClick={() => setPreviewImage(i)}
+                                className={`w-3 h-3 rounded-full transition-all ${i === previewImage ? "bg-white w-6" : "bg-white/50"}`}
+                            />
+                        ))}
+                    </div>
+                </DialogContent>
+            </Dialog>
+        </>
     );
 };
 
 const Features = () => (
-    <section className="py-12 px-4">
-        <div className="mx-auto" style={{ maxWidth: FULL_WIDTH }}>
-            <h2 className="text-3xl font-bold text-center mb-12">Features</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {features.map((f) => (
-                    <Card key={f.title} sx={{
-                        backgroundColor: 'var(--card)',
-                        border: '1px solid var(--border)',
-                        '&:hover': {
-                            boxShadow: 'var(--shadow-lg)',
-                        }
-                    }}>
-                        <CardContent sx={{ p: 3 }}>
-                            <f.icon className="w-10 h-10 text-primary mb-4" />
-                            <h3 className="text-xl font-semibold mb-2">{f.title}</h3>
-                            <p className="text-muted-foreground">{f.description}</p>
-                        </CardContent>
-                    </Card>
-                ))}
+    <section className="py-20 px-4">
+        {/* Background container with rounded corners */}
+        <div className="mx-auto rounded-2xl bg-gradient-to-b from-card/60 to-card/80 backdrop-blur-sm shadow-xl border border-border/20"
+             style={{ maxWidth: FULL_WIDTH, width: '95%' }}>
+            <div className="px-6 sm:px-8 md:px-12 py-16">
+                <h2 className="text-3xl font-bold text-center mb-12">Features</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {features.map((f) => (
+                        <Card key={f.title} sx={{
+                            backgroundColor: 'var(--card)',
+                            border: '1px solid var(--border)',
+                            opacity: 1,
+                            '&:hover': {
+                                boxShadow: 'var(--shadow-lg)',
+                                opacity: 1.1,
+                            }
+                        }}>
+                            <CardContent sx={{ p: 3 }}>
+                                <f.icon className="w-10 h-10 text-primary mb-4" />
+                                <h3 className="text-xl font-semibold mb-2">{f.title}</h3>
+                                <p className="text-muted-foreground">{f.description}</p>
+                            </CardContent>
+                        </Card>
+                    ))}
+                </div>
             </div>
         </div>
     </section>
