@@ -129,7 +129,7 @@ const AnimatedBackground = () => {
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       // Update and draw particles
-      particlesRef.current.forEach((particle, index) => {
+      particlesRef.current.forEach((particle) => {
         // Update pulse
         particle.pulsePhase += particle.pulseSpeed;
         const pulseFactor = Math.sin(particle.pulsePhase) * 0.5 + 0.5;
@@ -186,44 +186,6 @@ const AnimatedBackground = () => {
           particle.radius * 2,
           particle.radius * 2
         );
-
-        // Draw connections between nearby particles with increased range
-        particlesRef.current.slice(index + 1).forEach(otherParticle => {
-          const pdx = particle.x - otherParticle.x;
-          const pdy = particle.y - otherParticle.y;
-          const pDistance = Math.sqrt(pdx * pdx + pdy * pdy);
-
-          // Increased connection range from particle.radius + otherParticle.radius to 1.5x
-          if (pDistance < (particle.radius + otherParticle.radius) * 1.5) {
-            const connectionGradient = ctx.createLinearGradient(
-              particle.x,
-              particle.y,
-              otherParticle.x,
-              otherParticle.y
-            );
-
-            const midX = (particle.x + otherParticle.x) / 2;
-            const midY = (particle.y + otherParticle.y) / 2;
-            const mouseToMidDistance = Math.sqrt(
-              Math.pow(mouseRef.current.x - midX, 2) +
-              Math.pow(mouseRef.current.y - midY, 2)
-            );
-
-            const connectionAlpha = Math.max(0, 0.25 - mouseToMidDistance / 3000) *  // Increased from 0.15-2000 to 0.25-3000
-                                 Math.min(particle.alpha, otherParticle.alpha) * 1.2;  // Increased visibility
-
-            connectionGradient.addColorStop(0, particle.color + connectionAlpha + ')');
-            connectionGradient.addColorStop(0.5, particle.color + (connectionAlpha * 1.8) + ')');  // Increased from 1.5 to 1.8
-            connectionGradient.addColorStop(1, otherParticle.color + connectionAlpha + ')');
-
-            ctx.strokeStyle = connectionGradient;
-            ctx.lineWidth = 1.5;  // Increased from 1 to 1.5
-            ctx.beginPath();
-            ctx.moveTo(particle.x, particle.y);
-            ctx.lineTo(otherParticle.x, otherParticle.y);
-            ctx.stroke();
-          }
-        });
       });
 
       animationRef.current = requestAnimationFrame(animate);
