@@ -91,7 +91,7 @@ export const STEPS = [
                     <p className="text-[10px] uppercase tracking-widest text-cyan-400 font-bold">
                         Option 1: Node.js (Recommended)
                     </p>
-                    <CodeBlock language="bash" code="npx @tinglydev/tingly-box && tingly-box start"/>
+                    <CodeBlock language="bash" code="npx tingly-box@latest start"/>
                 </div>
 
                 <div className="space-y-2">
