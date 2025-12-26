@@ -1,7 +1,7 @@
 
 
 import screenshotHome from "@/assets/Home.png";
-import screenshotCredentials from "@/assets/Provider.png";
+import screenshotCredentials from "@/assets/Credential.png";
 import screenshotRules from "@/assets/Routing.png";
 import { ArrowLeftRight, Gauge, Globe, Layers } from "lucide-react";
 

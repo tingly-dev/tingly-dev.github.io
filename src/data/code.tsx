@@ -84,25 +84,25 @@ const CodeBlock = ({code, language}: { code: string; language: string }) => {
 export const STEPS = [
     {
         title: "Start the Service",
-        desc: "Choose between a quick local start or a persistent Docker deployment.",
+        desc: "Start the service by a quick npx start.",
         content: (
             <div className="space-y-4">
                 <div className="space-y-2">
                     <p className="text-[10px] uppercase tracking-widest text-cyan-400 font-bold">
-                        Option 1: Node.js (Recommended)
+                        Start by Node.js
                     </p>
                     <CodeBlock language="bash" code="npx tingly-box@latest start"/>
                 </div>
 
-                <div className="space-y-2">
-                    <p className="text-[10px] uppercase tracking-widest text-blue-400 font-bold">
-                        Option 2: Docker (Persistent)
-                    </p>
-                    <CodeBlock
-                        language="bash"
-                        code={`mkdir -p data/.tingly-box data/logs\ndocker run -d --name tingly-box \\\n  -p 12580:12580 \\\n  -v $(pwd)/data/.tingly-box:/app/.tingly-box \\\n  -v $(pwd)/data/logs:/app/logs \\\n  tingly-box:latest`}
-                    />
-                </div>
+                {/*<div className="space-y-2">*/}
+                {/*    <p className="text-[10px] uppercase tracking-widest text-blue-400 font-bold">*/}
+                {/*        Option 2: Docker (Persistent)*/}
+                {/*    </p>*/}
+                {/*    <CodeBlock*/}
+                {/*        language="bash"*/}
+                {/*        code={`mkdir -p data/.tingly-box data/logs\ndocker run -d --name tingly-box \\\n  -p 12580:12580 \\\n  -v $(pwd)/data/.tingly-box:/app/.tingly-box \\\n  -v $(pwd)/data/logs:/app/logs \\\n  tingly-box:latest`}*/}
+                {/*    />*/}
+                {/*</div>*/}
             </div>
         ),
     },
