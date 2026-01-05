@@ -291,7 +291,7 @@ const Footer = () => (
     <footer className="py-8 sm:py-12 px-4 border-t">
         <div className="mx-auto flex flex-col sm:flex-row items-center justify-between gap-4"
             style={{ maxWidth: FULL_WIDTH, width: '100%' }}>
-            <div className="text-muted-foreground text-sm text-center sm:text-left">Apache-2.0 License © {new Date().getFullYear()} Tingly Box</div>
+            <div className="text-muted-foreground text-sm text-center sm:text-left">MPL-2.0 License © {new Date().getFullYear()} Tingly Box</div>
             <MuiButton
                 href="https://github.com/tingly-dev/tingly-box"
                 target="_blank"
