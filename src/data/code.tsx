@@ -10,8 +10,10 @@ import SyntaxHighlighter from 'react-syntax-highlighter/dist/esm/prism-light';
 import {oneDark} from 'react-syntax-highlighter/dist/esm/styles/prism';
 import {Info, Sparkles, Settings2, MousePointerClick, RefreshCw} from 'lucide-react';
 
-import screenshotProviderAdd from "@/assets/ProviderAdd.png";
-import screenshotChooseProvider from "@/assets/ChooseProvider.png";
+// External image URLs from GitHub repository
+const screenshotBaseUrl = "https://raw.githubusercontent.com/tingly-dev/tingly-box/refs/heads/main/docs/images";
+const screenshotProviderAdd = `${screenshotBaseUrl}/2-openai.png`;
+const screenshotChooseProvider = `${screenshotBaseUrl}/4-select.png`;
 
 import {componentStyles} from "@/theme";
 
@@ -165,19 +167,45 @@ export const STEPS = [
             <div className="space-y-4">
                 <div className="space-y-2">
                     <p className={`${componentStyles.sectionHeader} ${componentStyles.sectionHeaderMuted}`}>Python
-                        SDK</p>
+                        SDK (OpenAI)</p>
                     <CodeBlock
                         language="python"
-                        code={`import openai\n\nclient = openai.OpenAI(\n    base_url = "http://localhost:12580/openai",\n    api_key = "YOUR_TINGLY_BOX_KEY"\n)\n\n# Use as before\nresponse = client.chat.completions.create(\n    model = "tingly",\n    messages = [{"role": "user", "content": "Hello!"}]\n)`}
+                        code={`from openai import OpenAI
+
+client = OpenAI(
+    api_key="your-tingly-model-token",
+    base_url="http://localhost:12580/tingly/openai/v1"
+)
+
+response = client.chat.completions.create(
+    # To pass litellm model name validation, use "gpt-3.5-turbo"
+    model="tingly",
+    messages=[{"role": "user", "content": "Hello!"}]
+)
+print(response)`}
                     />
                 </div>
                 <div className="space-y-2">
                     <p className={`${componentStyles.sectionHeader} ${componentStyles.sectionHeaderMuted}`}>
-                        Claude Settings (~/.claude/settings.json)
+                        Claude Code Settings (~/.claude/settings.json)
                     </p>
                     <CodeBlock
                         language="json"
-                        code={`{\n  "env": {\n    "ANTHROPIC_AUTH_TOKEN": "{tingly-box-token}",\n    "ANTHROPIC_BASE_URL": "http://localhost:12580/anthropic",\n    "ANTHROPIC_MODEL": "tingly"\n  }\n}`}
+                        code={`{
+  "env": {
+    "DISABLE_TELEMETRY": "1",
+    "DISABLE_ERROR_REPORTING": "1",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "API_TIMEOUT_MS": "3000000",
+    "ANTHROPIC_AUTH_TOKEN": "{content after tingly token cmd 'Current API Key from Global Config'}",
+    "ANTHROPIC_BASE_URL": "http://localhost:12580/tingly/claude_code",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "tingly/cc",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "tingly/cc",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "tingly/cc",
+    "ANTHROPIC_MODEL": "tingly/cc",
+    "hasCompletedOnboarding": true
+  }
+}`}
                     />
                 </div>
             </div>
