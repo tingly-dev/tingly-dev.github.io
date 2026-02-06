@@ -21,7 +21,7 @@ const FULL_WIDTH = `${SECTION_WIDTH}px`; // 1060px (Content sections)
 
 const Hero = () => {
     return (
-        <section className="py-16 sm:py-20 px-4 gradient-bg-subtle">
+        <section className="py-16 sm:py-20 px-4">
             {/* Static Hero Image */}
             <div className="w-full mx-auto px-2 sm:px-4" style={{ maxWidth: SCALED_WIDTH }}>
                 <img
@@ -61,7 +61,7 @@ const Gallery = () => {
 
     return (
         <>
-            <section className="py-16 sm:py-20 px-4 bg-white">
+            <section className="py-16 sm:py-20 px-4">
                 <div className="mx-auto" style={{ maxWidth: FULL_WIDTH, width: '100%' }}>
                     <h2 className="text-3xl sm:text-4xl font-bold text-center mb-4">Product Gallery</h2>
                     <p className="text-center text-muted-foreground mb-10 max-w-2xl mx-auto">
@@ -150,16 +150,16 @@ const Gallery = () => {
 };
 
 const Features = () => (
-    <section id="features" className="py-16 sm:py-20 px-4 bg-slate-50">
+    <section id="features" className="py-16 sm:py-20 px-4">
         {/* Light background container with rounded corners */}
-        <div className="mx-auto rounded-2xl bg-white shadow-soft border border-slate-200"
+        <div className="mx-auto rounded-2xl bg-white/80 backdrop-blur-sm shadow-soft border border-slate-200"
             style={{ maxWidth: FULL_WIDTH, width: '100%' }}>
             <div className="px-4 sm:px-6 md:px-8 lg:px-12 py-12 sm:py-16">
                 <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12 sm:mb-16">Features</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                     {features.map((f) => (
                         <Card key={f.title} sx={{
-                            backgroundColor: '#ffffff',
+                            backgroundColor: 'rgba(255, 255, 255, 0.8)',
                             border: '1px solid #e2e8f0',
                             opacity: 1,
                             transition: 'all 0.2s ease-in-out',
@@ -187,9 +187,9 @@ const Features = () => (
 
 const QuickStart = () => {
     return (
-        <section id="quick-start" className="py-16 sm:py-20 px-4 bg-white">
+        <section id="quick-start" className="py-16 sm:py-20 px-4">
             {/* Light gradient background container with limited width */}
-            <div className="mx-auto rounded-2xl bg-gradient-to-br from-slate-100 to-slate-50 shadow-soft border border-slate-200"
+            <div className="mx-auto rounded-2xl bg-white/80 backdrop-blur-sm shadow-soft border border-slate-200"
                 style={{ maxWidth: FULL_WIDTH, width: '100%' }}>
                 <div className="px-4 sm:px-6 md:px-8 lg:px-12 py-10 sm:py-12">
                     <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12 sm:mb-16 tracking-tight text-foreground">Quick Start</h2>
@@ -299,7 +299,7 @@ const QuickStart = () => {
 };
 
 const Footer = () => (
-    <footer className="py-8 sm:py-12 px-4 border-t border-gray-200 bg-white">
+    <footer className="py-8 sm:py-12 px-4 border-t border-slate-200">
         <div className="mx-auto flex flex-col sm:flex-row items-center justify-between gap-4"
             style={{ maxWidth: FULL_WIDTH, width: '100%' }}>
             <div className="text-muted-foreground text-sm text-center sm:text-left">MPL-2.0 License © {new Date().getFullYear()} Tingly Box</div>
@@ -323,8 +323,8 @@ const Footer = () => (
 
 const FAQ = () => {
     return (
-        <section id="faq" className="py-12 sm:py-16 px-4 bg-slate-50">
-            <div className="mx-auto rounded-2xl bg-white shadow-soft border border-slate-200"
+        <section id="faq" className="py-12 sm:py-16 px-4">
+            <div className="mx-auto rounded-2xl bg-white/80 backdrop-blur-sm shadow-soft border border-slate-200"
                 style={{ maxWidth: FULL_WIDTH, width: '100%' }}>
                 <div className="px-4 sm:px-6 md:px-8 lg:px-12 py-10 sm:py-12">
                     <h2 className="text-3xl sm:text-4xl font-bold text-center mb-3 sm:mb-4">Frequently Asked Questions</h2>
@@ -335,7 +335,7 @@ const FAQ = () => {
                     {/* Accordion-style FAQ */}
                     <div className="max-w-4xl mx-auto space-y-4">
                         {faqs.map((faq, index) => (
-                            <div key={index} className="bg-white rounded-xl p-6 shadow-sm border border-slate-200 hover:shadow-md hover:border-blue-200 transition-all duration-200">
+                            <div key={index} className="bg-white/80 rounded-xl p-6 shadow-sm border border-slate-200 hover:shadow-md hover:border-blue-200 transition-all duration-200">
                                 <h3 className="text-lg font-semibold mb-2 flex items-start gap-3">
                                     <span
                                         className="flex-shrink-0 w-8 h-8 bg-blue-100 text-primary rounded-lg flex items-center justify-center text-sm font-semibold mt-0.5">
@@ -383,7 +383,7 @@ const FAQ = () => {
 };
 
 const Index = () => (
-    <main className="min-h-screen relative bg-background">
+    <main className="min-h-screen relative">
         <LightPatternBackground />
         <Header />
         <Hero />
