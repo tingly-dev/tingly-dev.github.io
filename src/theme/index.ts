@@ -2,68 +2,68 @@ import { createTheme } from "@mui/material/styles";
 
 // Theme colors extracted from CSS variables and custom colors
 const themeColors = {
-  // Background colors - transparent for animated background
-  background: 'transparent',
-  foreground: 'hsl(210, 40%, 98%)',
+  // Background colors - white for light theme
+  background: '#ffffff',
+  foreground: '#1e293b',
 
-  // Card colors - more transparent with subtle backdrop
-  card: 'rgba(15, 15, 25, 0.7)',
-  cardForeground: 'hsl(210, 40%, 98%)',
+  // Card colors - light gray
+  card: '#f8fafc',
+  cardForeground: '#1e293b',
 
-  // Popover colors - transparent
-  popover: 'rgba(15, 15, 25, 0.8)',
-  popoverForeground: 'hsl(210, 40%, 98%)',
+  // Popover colors - white
+  popover: '#ffffff',
+  popoverForeground: '#1e293b',
 
-  // Primary colors - using custom blue colors
+  // Primary colors - blue (matching tingly-box)
   primary: {
-    main: '#e8f4ff', // Light blue
-    light: '#ffffff',
-    dark: '#b8d8f8',
-    contrastText: '#0f172a', // Dark text for contrast
-  },
-
-  // Secondary colors
-  secondary: {
-    main: '#b8d8f8', // Medium blue
-    light: '#d4e4f7',
-    dark: '#9cc5f3',
-    contrastText: '#0f172a',
-  },
-
-  // Accent colors - using pink
-  accent: {
-    main: '#ffc8dd', // Light pink
-    contrastText: '#0f172a',
-  },
-
-  // Muted colors
-  muted: 'hsl(220, 15%, 15%)',
-  mutedForeground: 'hsl(215, 20%, 55%)',
-
-  // Destructive colors
-  destructive: {
-    main: '#ff4757',
-    light: '#ff6b7a',
-    dark: '#ff3838',
+    main: '#2563eb', // Blue-600
+    light: '#3b82f6', // Blue-500
+    dark: '#1d4ed8', // Blue-700
     contrastText: '#ffffff',
   },
 
-  // Border colors
-  border: 'hsl(220, 15%, 20%)',
-  input: 'hsl(220, 15%, 20%)',
+  // Secondary colors - slate
+  secondary: {
+    main: '#64748b', // Slate-500
+    light: '#94a3b8', // Slate-400
+    dark: '#475569', // Slate-600
+    contrastText: '#ffffff',
+  },
 
-  // Other colors - using theme colors
-  glow: '#b8d8f8', // Using secondary blue
-  ring: '#e8f4ff', // Using primary blue
+  // Accent colors - indigo for variety
+  accent: {
+    main: '#6366f1', // Indigo-500
+    contrastText: '#ffffff',
+  },
+
+  // Muted colors - gray text
+  muted: '#f1f5f9',
+  mutedForeground: '#64748b',
+
+  // Destructive colors
+  destructive: {
+    main: '#ef4444', // Red-500
+    light: '#f87171',
+    dark: '#dc2626',
+    contrastText: '#ffffff',
+  },
+
+  // Border colors - subtle
+  border: '#e2e8f0',
+  input: '#d1d5db',
+
+  // Other colors - blue glow
+  glow: '#3b82f6',
+  ring: '#2563eb',
 
   // Radius
-  radius: 8, // 0.5rem = 8px
+  radius: 8, // 0.5rem for consistency with tingly-box
 };
 
 // Create the MUI theme
 const baseTheme = createTheme({
   palette: {
-    mode: 'dark',
+    mode: 'light',
     background: {
       default: themeColors.background,
       paper: themeColors.card,
@@ -80,9 +80,13 @@ const baseTheme = createTheme({
     },
     success: {
       main: '#10b981', // emerald-500
+      light: '#34d399',
+      dark: '#059669',
     },
     warning: {
       main: '#f59e0b', // amber-500
+      light: '#fbbf24',
+      dark: '#d97706',
     },
     error: themeColors.destructive,
     divider: themeColors.border,
@@ -161,33 +165,30 @@ const baseTheme = createTheme({
 
   shadows: [
     'none',
-    `0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12)`,
-    `0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12)`,
-    `0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12)`,
-    `0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12)`,
-    `0px 3px 5px -1px rgba(0,0,0,0.2),0px 5px 8px 0px rgba(0,0,0,0.14),0px 1px 14px 0px rgba(0,0,0,0.12)`,
-    `0px 3px 5px -1px rgba(0,0,0,0.2),0px 6px 10px 0px rgba(0,0,0,0.14),0px 1px 18px 0px rgba(0,0,0,0.12)`,
-    `0px 4px 5px -2px rgba(0,0,0,0.2),0px 7px 10px 1px rgba(0,0,0,0.14),0px 2px 16px 1px rgba(0,0,0,0.12)`,
-    `0px 5px 5px -3px rgba(0,0,0,0.2),0px 8px 10px 1px rgba(0,0,0,0.14),0px 3px 14px 2px rgba(0,0,0,0.12)`,
-    `0px 5px 6px -3px rgba(0,0,0,0.2),0px 9px 12px 1px rgba(0,0,0,0.14),0px 3px 16px 2px rgba(0,0,0,0.12)`,
-    // Add custom glow shadow
-    `0 0 20px ${themeColors.glow}33, 0 0 40px ${themeColors.glow}1a`,
-    // Custom card shadow
-    `0px 4px 6px -1px rgba(0,0,0,0.3),0px 2px 4px -1px rgba(0,0,0,0.2)`,
-    // Additional shadows to match MUI's 24 array length
-    `0px 5px 6px -3px rgba(0,0,0,0.2),0px 9px 12px 1px rgba(0,0,0,0.14),0px 3px 16px 2px rgba(0,0,0,0.12)`,
-    `0px 5px 6px -3px rgba(0,0,0,0.2),0px 9px 12px 1px rgba(0,0,0,0.14),0px 3px 16px 2px rgba(0,0,0,0.12)`,
-    `0px 5px 6px -3px rgba(0,0,0,0.2),0px 9px 12px 1px rgba(0,0,0,0.14),0px 3px 16px 2px rgba(0,0,0,0.12)`,
-    `0px 5px 6px -3px rgba(0,0,0,0.2),0px 9px 12px 1px rgba(0,0,0,0.14),0px 3px 16px 2px rgba(0,0,0,0.12)`,
-    `0px 5px 6px -3px rgba(0,0,0,0.2),0px 9px 12px 1px rgba(0,0,0,0.14),0px 3px 16px 2px rgba(0,0,0,0.12)`,
-    `0px 5px 6px -3px rgba(0,0,0,0.2),0px 9px 12px 1px rgba(0,0,0,0.14),0px 3px 16px 2px rgba(0,0,0,0.12)`,
-    `0px 5px 6px -3px rgba(0,0,0,0.2),0px 9px 12px 1px rgba(0,0,0,0.14),0px 3px 16px 2px rgba(0,0,0,0.12)`,
-    `0px 5px 6px -3px rgba(0,0,0,0.2),0px 9px 12px 1px rgba(0,0,0,0.14),0px 3px 16px 2px rgba(0,0,0,0.12)`,
-    `0px 5px 6px -3px rgba(0,0,0,0.2),0px 9px 12px 1px rgba(0,0,0,0.14),0px 3px 16px 2px rgba(0,0,0,0.12)`,
-    `0px 5px 6px -3px rgba(0,0,0,0.2),0px 9px 12px 1px rgba(0,0,0,0.14),0px 3px 16px 2px rgba(0,0,0,0.12)`,
-    `0px 5px 6px -3px rgba(0,0,0,0.2),0px 9px 12px 1px rgba(0,0,0,0.14),0px 3px 16px 2px rgba(0,0,0,0.12)`,
-    `0px 5px 6px -3px rgba(0,0,0,0.2),0px 9px 12px 1px rgba(0,0,0,0.14),0px 3px 16px 2px rgba(0,0,0,0.12)`,
-    `0px 5px 6px -3px rgba(0,0,0,0.2),0px 9px 12px 1px rgba(0,0,0,0.14),0px 3px 16px 2px rgba(0,0,0,0.12)`,
+    '0px 1px 2px 0px rgba(0, 0, 0, 0.05)',
+    '0px 1px 3px 0px rgba(0, 0, 0, 0.06), 0px 1px 2px -1px rgba(0, 0, 0, 0.04)',
+    '0px 4px 6px -1px rgba(0, 0, 0, 0.06), 0px 2px 4px -2px rgba(0, 0, 0, 0.04)',
+    '0px 6px 8px -2px rgba(0, 0, 0, 0.07), 0px 3px 6px -2px rgba(0, 0, 0, 0.04)',
+    '0px 10px 15px -3px rgba(0, 0, 0, 0.08), 0px 4px 6px -2px rgba(0, 0, 0, 0.04)',
+    '0px 20px 25px -5px rgba(0, 0, 0, 0.08), 0px 8px 10px -4px rgba(0, 0, 0, 0.04)',
+    '0px 25px 50px -12px rgba(37, 99, 235, 0.15)',
+    '0px 25px 50px -12px rgba(0, 0, 0, 0.15)',
+    '0px 25px 50px -12px rgba(0, 0, 0, 0.15)',
+    '0px 25px 50px -12px rgba(0, 0, 0, 0.15)',
+    '0px 25px 50px -12px rgba(0, 0, 0, 0.15)',
+    '0px 25px 50px -12px rgba(0, 0, 0, 0.15)',
+    '0px 25px 50px -12px rgba(0, 0, 0, 0.15)',
+    '0px 25px 50px -12px rgba(0, 0, 0, 0.15)',
+    '0px 25px 50px -12px rgba(0, 0, 0, 0.15)',
+    '0px 25px 50px -12px rgba(0, 0, 0, 0.15)',
+    '0px 25px 50px -12px rgba(0, 0, 0, 0.15)',
+    '0px 25px 50px -12px rgba(0, 0, 0, 0.15)',
+    '0px 25px 50px -12px rgba(0, 0, 0, 0.15)',
+    '0px 25px 50px -12px rgba(0, 0, 0, 0.15)',
+    '0px 25px 50px -12px rgba(0, 0, 0, 0.15)',
+    '0px 25px 50px -12px rgba(0, 0, 0, 0.15)',
+    '0px 25px 50px -12px rgba(0, 0, 0, 0.15)',
+    '0px 25px 50px -12px rgba(0, 0, 0, 0.15)',
   ],
 
   components: {
@@ -196,29 +197,37 @@ const baseTheme = createTheme({
         root: {
           textTransform: 'none',
           fontWeight: 500,
-          borderRadius: '0.375rem',
+          borderRadius: '6px',
           transition: 'all 0.2s ease-in-out',
           gap: '0.5rem',
+          boxShadow: 'none',
+          '&:hover': {
+            boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+          },
         },
         contained: {
-          background: `linear-gradient(135deg, ${themeColors.primary.main}, ${themeColors.secondary.main})`,
-          color: themeColors.primary.contrastText,
+          background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)',
+          padding: '0.625rem 1.25rem',
           '&:hover': {
-            background: `linear-gradient(135deg, ${themeColors.primary.dark}, ${themeColors.secondary.dark})`,
+            background: 'linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)',
             transform: 'translateY(-1px)',
-            boxShadow: `0 4px 8px -2px ${themeColors.primary.main}40`,
+          },
+          '&:active': {
+            transform: 'translateY(0)',
           },
         },
         outlined: {
-          borderColor: themeColors.border,
+          borderColor: '#d1d5db',
+          color: '#374151',
+          padding: '0.625rem 1.25rem',
           '&:hover': {
-            backgroundColor: 'rgba(255, 255, 255, 0.05)',
-            borderColor: themeColors.primary.main,
+            borderColor: '#9ca3af',
+            backgroundColor: '#f9fafb',
           },
         },
         text: {
           '&:hover': {
-            backgroundColor: 'rgba(255, 255, 255, 0.05)',
+            backgroundColor: 'rgba(37, 99, 235, 0.04)',
           },
         },
       },
@@ -229,11 +238,12 @@ const baseTheme = createTheme({
         root: {
           backgroundColor: themeColors.card,
           border: `1px solid ${themeColors.border}`,
-          borderRadius: '0.5rem',
+          borderRadius: '8px',
+          boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
           transition: 'all 0.2s ease-in-out',
           '&:hover': {
-            boxShadow: `0 4px 12px ${themeColors.primary.main}20`,
-            borderColor: themeColors.primary.main,
+            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+            borderColor: 'rgba(37, 99, 235, 0.3)',
             transform: 'translateY(-2px)',
           },
         },
@@ -255,11 +265,11 @@ const baseTheme = createTheme({
           color: themeColors.popoverForeground,
           border: `1px solid ${themeColors.border}`,
           fontSize: '0.875rem',
-          padding: '0.375rem 0.75rem',
-          borderRadius: '0.375rem',
+          padding: '0.5rem 0.75rem',
+          borderRadius: '6px',
           maxWidth: '300px',
           fontWeight: 400,
-          boxShadow: 'var(--shadow)',
+          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
         },
         arrow: {
           color: themeColors.popover,
@@ -276,7 +286,7 @@ const baseTheme = createTheme({
           color: themeColors.primary.main,
           textDecoration: 'none',
           '&:hover': {
-            color: themeColors.primary.light,
+            color: themeColors.primary.dark,
             textDecoration: 'underline',
           },
         },
@@ -287,13 +297,17 @@ const baseTheme = createTheme({
       styleOverrides: {
         root: {
           '& .MuiOutlinedInput-root': {
-            backgroundColor: 'rgba(255, 255, 255, 0.02)',
+            borderRadius: '6px',
+            backgroundColor: 'rgba(255, 255, 255, 0.5)',
+            '& fieldset': {
+              borderColor: '#d1d5db',
+            },
             '&:hover fieldset': {
-              borderColor: themeColors.primary.main,
+              borderColor: '#9ca3af',
             },
             '&.Mui-focused fieldset': {
               borderColor: themeColors.primary.main,
-              borderWidth: '2px',
+              borderWidth: '1px',
             },
           },
         },
@@ -306,13 +320,13 @@ const baseTheme = createTheme({
           backgroundImage: 'none',
         },
         elevation1: {
-          boxShadow: '0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12)',
+          boxShadow: '0px 1px 2px 0px rgba(0, 0, 0, 0.05)',
         },
         elevation2: {
-          boxShadow: '0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12)',
+          boxShadow: '0px 1px 3px 0px rgba(0, 0, 0, 0.06), 0px 1px 2px 0px rgba(0, 0, 0, 0.04)',
         },
         elevation3: {
-          boxShadow: '0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12)',
+          boxShadow: '0px 4px 6px -1px rgba(0, 0, 0, 0.06), 0px 2px 4px -1px rgba(0, 0, 0, 0.04)',
         },
       },
     },
@@ -324,10 +338,10 @@ const baseTheme = createTheme({
 export const theme = {
   ...baseTheme,
   custom: {
-    glow: `0 0 20px ${themeColors.glow}40, 0 0 40px ${themeColors.glow}20`,
-    textGlow: `0 0 20px ${themeColors.glow}60, 0 0 40px ${themeColors.glow}30`,
-    gradientBorder: `linear-gradient(${themeColors.background}, ${themeColors.background}) padding-box,
-                     linear-gradient(135deg, ${themeColors.primary.main}, ${themeColors.secondary.main}) border-box`,
+    glow: `0 0 20px rgba(37, 99, 235, 0.15), 0 0 40px rgba(37, 99, 235, 0.08)`,
+    textGlow: `0 0 20px rgba(37, 99, 235, 0.2), 0 0 40px rgba(37, 99, 235, 0.1)`,
+    gradientBorder: `linear-gradient(white, white) padding-box,
+                     linear-gradient(135deg, #2563eb, #3b82f6) border-box`,
   },
 };
 

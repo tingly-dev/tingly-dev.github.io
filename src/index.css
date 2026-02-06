@@ -6,37 +6,50 @@
 
 @layer base {
   :root {
-    --background: 220 20% 6%;
-    --foreground: 210 40% 98%;
+    /* Background Colors - Light Theme */
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
 
-    --card: 220 18% 10%;
-    --card-foreground: 210 40% 98%;
+    /* Card Colors */
+    --card: 210 40% 98%;
+    --card-foreground: 222 47% 11%;
 
-    --popover: 220 18% 10%;
-    --popover-foreground: 210 40% 98%;
+    /* Popover Colors */
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
 
-    --primary: 210 100% 97%;
-    --primary-foreground: 220 30% 4%;
+    /* Primary Colors - Blue */
+    --primary: 221 83% 53%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 75% 85%;
-    --secondary-foreground: 220 30% 4%;
+    /* Secondary Colors - Indigo accent */
+    --secondary: 225 73% 57%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 220 15% 15%;
-    --muted-foreground: 215 20% 55%;
+    /* Muted Colors */
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
 
-    --accent: 340 60% 90%;
-    --accent-foreground: 220 30% 4%;
+    /* Accent Colors */
+    --accent: 221 83% 53%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Destructive Colors */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 220 15% 20%;
-    --input: 220 15% 20%;
-    --ring: 210 100% 97%;
+    /* Border Colors */
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
 
-    --radius: 0.5rem;
+    /* Ring Color */
+    --ring: 221 83% 53%;
 
-    --glow: 210 75% 85%;
+    /* Radius */
+    --radius: 0.75rem;
+
+    /* Glow - Blue */
+    --glow: 221 83% 60%;
   }
 }
 
@@ -51,17 +64,68 @@
 }
 
 @layer utilities {
+  /* Gradient text effect */
+  .gradient-text {
+    background: linear-gradient(135deg, #2563eb, #3b82f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Gradient background for hero section */
+  .gradient-bg-subtle {
+    background: linear-gradient(180deg,
+      rgba(37, 99, 235, 0.02) 0%,
+      rgba(255, 255, 255, 1) 40%,
+      rgba(255, 255, 255, 1) 100%
+    );
+  }
+
+  /* Dotted circle pattern */
+  .dotted-pattern {
+    background-image: radial-gradient(
+      circle,
+      rgba(37, 99, 235, 0.08) 1px,
+      transparent 1px
+    );
+    background-size: 24px 24px;
+  }
+
+  /* Card hover effect */
+  .card-hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px -12px rgba(37, 99, 235, 0.15);
+  }
+
+  /* Soft shadow for light theme */
+  .shadow-soft {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  }
+
+  /* Subtle border with gradient */
+  .border-gradient {
+    border: 1px solid transparent;
+    background: linear-gradient(white, white) padding-box,
+                linear-gradient(135deg, #2563eb, #3b82f6) border-box;
+  }
+
+  /* Text glow for light theme - subtle blue glow */
   .text-glow {
-    text-shadow: 0 0 20px hsl(var(--glow) / 0.5), 0 0 40px hsl(var(--glow) / 0.3);
+    text-shadow: 0 0 20px rgba(37, 99, 235, 0.25), 0 0 40px rgba(37, 99, 235, 0.12);
   }
 
+  /* Box glow for light theme */
   .box-glow {
-    box-shadow: 0 0 20px hsl(var(--glow) / 0.3), 0 0 40px hsl(var(--glow) / 0.15);
+    box-shadow: 0 0 20px rgba(37, 99, 235, 0.12), 0 0 40px rgba(37, 99, 235, 0.06);
   }
 
+  /* Gradient border */
   .gradient-border {
-    background: linear-gradient(var(--background), var(--background)) padding-box,
-                linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.3)) border-box;
+    background: linear-gradient(white, white) padding-box,
+                linear-gradient(135deg, #2563eb, #3b82f6) border-box;
     border: 1px solid transparent;
   }
 }
