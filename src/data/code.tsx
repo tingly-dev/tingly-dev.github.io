@@ -93,7 +93,7 @@ export const STEPS = [
                     <p className="text-[10px] uppercase tracking-widest text-cyan-400 font-bold">
                         Start by Node.js
                     </p>
-                    <CodeBlock language="bash" code="npx tingly-box@latest start"/>
+                    <CodeBlock language="bash" code="npx tingly-box@latest"/>
                 </div>
 
                 {/*<div className="space-y-2">*/}

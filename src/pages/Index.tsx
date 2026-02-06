@@ -1,6 +1,6 @@
 import LightPatternBackground from "@/components/LightPatternBackground";
 import Header from "@/components/Header";
-import { faqs, features, screenshots } from "@/data/text";
+import { faqs, features, screenshots, heroImage } from "@/data/text";
 import { Card, CardContent, Dialog, DialogContent, Button as MuiButton } from "@mui/material";
 import {
     ChevronLeft,
@@ -8,7 +8,7 @@ import {
     ExternalLink,
     X
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaGithub } from "react-icons/fa";
 import {STEPS} from "@/data/code.tsx";
 
@@ -20,47 +20,60 @@ const FULL_WIDTH = `${SECTION_WIDTH}px`; // 1060px (Content sections)
 
 
 const Hero = () => {
+    return (
+        <section className="py-16 sm:py-20 px-4 gradient-bg-subtle">
+            {/* Static Hero Image */}
+            <div className="w-full mx-auto px-2 sm:px-4" style={{ maxWidth: SCALED_WIDTH }}>
+                <img
+                    src={heroImage.src}
+                    alt={heroImage.alt}
+                    className="w-full h-auto rounded-2xl shadow-lg"
+                />
+            </div>
+        </section>
+    );
+};
+
+const Gallery = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
     const [previewOpen, setPreviewOpen] = useState(false);
     const [previewImage, setPreviewImage] = useState(0);
+    const [isPaused, setIsPaused] = useState(false);
 
     const handleImageClick = (index: number) => {
         setPreviewImage(index);
         setPreviewOpen(true);
     };
 
+    // Auto-play carousel
+    useEffect(() => {
+        if (isPaused || previewOpen) return;
+
+        const interval = setInterval(() => {
+            setCurrentSlide((prev) => (prev + 1) % screenshots.length);
+        }, 5000);
+
+        return () => clearInterval(interval);
+    }, [isPaused, previewOpen]);
+
+    const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % screenshots.length);
+    const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + screenshots.length) % screenshots.length);
+
     return (
         <>
-            <section className="relative min-h-[70vh] flex flex-col items-center justify-center px-4 py-20 gradient-bg-subtle">
-                {/* Action Buttons - Top Right */}
-                <div className="absolute top-4 right-4 sm:top-6 sm:right-6 flex flex-wrap justify-end gap-2 sm:gap-3 z-10">
-                    <MuiButton
-                        variant="contained"
-                        href="https://github.com/tingly-dev/tingly-box"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        size="small"
-                        sx={{ gap: '6px', fontSize: { xs: '0.8125rem', sm: '0.875rem' }, fontWeight: 500, py: 0.75, px: 1.25 }}
-                    >
-                        <FaGithub className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                        GitHub
-                    </MuiButton>
-                    <MuiButton
-                        variant="outlined"
-                        href="https://github.com/tingly-dev/tingly-box/releases"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        size="small"
-                        sx={{ gap: '6px', fontSize: { xs: '0.8125rem', sm: '0.875rem' }, fontWeight: 500, py: 0.75, px: 1.25 }}
-                    >
-                        <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                        Releases
-                    </MuiButton>
-                </div>
+            <section className="py-16 sm:py-20 px-4 bg-white">
+                <div className="mx-auto" style={{ maxWidth: FULL_WIDTH, width: '100%' }}>
+                    <h2 className="text-3xl sm:text-4xl font-bold text-center mb-4">Product Gallery</h2>
+                    <p className="text-center text-muted-foreground mb-10 max-w-2xl mx-auto">
+                        Take a closer look at Tingly Box in action
+                    </p>
 
-                {/* Hero Carousel - Full Focus */}
-                <div className="relative w-full mx-auto px-2 sm:px-4" style={{ maxWidth: SCALED_WIDTH }}>
-                    <div className="relative overflow-hidden rounded-2xl shadow-lg">
+                    <div
+                        className="relative overflow-hidden rounded-2xl shadow-lg mx-auto"
+                        style={{ maxWidth: SCALED_WIDTH }}
+                        onMouseEnter={() => setIsPaused(true)}
+                        onMouseLeave={() => setIsPaused(false)}
+                    >
                         <img
                             src={screenshots[currentSlide].src}
                             alt={screenshots[currentSlide].alt}
@@ -68,13 +81,13 @@ const Hero = () => {
                             onClick={() => handleImageClick(currentSlide)}
                         />
                         <button
-                            onClick={() => setCurrentSlide((prev) => (prev - 1 + screenshots.length) % screenshots.length)}
+                            onClick={() => { prevSlide(); setIsPaused(true); }}
                             className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 p-2 sm:p-2.5 rounded-xl bg-white/95 border border-gray-200/50 backdrop-blur-sm hover:bg-white hover:shadow-lg transition-all"
                         >
                             <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 text-gray-700" />
                         </button>
                         <button
-                            onClick={() => setCurrentSlide((prev) => (prev + 1) % screenshots.length)}
+                            onClick={() => { nextSlide(); setIsPaused(true); }}
                             className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 p-2 sm:p-2.5 rounded-xl bg-white/95 border border-gray-200/50 backdrop-blur-sm hover:bg-white hover:shadow-lg transition-all"
                         >
                             <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-700" />
@@ -84,7 +97,7 @@ const Hero = () => {
                         {screenshots.map((_, i) => (
                             <button
                                 key={i}
-                                onClick={() => setCurrentSlide(i)}
+                                onClick={() => { setCurrentSlide(i); setIsPaused(true); }}
                                 className={`h-2 rounded-full transition-all ${i === currentSlide ? "bg-primary w-8" : "bg-slate-300 w-2 hover:bg-slate-400"}`}
                             />
                         ))}
@@ -375,6 +388,7 @@ const Index = () => (
         <Header />
         <Hero />
         <Features />
+        <Gallery />
         <QuickStart />
         <FAQ />
         <Footer />

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { FaGithub } from 'react-icons/fa';
+import { ExternalLink } from 'lucide-react';
 
 const HeaderContainer = styled.header`
   position: fixed;
@@ -220,6 +221,14 @@ const Header = () => {
           >
             <FaGithub style={{ width: '1rem', height: '1rem' }} />
             <span style={{ display: 'inherit' }}>GitHub</span>
+          </GitHubButton>
+          <GitHubButton
+            href="https://github.com/tingly-dev/tingly-box/releases"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <ExternalLink style={{ width: '0.875rem', height: '0.875rem' }} />
+            <span style={{ display: 'inherit' }}>Releases</span>
           </GitHubButton>
 
           <MobileMenuButton
