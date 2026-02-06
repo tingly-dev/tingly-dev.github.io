@@ -139,7 +139,7 @@ export const STEPS = [
                     <Info size={18} className={`${componentStyles.infoBox.icon} mt-1`}/>
                     <div className="space-y-2">
                         <p className={componentStyles.infoBox.text}>
-                            Once the page opens, click <b className="text-white">Add Your First API Key</b> to connect your preferred model providers.
+                            Once the page opens, click <b className="text-blue-600 font-semibold">Add Your First API Key</b> to connect your preferred model providers.
                         </p>
                         {/* Integrated Reference Link */}
                         <div className="pt-2 border-t border-white/5 flex items-center gap-1.5">
@@ -248,8 +248,8 @@ print(response)`}
                                 <RefreshCw size={14} className="text-cyan-400"/>
                             </div>
                             <p className={componentStyles.infoBox.text}>
-                                1. Click a provider (e.g., <b className="text-white">Anthropic</b>) and then click the <b
-                                className="text-white">Fetch Model List</b> button to sync available models.
+                                1. Click a provider (e.g., <b className="text-blue-600 font-semibold">Anthropic</b>) and then click the <b
+                                className="text-blue-600 font-semibold">Fetch Model List</b> button to sync available models.
                             </p>
                         </div>
                         <div className="flex items-start gap-2">
@@ -257,8 +257,8 @@ print(response)`}
                                 <Sparkles size={14} className="text-cyan-400"/>
                             </div>
                             <p className={componentStyles.infoBox.text}>
-                                2. Simply click your favorite <b className="text-white">model name</b> (e.g., <b
-                                className="text-white">claude-3-5-haiku-20241022</b>) to start routing requests.
+                                2. Simply click your favorite <b className="text-blue-600 font-semibold">model name</b> (e.g., <b
+                                className="text-blue-600 font-semibold">claude-3-5-haiku-20241022</b>) to start routing requests.
                             </p>
                         </div>
                     </div>

@@ -352,13 +352,13 @@ export const colors = themeColors;
 export const componentStyles = {
   // Section headers
   sectionHeader: "text-[10px] uppercase tracking-widest font-bold",
-  sectionHeaderCyan: "text-cyan-400",
-  sectionHeaderBlue: "text-blue-400",
+  sectionHeaderCyan: "text-cyan-600",
+  sectionHeaderBlue: "text-blue-600",
   sectionHeaderMuted: "text-muted-foreground",
 
   // Status indicator
   statusIndicator: {
-    container: "flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-cyan-500/80",
+    container: "flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-cyan-600",
     pulse: "flex h-2 w-2 rounded-full bg-cyan-500 animate-pulse",
   },
 
@@ -375,9 +375,9 @@ export const componentStyles = {
 
   // Info box
   infoBox: {
-    container: "flex gap-3 bg-white/5 p-3 rounded-lg",
-    icon: "text-cyan-400 shrink-0",
-    text: "text-xs text-muted-foreground leading-relaxed",
+    container: "flex gap-3 bg-slate-100/80 p-3 rounded-lg border border-slate-200",
+    icon: "text-cyan-500 shrink-0",
+    text: "text-xs text-foreground leading-relaxed",
   },
 
   // Link box
