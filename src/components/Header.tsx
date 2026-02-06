@@ -31,9 +31,9 @@ const HeaderContent = styled.div`
 `;
 
 const Logo = styled.a`
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   font-weight: 700;
-  color: #0a0a0a;
+  color: #1e293b;
   text-decoration: none;
   white-space: nowrap;
   display: flex;
@@ -45,15 +45,24 @@ const Logo = styled.a`
   }
 
   @media (max-width: 768px) {
-    font-size: 1.125rem;
+    font-size: 1rem;
   }
 `;
 
+const LogoIcon = styled.img`
+  width: 2rem;
+  height: 2rem;
+  border-radius: 6px;
+  flex-shrink: 0;
+  object-fit: contain;
+`;
+
 const LogoText = styled.span`
-  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  background: linear-gradient(135deg, #1e293b, #0f172a);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  font-weight: 700;
 `;
 
 const Nav = styled.nav`
@@ -187,6 +196,7 @@ const Header = () => {
     >
       <HeaderContent>
         <Logo href="/">
+          <LogoIcon src="https://raw.githubusercontent.com/tingly-dev/tingly-box/refs/heads/main/build/appicon.png" alt="Tingly Box" />
           <LogoText>Tingly Box</LogoText>
         </Logo>
 

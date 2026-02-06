@@ -10,8 +10,8 @@ const BackgroundContainer = styled.div`
   z-index: -1;
   overflow: hidden;
   background: linear-gradient(180deg,
-    rgba(37, 99, 235, 0.015) 0%,
-    rgba(255, 255, 255, 1) 40%,
+    rgba(30, 41, 59, 0.04) 0%,
+    rgba(241, 245, 249, 1) 30%,
     rgba(255, 255, 255, 1) 100%
   );
 `;

@@ -2,12 +2,12 @@ import { createTheme } from "@mui/material/styles";
 
 // Theme colors extracted from CSS variables and custom colors
 const themeColors = {
-  // Background colors - white for light theme
-  background: '#ffffff',
+  // Background colors - slightly darker slate
+  background: '#f1f5f9',
   foreground: '#1e293b',
 
-  // Card colors - light gray
-  card: '#f8fafc',
+  // Card colors - pure white for contrast
+  card: '#ffffff',
   cardForeground: '#1e293b',
 
   // Popover colors - white
@@ -36,9 +36,9 @@ const themeColors = {
     contrastText: '#ffffff',
   },
 
-  // Muted colors - gray text
-  muted: '#f1f5f9',
-  mutedForeground: '#64748b',
+  // Muted colors - darker gray text
+  muted: '#e2e8f0',
+  mutedForeground: '#475569',
 
   // Destructive colors
   destructive: {
@@ -48,9 +48,9 @@ const themeColors = {
     contrastText: '#ffffff',
   },
 
-  // Border colors - subtle
-  border: '#e2e8f0',
-  input: '#d1d5db',
+  // Border colors - more visible
+  border: '#cbd5e1',
+  input: '#cbd5e1',
 
   // Other colors - blue glow
   glow: '#3b82f6',

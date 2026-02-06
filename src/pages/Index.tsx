@@ -31,23 +31,18 @@ const Hero = () => {
 
     return (
         <>
-            <section className="min-h-[60vh] flex flex-col items-center justify-center text-center px-4 py-24 sm:py-28 pt-32 gradient-bg-subtle">
-                <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold mb-6">
-                    <span className="gradient-text">Tingly Box</span>
-                </h1>
-                <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-3xl mb-10 px-4">
-                    Your local AI intelligence layer — an autonomous orchestrator that decides <span className="text-primary font-semibold">which model to call</span>, <span className="text-primary font-semibold">when to compress context</span>, and <span className="text-primary font-semibold">how to route requests</span> for maximum efficiency
-                </p>
-                <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-8 sm:mb-10">
+            <section className="relative min-h-[70vh] flex flex-col items-center justify-center px-4 py-20 gradient-bg-subtle">
+                {/* Action Buttons - Top Right */}
+                <div className="absolute top-4 right-4 sm:top-6 sm:right-6 flex flex-wrap justify-end gap-2 sm:gap-3 z-10">
                     <MuiButton
                         variant="contained"
                         href="https://github.com/tingly-dev/tingly-box"
                         target="_blank"
                         rel="noopener noreferrer"
-                        size="medium"
-                        sx={{ gap: '8px', fontSize: { xs: '0.9375rem', sm: '1rem' }, fontWeight: 600 }}
+                        size="small"
+                        sx={{ gap: '6px', fontSize: { xs: '0.8125rem', sm: '0.875rem' }, fontWeight: 500, py: 0.75, px: 1.25 }}
                     >
-                        <FaGithub className="w-4 h-4 sm:w-5 sm:h-5" />
+                        <FaGithub className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                         GitHub
                     </MuiButton>
                     <MuiButton
@@ -55,32 +50,32 @@ const Hero = () => {
                         href="https://github.com/tingly-dev/tingly-box/releases"
                         target="_blank"
                         rel="noopener noreferrer"
-                        size="medium"
-                        sx={{ gap: '8px', fontSize: { xs: '0.9375rem', sm: '1rem' }, fontWeight: 600 }}
+                        size="small"
+                        sx={{ gap: '6px', fontSize: { xs: '0.8125rem', sm: '0.875rem' }, fontWeight: 500, py: 0.75, px: 1.25 }}
                     >
-                        <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5" />
+                        <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                         Releases
                     </MuiButton>
                 </div>
 
-                {/* Application of SCALED_WIDTH only to the carousel */}
-                <div className="relative w-full mx-auto px-4" style={{ maxWidth: SCALED_WIDTH }}>
-                    <div className="relative overflow-hidden rounded-3xl shadow-soft">
+                {/* Hero Carousel - Full Focus */}
+                <div className="relative w-full mx-auto px-2 sm:px-4" style={{ maxWidth: SCALED_WIDTH }}>
+                    <div className="relative overflow-hidden rounded-2xl shadow-lg">
                         <img
                             src={screenshots[currentSlide].src}
                             alt={screenshots[currentSlide].alt}
-                            className="w-full h-auto transition-opacity duration-300 cursor-pointer hover:opacity-95 rounded-3xl"
+                            className="w-full h-auto transition-opacity duration-300 cursor-pointer hover:opacity-95 rounded-2xl"
                             onClick={() => handleImageClick(currentSlide)}
                         />
                         <button
                             onClick={() => setCurrentSlide((prev) => (prev - 1 + screenshots.length) % screenshots.length)}
-                            className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 p-2 sm:p-2.5 rounded-2xl bg-white/90 border border-gray-200/50 backdrop-blur-sm hover:bg-white hover:shadow-lg transition-all"
+                            className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 p-2 sm:p-2.5 rounded-xl bg-white/95 border border-gray-200/50 backdrop-blur-sm hover:bg-white hover:shadow-lg transition-all"
                         >
                             <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 text-gray-700" />
                         </button>
                         <button
                             onClick={() => setCurrentSlide((prev) => (prev + 1) % screenshots.length)}
-                            className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 p-2 sm:p-2.5 rounded-2xl bg-white/90 border border-gray-200/50 backdrop-blur-sm hover:bg-white hover:shadow-lg transition-all"
+                            className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 p-2 sm:p-2.5 rounded-xl bg-white/95 border border-gray-200/50 backdrop-blur-sm hover:bg-white hover:shadow-lg transition-all"
                         >
                             <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-700" />
                         </button>
@@ -90,7 +85,7 @@ const Hero = () => {
                             <button
                                 key={i}
                                 onClick={() => setCurrentSlide(i)}
-                                className={`h-2 rounded-full transition-all ${i === currentSlide ? "bg-primary w-8" : "bg-gray-300 w-2 hover:bg-gray-400"}`}
+                                className={`h-2 rounded-full transition-all ${i === currentSlide ? "bg-primary w-8" : "bg-slate-300 w-2 hover:bg-slate-400"}`}
                             />
                         ))}
                     </div>
@@ -117,7 +112,7 @@ const Hero = () => {
                 <DialogContent sx={{ p: 0, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <button
                         onClick={() => setPreviewOpen(false)}
-                        className="absolute top-4 right-4 z-10 p-2 rounded-full bg-gray-900/70 text-white hover:bg-gray-900/90 transition-colors"
+                        className="absolute top-4 right-4 z-10 p-2 rounded-full bg-gray-900/80 text-white hover:bg-gray-900 transition-colors"
                     >
                         <X className="w-6 h-6" />
                     </button>
@@ -142,9 +137,9 @@ const Hero = () => {
 };
 
 const Features = () => (
-    <section id="features" className="py-16 sm:py-20 px-4">
+    <section id="features" className="py-16 sm:py-20 px-4 bg-slate-50">
         {/* Light background container with rounded corners */}
-        <div className="mx-auto rounded-2xl bg-gradient-to-b from-white to-slate-50 shadow-soft border border-slate-200/50"
+        <div className="mx-auto rounded-2xl bg-white shadow-soft border border-slate-200"
             style={{ maxWidth: FULL_WIDTH, width: '100%' }}>
             <div className="px-4 sm:px-6 md:px-8 lg:px-12 py-12 sm:py-16">
                 <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12 sm:mb-16">Features</h2>
@@ -158,7 +153,7 @@ const Features = () => (
                             borderRadius: '8px',
                             '&:hover': {
                                 boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-                                borderColor: 'rgba(37, 99, 235, 0.3)',
+                                borderColor: 'rgba(37, 99, 235, 0.4)',
                                 opacity: 1,
                                 transform: 'translateY(-2px)',
                             }
@@ -181,14 +176,14 @@ const QuickStart = () => {
     return (
         <section id="quick-start" className="py-16 sm:py-20 px-4 bg-white">
             {/* Light gradient background container with limited width */}
-            <div className="mx-auto rounded-2xl bg-gradient-to-br from-blue-50 to-slate-50 shadow-soft border border-slate-200/50"
+            <div className="mx-auto rounded-2xl bg-gradient-to-br from-slate-100 to-slate-50 shadow-soft border border-slate-200"
                 style={{ maxWidth: FULL_WIDTH, width: '100%' }}>
                 <div className="px-4 sm:px-6 md:px-8 lg:px-12 py-10 sm:py-12">
                     <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12 sm:mb-16 tracking-tight text-foreground">Quick Start</h2>
 
                     <div className="relative">
                         {/* Vertical Center Line - Only show on md+ screens */}
-                        <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-px bg-gradient-to-b from-transparent via-slate-200 to-transparent hidden md:block" />
+                        <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-px bg-gradient-to-b from-transparent via-slate-300 to-transparent hidden md:block" />
 
                         <div className="space-y-12 sm:space-y-16 md:space-y-20">
                             {STEPS.map((step, idx) => {
@@ -315,8 +310,8 @@ const Footer = () => (
 
 const FAQ = () => {
     return (
-        <section id="faq" className="py-12 sm:py-16 px-4 bg-gradient-to-b from-slate-50 to-white">
-            <div className="mx-auto rounded-2xl bg-white shadow-soft border border-slate-200/50"
+        <section id="faq" className="py-12 sm:py-16 px-4 bg-slate-50">
+            <div className="mx-auto rounded-2xl bg-white shadow-soft border border-slate-200"
                 style={{ maxWidth: FULL_WIDTH, width: '100%' }}>
                 <div className="px-4 sm:px-6 md:px-8 lg:px-12 py-10 sm:py-12">
                     <h2 className="text-3xl sm:text-4xl font-bold text-center mb-3 sm:mb-4">Frequently Asked Questions</h2>
@@ -327,10 +322,10 @@ const FAQ = () => {
                     {/* Accordion-style FAQ */}
                     <div className="max-w-4xl mx-auto space-y-4">
                         {faqs.map((faq, index) => (
-                            <div key={index} className="bg-white rounded-xl p-6 shadow-sm border border-slate-100 hover:shadow-md transition-shadow duration-200">
+                            <div key={index} className="bg-white rounded-xl p-6 shadow-sm border border-slate-200 hover:shadow-md hover:border-blue-200 transition-all duration-200">
                                 <h3 className="text-lg font-semibold mb-2 flex items-start gap-3">
                                     <span
-                                        className="flex-shrink-0 w-8 h-8 bg-blue-50 text-primary rounded-lg flex items-center justify-center text-sm font-semibold mt-0.5">
+                                        className="flex-shrink-0 w-8 h-8 bg-blue-100 text-primary rounded-lg flex items-center justify-center text-sm font-semibold mt-0.5">
                                         {String(index + 1).padStart(2, '0')}
                                     </span>
                                     <span className="text-foreground leading-tight">{faq.question}</span>

@@ -4,6 +4,7 @@ import { ArrowLeftRight, Gauge, Globe, Layers, Zap, Shield, LayoutDashboard, Bar
 const screenshotBaseUrl = "https://raw.githubusercontent.com/tingly-dev/tingly-box/refs/heads/main/docs/images";
 
 export const screenshots = [
+    { src: `${screenshotBaseUrl}/hero.png`, alt: "Tingly Box - Your Local AI Intelligence Layer" },
     { src: `${screenshotBaseUrl}/0-dashboard.png`, alt: "Tingly Box Dashboard - Overview" },
     { src: `${screenshotBaseUrl}/1-home.png`, alt: "Tingly Box Home - Model Proxy Config" },
     { src: `${screenshotBaseUrl}/2-openai.png`, alt: "Tingly Box Credentials Management" },
