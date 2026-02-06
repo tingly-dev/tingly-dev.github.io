@@ -4,11 +4,12 @@ import { ArrowLeftRight, Gauge, Globe, Layers, Zap, Shield, LayoutDashboard, Bar
 const screenshotBaseUrl = "https://raw.githubusercontent.com/tingly-dev/tingly-box/refs/heads/main/docs/images";
 
 export const screenshots = [
+    { src: `${screenshotBaseUrl}/0-dashboard.png`, alt: "Tingly Box Dashboard - Overview" },
     { src: `${screenshotBaseUrl}/1-home.png`, alt: "Tingly Box Home - Model Proxy Config" },
     { src: `${screenshotBaseUrl}/2-openai.png`, alt: "Tingly Box Credentials Management" },
+    { src: `${screenshotBaseUrl}/3-smart.png`, alt: "Tingly Box Smart Routing Configuration" },
     { src: `${screenshotBaseUrl}/4-select.png`, alt: "Tingly Box Proxy Rules Configuration" },
-    // { src: `${screenshotBaseUrl}/xxx.png`, alt: "Tingly Box Server Status & Control" },
-    // { src: `${screenshotBaseUrl}/xxx.png`, alt: "Tingly Box Activity Log & History" },
+    { src: `${screenshotBaseUrl}/5-claude_code.png`, alt: "Tingly Box Claude Code Usage & Routing" },
 ];
 
 export const features = [
