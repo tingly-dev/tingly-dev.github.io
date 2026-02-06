@@ -9,11 +9,7 @@ const BackgroundContainer = styled.div`
   height: 100%;
   z-index: -1;
   overflow: hidden;
-  background: linear-gradient(180deg,
-    rgba(30, 41, 59, 0.04) 0%,
-    rgba(241, 245, 249, 1) 30%,
-    rgba(255, 255, 255, 1) 100%
-  );
+  background: #f8fafc;
 `;
 
 const PatternCanvas = styled.canvas`
@@ -24,20 +20,30 @@ const PatternCanvas = styled.canvas`
   height: 100%;
 `;
 
-interface DottedCircle {
+interface LaserBeam {
   x: number;
   y: number;
-  radius: number;
-  dotSpacing: number;
-  dotSize: number;
+  length: number;
+  angle: number;
+  speed: number;
+  color: string;
+  width: number;
   opacity: number;
-  pulsePhase: number;
-  pulseSpeed: number;
 }
+
+const laserColors = [
+  'rgba(37, 99, 235, 0.6)',    // Blue
+  'rgba(99, 102, 241, 0.5)',   // Indigo
+  'rgba(168, 85, 247, 0.4)',   // Purple
+  'rgba(236, 72, 153, 0.35)',  // Pink
+  'rgba(14, 165, 233, 0.4)',   // Cyan
+  'rgba(34, 197, 94, 0.3)',    // Green
+  'rgba(251, 146, 60, 0.25)',  // Orange
+];
 
 const LightPatternBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const circlesRef = useRef<DottedCircle[]>([]);
+  const lasersRef = useRef<LaserBeam[]>([]);
   const animationIdRef = useRef<number>();
 
   useEffect(() => {
@@ -47,8 +53,8 @@ const LightPatternBackground = () => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Set canvas size with device pixel ratio
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
     const resizeCanvas = () => {
       const width = window.innerWidth;
       const height = window.innerHeight;
@@ -59,91 +65,100 @@ const LightPatternBackground = () => {
       canvas.style.height = height + 'px';
 
       ctx.scale(dpr, dpr);
-      initCircles();
+      initLasers();
     };
 
-    // Initialize dotted circles
-    const initCircles = () => {
+    const initLasers = () => {
       const width = window.innerWidth;
       const height = window.innerHeight;
-      const circles: DottedCircle[] = [];
+      const lasers: LaserBeam[] = [];
 
-      // Create several dotted circles of varying sizes
-      const circleConfigs = [
-        // Large background circles (subtle)
-        { x: width * 0.15, y: height * 0.2, radius: Math.min(width, height) * 0.25, dotSpacing: 20, dotSize: 1.5, opacity: 0.08 },
-        { x: width * 0.85, y: height * 0.3, radius: Math.min(width, height) * 0.2, dotSpacing: 18, dotSize: 1.5, opacity: 0.08 },
-        { x: width * 0.5, y: height * 0.6, radius: Math.min(width, height) * 0.3, dotSpacing: 22, dotSize: 1.5, opacity: 0.06 },
-
-        // Medium circles (more visible)
-        { x: width * 0.25, y: height * 0.7, radius: Math.min(width, height) * 0.15, dotSpacing: 16, dotSize: 2, opacity: 0.1 },
-        { x: width * 0.75, y: height * 0.75, radius: Math.min(width, height) * 0.12, dotSpacing: 15, dotSize: 2, opacity: 0.1 },
-        { x: width * 0.6, y: height * 0.15, radius: Math.min(width, height) * 0.1, dotSpacing: 14, dotSize: 2, opacity: 0.12 },
-
-        // Small accent circles
-        { x: width * 0.1, y: height * 0.85, radius: Math.min(width, height) * 0.08, dotSpacing: 12, dotSize: 2, opacity: 0.12 },
-        { x: width * 0.9, y: height * 0.6, radius: Math.min(width, height) * 0.07, dotSpacing: 12, dotSize: 2, opacity: 0.12 },
-      ];
-
-      for (const config of circleConfigs) {
-        circles.push({
-          ...config,
-          pulsePhase: Math.random() * Math.PI * 2,
-          pulseSpeed: 0.003 + Math.random() * 0.003,
+      // Create multiple laser beams
+      for (let i = 0; i < 25; i++) {
+        lasers.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          length: 100 + Math.random() * 300,
+          angle: Math.random() * Math.PI * 2,
+          speed: 2 + Math.random() * 6,
+          color: laserColors[Math.floor(Math.random() * laserColors.length)],
+          width: 1 + Math.random() * 2.5,
+          opacity: 0.1 + Math.random() * 0.4,
         });
       }
 
-      circlesRef.current = circles;
+      lasersRef.current = lasers;
     };
 
-    // Draw a dotted circle
-    const drawDottedCircle = (circle: DottedCircle, currentTime: number) => {
-      const { x, y, radius, dotSpacing, dotSize, opacity, pulsePhase, pulseSpeed } = circle;
+    const drawLaser = (laser: LaserBeam) => {
+      const { x, y, length, angle, color, width, opacity } = laser;
 
-      // Calculate pulse effect
-      const pulseFactor = Math.sin(pulsePhase + currentTime * pulseSpeed) * 0.5 + 0.5;
-      const currentOpacity = opacity * (0.7 + pulseFactor * 0.3);
+      // Calculate end point
+      const endX = x + Math.cos(angle) * length;
+      const endY = y + Math.sin(angle) * length;
 
-      // Purple color for dots
-      ctx.fillStyle = `rgba(37, 99, 235, ${currentOpacity})`;
+      // Create gradient for the laser beam
+      const gradient = ctx.createLinearGradient(x, y, endX, endY);
+      gradient.addColorStop(0, color.replace(/[\d.]+\)$/g, '0)'));
+      gradient.addColorStop(0.3, color.replace(/[\d.]+\)$/g, String(opacity)));
+      gradient.addColorStop(0.7, color.replace(/[\d.]+\)$/g, String(opacity * 0.8)));
+      gradient.addColorStop(1, color.replace(/[\d.]+\)$/g, '0)'));
 
-      // Draw dots along the circle circumference
-      const circumference = 2 * Math.PI * radius;
-      const numDots = Math.floor(circumference / dotSpacing);
-
-      for (let i = 0; i < numDots; i++) {
-        const angle = (i / numDots) * Math.PI * 2;
-        const dotX = x + Math.cos(angle) * radius;
-        const dotY = y + Math.sin(angle) * radius;
-
-        ctx.beginPath();
-        ctx.arc(dotX, dotY, dotSize, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      // Draw some filled circles with gradient for visual interest
-      const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius * 0.3);
-      gradient.addColorStop(0, `rgba(37, 99, 235, ${currentOpacity * 0.3})`);
-      gradient.addColorStop(0.5, `rgba(59, 130, 246, ${currentOpacity * 0.1})`);
-      gradient.addColorStop(1, `rgba(37, 99, 235, 0)`);
-
-      ctx.fillStyle = gradient;
+      // Draw the main beam
+      ctx.strokeStyle = gradient;
+      ctx.lineWidth = width;
+      ctx.lineCap = 'round';
       ctx.beginPath();
-      ctx.arc(x, y, radius * 0.3, 0, Math.PI * 2);
-      ctx.fill();
+      ctx.moveTo(x, y);
+      ctx.lineTo(endX, endY);
+      ctx.stroke();
+
+      // Draw glow effect
+      ctx.strokeStyle = color.replace(/[\d.]+\)$/g, String(opacity * 0.3));
+      ctx.lineWidth = width * 4;
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.lineTo(endX, endY);
+      ctx.stroke();
+
+      // Draw bright center
+      ctx.strokeStyle = color.replace(/[\d.]+\)$/g, String(opacity * 1.5));
+      ctx.lineWidth = width * 0.5;
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.lineTo(endX, endY);
+      ctx.stroke();
     };
 
-    // Animation loop
-    let startTime = performance.now();
     const animate = () => {
-      const currentTime = performance.now() - startTime;
+      // Clear with semi-transparent background for trail effect
+      ctx.fillStyle = 'rgba(248, 250, 252, 0.15)';
+      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
-      // Clear canvas
-      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      const width = window.innerWidth;
+      const height = window.innerHeight;
 
-      // Draw all circles
-      for (const circle of circlesRef.current) {
-        drawDottedCircle(circle, currentTime);
+      // Update and draw all lasers
+      for (const laser of lasersRef.current) {
+        // Move laser
+        laser.x += Math.cos(laser.angle) * laser.speed;
+        laser.y += Math.sin(laser.angle) * laser.speed;
+
+        // Wrap around screen
+        if (laser.x < -laser.length) laser.x = width + laser.length;
+        if (laser.x > width + laser.length) laser.x = -laser.length;
+        if (laser.y < -laser.length) laser.y = height + laser.length;
+        if (laser.y > height + laser.length) laser.y = -laser.length;
+
+        // Occasionally change direction slightly
+        if (Math.random() < 0.005) {
+          laser.angle += (Math.random() - 0.5) * 0.3;
+        }
+
+        // Pulse opacity
+        laser.opacity = 0.15 + Math.sin(Date.now() * 0.001 + laser.x) * 0.1;
+
+        drawLaser(laser);
       }
 
       animationIdRef.current = requestAnimationFrame(animate);
