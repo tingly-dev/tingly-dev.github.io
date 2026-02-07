@@ -304,17 +304,12 @@ const QuickStart = () => {
                                                         </h3>
                                                         <p className="text-muted-foreground text-sm leading-relaxed">{step.desc}</p>
                                                     </div>
-                                                    {/* Desktop: Text and Number aligned */}
-                                                    <div className="hidden md:flex items-center justify-end gap-4 mb-3">
-                                                        <div className="text-right group">
-                                                            <h3 className="text-xl font-semibold group-hover:text-primary transition-colors text-foreground">
-                                                                {step.title}
-                                                            </h3>
-                                                            <p className="text-muted-foreground text-sm leading-relaxed">{step.desc}</p>
-                                                        </div>
-                                                        <span className="w-10 h-10 flex-shrink-0 bg-gradient-to-br from-blue-600 to-blue-700 text-white rounded-full flex items-center justify-center font-bold shadow-md">
-                                                            {stepNum}
-                                                        </span>
+                                                    {/* Desktop: Text only, number positioned at center */}
+                                                    <div className="hidden md:block text-right group mb-3">
+                                                        <h3 className="text-xl font-semibold group-hover:text-primary transition-colors text-foreground">
+                                                            {step.title}
+                                                        </h3>
+                                                        <p className="text-muted-foreground text-sm leading-relaxed">{step.desc}</p>
                                                     </div>
                                                 </>
                                             ) : (
@@ -333,14 +328,12 @@ const QuickStart = () => {
                                             )}
                                         </div>
 
-                                        {/* Desktop Number for odd steps - positioned absolutely at center line */}
-                                        {isTextOnRight && (
-                                            <div className="hidden md:block absolute left-1/2 -translate-x-1/2">
-                                                <span className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 text-white rounded-full flex items-center justify-center font-bold shadow-md">
-                                                    {stepNum}
-                                                </span>
-                                            </div>
-                                        )}
+                                        {/* Desktop Number - positioned absolutely at center line for all steps */}
+                                        <div className="hidden md:block absolute left-1/2 -translate-x-1/2">
+                                            <span className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 text-white rounded-full flex items-center justify-center font-bold shadow-md">
+                                                {stepNum}
+                                            </span>
+                                        </div>
 
                                         {/* Right Column */}
                                         <div className="w-full md:w-1/2 px-2 sm:px-4 md:px-6 lg:px-8 xl:px-10 flex flex-col mt-3 sm:mt-4 md:mt-0">
