@@ -23,7 +23,7 @@ const FULL_WIDTH = `${SECTION_WIDTH}px`; // 1060px (Content sections)
 
 const Hero = () => {
     return (
-        <section className="py-12 sm:py-16 md:py-20 px-3 sm:px-4">
+        <section className="py-20 sm:py-24 md:py-28 px-3 sm:px-4">
             {/* Static Hero Image */}
             <div className="w-full mx-auto px-2 sm:px-3 md:px-4" style={{ maxWidth: SCALED_WIDTH }}>
                 <img
