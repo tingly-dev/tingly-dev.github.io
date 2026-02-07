@@ -64,48 +64,52 @@ const Gallery = () => {
     return (
         <>
             <section className="py-6 sm:py-10 md:py-14 px-3 sm:px-4">
-                <div className="mx-auto" style={{ maxWidth: FULL_WIDTH, width: '100%' }}>
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-3 sm:mb-4">Product Gallery</h2>
-                    <p className="text-center text-muted-foreground mb-8 sm:mb-10 max-w-2xl mx-auto px-4">
-                        Take a closer look at Tingly Box in action
-                    </p>
+                {/* Container with card style */}
+                <div className="mx-auto rounded-2xl bg-white/80 backdrop-blur-sm shadow-soft border border-slate-200"
+                    style={{ maxWidth: FULL_WIDTH, width: '100%' }}>
+                    <div className="px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 py-6 sm:py-8 md:py-10">
+                        <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-3 sm:mb-4">Product Gallery</h2>
+                        <p className="text-center text-muted-foreground mb-6 sm:mb-8 max-w-2xl mx-auto">
+                            Take a closer look at Tingly Box in action
+                        </p>
 
-                    <div
-                        className="relative overflow-hidden rounded-2xl shadow-lg mx-auto"
-                        style={{ maxWidth: SCALED_WIDTH }}
-                        onMouseEnter={() => setIsPaused(true)}
-                        onMouseLeave={() => setIsPaused(false)}
-                    >
-                        <img
-                            src={screenshots[currentSlide].src}
-                            alt={screenshots[currentSlide].alt}
-                            className="w-full h-auto transition-opacity duration-300 cursor-pointer hover:opacity-95 rounded-2xl"
-                            onClick={() => handleImageClick(currentSlide)}
-                        />
-                        <button
-                            onClick={() => { prevSlide(); setIsPaused(true); }}
-                            className="absolute left-3 sm:left-3 top-1/2 -translate-y-1/2 p-3 sm:p-3 rounded-xl bg-white/95 border border-gray-200/50 backdrop-blur-sm hover:bg-white hover:shadow-lg transition-all"
-                            aria-label="Previous slide"
+                        <div
+                            className="relative overflow-hidden rounded-2xl shadow-lg mx-auto"
+                            style={{ maxWidth: SCALED_WIDTH }}
+                            onMouseEnter={() => setIsPaused(true)}
+                            onMouseLeave={() => setIsPaused(false)}
                         >
-                            <ChevronLeft className="w-5 h-5 sm:w-5 sm:h-5 text-gray-700" />
-                        </button>
-                        <button
-                            onClick={() => { nextSlide(); setIsPaused(true); }}
-                            className="absolute right-3 sm:right-3 top-1/2 -translate-y-1/2 p-3 sm:p-3 rounded-xl bg-white/95 border border-gray-200/50 backdrop-blur-sm hover:bg-white hover:shadow-lg transition-all"
-                            aria-label="Next slide"
-                        >
-                            <ChevronRight className="w-5 h-5 sm:w-5 sm:h-5 text-gray-700" />
-                        </button>
-                    </div>
-                    <div className="flex justify-center gap-2 sm:gap-2 mt-4">
-                        {screenshots.map((_, i) => (
-                            <button
-                                key={i}
-                                onClick={() => { setCurrentSlide(i); setIsPaused(true); }}
-                                className={`h-2.5 sm:h-2 rounded-full transition-all ${i === currentSlide ? "bg-primary w-8 sm:w-8" : "bg-slate-300 w-2.5 sm:w-2 hover:bg-slate-400"}`}
-                                aria-label={`Go to slide ${i + 1}`}
+                            <img
+                                src={screenshots[currentSlide].src}
+                                alt={screenshots[currentSlide].alt}
+                                className="w-full h-auto transition-opacity duration-300 cursor-pointer hover:opacity-95 rounded-2xl"
+                                onClick={() => handleImageClick(currentSlide)}
                             />
-                        ))}
+                            <button
+                                onClick={() => { prevSlide(); setIsPaused(true); }}
+                                className="absolute left-3 sm:left-3 top-1/2 -translate-y-1/2 p-3 sm:p-3 rounded-xl bg-white/95 border border-gray-200/50 backdrop-blur-sm hover:bg-white hover:shadow-lg transition-all"
+                                aria-label="Previous slide"
+                            >
+                                <ChevronLeft className="w-5 h-5 sm:w-5 sm:h-5 text-gray-700" />
+                            </button>
+                            <button
+                                onClick={() => { nextSlide(); setIsPaused(true); }}
+                                className="absolute right-3 sm:right-3 top-1/2 -translate-y-1/2 p-3 sm:p-3 rounded-xl bg-white/95 border border-gray-200/50 backdrop-blur-sm hover:bg-white hover:shadow-lg transition-all"
+                                aria-label="Next slide"
+                            >
+                                <ChevronRight className="w-5 h-5 sm:w-5 sm:h-5 text-gray-700" />
+                            </button>
+                        </div>
+                        <div className="flex justify-center gap-2 sm:gap-2 mt-4">
+                            {screenshots.map((_, i) => (
+                                <button
+                                    key={i}
+                                    onClick={() => { setCurrentSlide(i); setIsPaused(true); }}
+                                    className={`h-2.5 sm:h-2 rounded-full transition-all ${i === currentSlide ? "bg-primary w-8 sm:w-8" : "bg-slate-300 w-2.5 sm:w-2 hover:bg-slate-400"}`}
+                                    aria-label={`Go to slide ${i + 1}`}
+                                />
+                            ))}
+                        </div>
                     </div>
                 </div>
             </section>
