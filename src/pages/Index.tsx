@@ -74,7 +74,7 @@ const Gallery = () => {
                         </p>
 
                         <div
-                            className="relative overflow-hidden rounded-2xl shadow-lg mx-auto"
+                            className="relative overflow-hidden rounded-2xl shadow-lg mx-auto border border-slate-200"
                             style={{ maxWidth: SCALED_WIDTH }}
                             onMouseEnter={() => setIsPaused(true)}
                             onMouseLeave={() => setIsPaused(false)}
