@@ -35,8 +35,14 @@ const CodeBlock = ({code, language}: { code: string; language: string }) => {
                 }
                 @media (max-width: 768px) {
                     .force-wrap pre {
-                        font-size: 0.65rem !important;
+                        font-size: 0.75rem !important;
                         padding: 2rem 0.5rem 0.75rem 0.5rem !important;
+                    }
+                }
+                @media (max-width: 480px) {
+                    .force-wrap pre {
+                        font-size: 0.7rem !important;
+                        padding: 2rem 0.4rem 0.75rem 0.4rem !important;
                     }
                 }
             `

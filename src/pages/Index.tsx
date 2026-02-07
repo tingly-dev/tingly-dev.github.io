@@ -21,9 +21,9 @@ const FULL_WIDTH = `${SECTION_WIDTH}px`; // 1060px (Content sections)
 
 const Hero = () => {
     return (
-        <section className="py-16 sm:py-20 px-4">
+        <section className="py-12 sm:py-16 md:py-20 px-3 sm:px-4">
             {/* Static Hero Image */}
-            <div className="w-full mx-auto px-2 sm:px-4" style={{ maxWidth: SCALED_WIDTH }}>
+            <div className="w-full mx-auto px-2 sm:px-3 md:px-4" style={{ maxWidth: SCALED_WIDTH }}>
                 <img
                     src={heroImage.src}
                     alt={heroImage.alt}
@@ -61,10 +61,10 @@ const Gallery = () => {
 
     return (
         <>
-            <section className="py-16 sm:py-20 px-4">
+            <section className="py-12 sm:py-16 md:py-20 px-3 sm:px-4">
                 <div className="mx-auto" style={{ maxWidth: FULL_WIDTH, width: '100%' }}>
-                    <h2 className="text-3xl sm:text-4xl font-bold text-center mb-4">Product Gallery</h2>
-                    <p className="text-center text-muted-foreground mb-10 max-w-2xl mx-auto">
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-3 sm:mb-4">Product Gallery</h2>
+                    <p className="text-center text-muted-foreground mb-8 sm:mb-10 max-w-2xl mx-auto px-4">
                         Take a closer look at Tingly Box in action
                     </p>
 
@@ -82,23 +82,26 @@ const Gallery = () => {
                         />
                         <button
                             onClick={() => { prevSlide(); setIsPaused(true); }}
-                            className="absolute left-2 sm:left-3 top-1/2 -translate-y-1/2 p-2 sm:p-2.5 rounded-xl bg-white/95 border border-gray-200/50 backdrop-blur-sm hover:bg-white hover:shadow-lg transition-all"
+                            className="absolute left-3 sm:left-3 top-1/2 -translate-y-1/2 p-3 sm:p-3 rounded-xl bg-white/95 border border-gray-200/50 backdrop-blur-sm hover:bg-white hover:shadow-lg transition-all"
+                            aria-label="Previous slide"
                         >
-                            <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 text-gray-700" />
+                            <ChevronLeft className="w-5 h-5 sm:w-5 sm:h-5 text-gray-700" />
                         </button>
                         <button
                             onClick={() => { nextSlide(); setIsPaused(true); }}
-                            className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 p-2 sm:p-2.5 rounded-xl bg-white/95 border border-gray-200/50 backdrop-blur-sm hover:bg-white hover:shadow-lg transition-all"
+                            className="absolute right-3 sm:right-3 top-1/2 -translate-y-1/2 p-3 sm:p-3 rounded-xl bg-white/95 border border-gray-200/50 backdrop-blur-sm hover:bg-white hover:shadow-lg transition-all"
+                            aria-label="Next slide"
                         >
-                            <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-700" />
+                            <ChevronRight className="w-5 h-5 sm:w-5 sm:h-5 text-gray-700" />
                         </button>
                     </div>
-                    <div className="flex justify-center gap-2 mt-4">
+                    <div className="flex justify-center gap-2 sm:gap-2 mt-4">
                         {screenshots.map((_, i) => (
                             <button
                                 key={i}
                                 onClick={() => { setCurrentSlide(i); setIsPaused(true); }}
-                                className={`h-2 rounded-full transition-all ${i === currentSlide ? "bg-primary w-8" : "bg-slate-300 w-2 hover:bg-slate-400"}`}
+                                className={`h-2.5 sm:h-2 rounded-full transition-all ${i === currentSlide ? "bg-primary w-8 sm:w-8" : "bg-slate-300 w-2.5 sm:w-2 hover:bg-slate-400"}`}
+                                aria-label={`Go to slide ${i + 1}`}
                             />
                         ))}
                     </div>
@@ -150,13 +153,13 @@ const Gallery = () => {
 };
 
 const Features = () => (
-    <section id="features" className="py-16 sm:py-20 px-4">
+    <section id="features" className="py-8 sm:py-12 md:py-16 lg:py-20 px-3 sm:px-4">
         {/* Light background container with rounded corners */}
         <div className="mx-auto rounded-2xl bg-white/80 backdrop-blur-sm shadow-soft border border-slate-200"
             style={{ maxWidth: FULL_WIDTH, width: '100%' }}>
-            <div className="px-4 sm:px-6 md:px-8 lg:px-12 py-12 sm:py-16">
-                <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12 sm:mb-16">Features</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            <div className="px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 py-6 sm:py-8 md:py-10 lg:py-12 xl:py-16">
+                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-6 sm:mb-8 md:mb-10 lg:mb-12">Features</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4 lg:gap-6">
                     {features.map((f) => (
                         <Card key={f.title} sx={{
                             backgroundColor: 'rgba(255, 255, 255, 0.8)',
@@ -171,10 +174,10 @@ const Features = () => (
                                 transform: 'translateY(-2px)',
                             }
                         }}>
-                            <CardContent sx={{ p: { xs: 2.5, sm: 3 } }}>
-                                <f.icon className="w-12 h-12 text-primary mb-4" />
-                                <h3 className="text-xl font-semibold mb-3 text-foreground">{f.title}</h3>
-                                <p className="text-muted-foreground text-base leading-relaxed">{f.description}</p>
+                            <CardContent sx={{ p: { xs: 1.5, sm: 2, md: 2.5, lg: 3 } }}>
+                                <f.icon className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-primary mb-2 sm:mb-3 md:mb-4" />
+                                <h3 className="text-base sm:text-lg md:text-xl font-semibold mb-1.5 sm:mb-2 md:mb-3 text-foreground">{f.title}</h3>
+                                <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">{f.description}</p>
                             </CardContent>
                         </Card>
                     ))}
@@ -187,37 +190,37 @@ const Features = () => (
 
 const QuickStart = () => {
     return (
-        <section id="quick-start" className="py-16 sm:py-20 px-4">
+        <section id="quick-start" className="py-12 sm:py-16 md:py-20 px-3 sm:px-4">
             {/* Light gradient background container with limited width */}
             <div className="mx-auto rounded-2xl bg-white/80 backdrop-blur-sm shadow-soft border border-slate-200"
                 style={{ maxWidth: FULL_WIDTH, width: '100%' }}>
-                <div className="px-4 sm:px-6 md:px-8 lg:px-12 py-10 sm:py-12">
-                    <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12 sm:mb-16 tracking-tight text-foreground">Quick Start</h2>
+                <div className="px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 py-8 sm:py-10 md:py-12">
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 sm:mb-10 md:mb-12 lg:mb-16 tracking-tight text-foreground">Quick Start</h2>
 
                     <div className="relative">
                         {/* Vertical Center Line - Only show on md+ screens */}
                         <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-px bg-gradient-to-b from-transparent via-slate-300 to-transparent hidden md:block" />
 
-                        <div className="space-y-12 sm:space-y-16 md:space-y-20">
+                        <div className="space-y-8 sm:space-y-12 md:space-y-16 lg:space-y-20">
                             {STEPS.map((step, idx) => {
                                 const isTextOnRight = idx % 2 === 0; // Step 1 (0), Step 3 (2)
                                 const stepNum = idx + 1;
 
                                 return (
-                                    <div key={idx} className="relative flex flex-col md:flex-row items-center gap-4 md:gap-0">
+                                    <div key={idx} className="relative flex flex-col md:flex-row items-center gap-3 sm:gap-4 md:gap-0">
                                         {/* Left Column */}
-                                        <div className="w-full md:w-1/2 px-4 sm:px-6 md:px-8 lg:px-10 flex flex-col">
+                                        <div className="w-full md:w-1/2 px-2 sm:px-4 md:px-6 lg:px-8 xl:px-10 flex flex-col">
                                             {!isTextOnRight ? (
                                                 /* Even Steps (2, 4): Text on Left, Number on Right near line on desktop */
                                                 <>
                                                     {/* Mobile: Number above content */}
-                                                    <div className="md:hidden w-full text-center mb-3">
-                                                        <span className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 text-white rounded-full flex items-center justify-center font-bold shadow-md mx-auto">
+                                                    <div className="md:hidden w-full text-center mb-2">
+                                                        <span className="w-9 h-9 bg-gradient-to-br from-blue-600 to-blue-700 text-white rounded-full flex items-center justify-center font-bold shadow-md mx-auto">
                                                             {stepNum}
                                                         </span>
                                                     </div>
-                                                    <div className="text-center md:text-right group w-full md:hidden mb-4">
-                                                        <h3 className="text-xl font-semibold group-hover:text-primary transition-colors text-foreground mb-2">
+                                                    <div className="text-center md:text-right group w-full md:hidden mb-3 sm:mb-4">
+                                                        <h3 className="text-lg sm:text-xl font-semibold group-hover:text-primary transition-colors text-foreground mb-2">
                                                             {step.title}
                                                         </h3>
                                                         <p className="text-muted-foreground text-sm leading-relaxed">{step.desc}</p>
@@ -239,8 +242,8 @@ const QuickStart = () => {
                                                 /* Odd Steps (1, 3): Code on Left */
                                                 <>
                                                     {/* Mobile: Number above code */}
-                                                    <div className="md:hidden w-full text-center mb-3">
-                                                        <span className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 text-white rounded-full flex items-center justify-center font-bold shadow-md mx-auto">
+                                                    <div className="md:hidden w-full text-center mb-2">
+                                                        <span className="w-9 h-9 bg-gradient-to-br from-blue-600 to-blue-700 text-white rounded-full flex items-center justify-center font-bold shadow-md mx-auto">
                                                             {stepNum}
                                                         </span>
                                                     </div>
@@ -261,13 +264,13 @@ const QuickStart = () => {
                                         )}
 
                                         {/* Right Column */}
-                                        <div className="w-full md:w-1/2 px-4 sm:px-6 md:px-8 lg:px-10 flex flex-col mt-4 md:mt-0">
+                                        <div className="w-full md:w-1/2 px-2 sm:px-4 md:px-6 lg:px-8 xl:px-10 flex flex-col mt-3 sm:mt-4 md:mt-0">
                                             {isTextOnRight ? (
                                                 /* Odd Steps (1, 3): Text on Right */
                                                 <>
                                                     {/* Mobile text content */}
                                                     <div className="text-center md:text-left group w-full md:hidden">
-                                                        <h3 className="text-xl font-semibold group-hover:text-primary transition-colors text-foreground mb-2">
+                                                        <h3 className="text-lg sm:text-xl font-semibold group-hover:text-primary transition-colors text-foreground mb-2">
                                                             {step.title}
                                                         </h3>
                                                         <p className="text-muted-foreground text-sm leading-relaxed">{step.desc}</p>
@@ -299,7 +302,7 @@ const QuickStart = () => {
 };
 
 const Footer = () => (
-    <footer className="py-8 sm:py-12 px-4 border-t border-slate-200">
+    <footer className="py-8 sm:py-10 md:py-12 px-3 sm:px-4 border-t border-slate-200">
         <div className="mx-auto flex flex-col sm:flex-row items-center justify-between gap-4"
             style={{ maxWidth: FULL_WIDTH, width: '100%' }}>
             <div className="text-muted-foreground text-sm text-center sm:text-left">MPL-2.0 License © {new Date().getFullYear()} Tingly Box</div>
@@ -323,27 +326,27 @@ const Footer = () => (
 
 const FAQ = () => {
     return (
-        <section id="faq" className="py-12 sm:py-16 px-4">
+        <section id="faq" className="py-12 sm:py-16 md:py-20 px-3 sm:px-4">
             <div className="mx-auto rounded-2xl bg-white/80 backdrop-blur-sm shadow-soft border border-slate-200"
                 style={{ maxWidth: FULL_WIDTH, width: '100%' }}>
-                <div className="px-4 sm:px-6 md:px-8 lg:px-12 py-10 sm:py-12">
-                    <h2 className="text-3xl sm:text-4xl font-bold text-center mb-3 sm:mb-4">Frequently Asked Questions</h2>
-                    <p className="text-center text-muted-foreground mb-8 sm:mb-12 max-w-2xl mx-auto px-4">
+                <div className="px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 py-8 sm:py-10 md:py-12">
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-3 sm:mb-4">Frequently Asked Questions</h2>
+                    <p className="text-center text-muted-foreground mb-8 sm:mb-10 md:mb-12 max-w-2xl mx-auto px-4">
                         Common questions about Tingly Box
                     </p>
 
                     {/* Accordion-style FAQ */}
                     <div className="max-w-4xl mx-auto space-y-4">
                         {faqs.map((faq, index) => (
-                            <div key={index} className="bg-white/80 rounded-xl p-6 shadow-sm border border-slate-200 hover:shadow-md hover:border-blue-200 transition-all duration-200">
-                                <h3 className="text-lg font-semibold mb-2 flex items-start gap-3">
+                            <div key={index} className="bg-white/80 rounded-xl p-4 sm:p-6 shadow-sm border border-slate-200 hover:shadow-md hover:border-blue-200 transition-all duration-200">
+                                <h3 className="text-base sm:text-lg font-semibold mb-2 flex items-start gap-2 sm:gap-3">
                                     <span
-                                        className="flex-shrink-0 w-8 h-8 bg-blue-100 text-primary rounded-lg flex items-center justify-center text-sm font-semibold mt-0.5">
+                                        className="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 bg-blue-100 text-primary rounded-lg flex items-center justify-center text-xs sm:text-sm font-semibold mt-0.5">
                                         {String(index + 1).padStart(2, '0')}
                                     </span>
                                     <span className="text-foreground leading-tight">{faq.question}</span>
                                 </h3>
-                                <p className="ml-11 text-muted-foreground leading-relaxed text-base">
+                                <p className="ml-9 sm:ml-11 text-muted-foreground leading-relaxed text-sm sm:text-base">
                                     {faq.answer.split('\n').map((paragraph, i) => (
                                         <span key={i}>
                                             {paragraph.startsWith('http') || paragraph.includes('://') ? (
@@ -360,7 +363,7 @@ const FAQ = () => {
                     </div>
 
                     {/* Additional help */}
-                    <div className="mt-12 sm:mt-16 text-center">
+                    <div className="mt-10 sm:mt-12 md:mt-16 text-center">
                         <p className="text-base sm:text-lg mb-4 text-foreground">Still have questions?</p>
                         <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
                             <MuiButton
@@ -370,7 +373,7 @@ const FAQ = () => {
                                 rel="noopener noreferrer"
                                 startIcon={<ExternalLink className="w-4 h-4" />}
                                 size="small"
-                                sx={{ fontSize: { xs: '0.9375rem', sm: '1rem' }, fontWeight: 500 }}
+                                sx={{ fontSize: { xs: '0.875rem', sm: '1rem' }, fontWeight: 500 }}
                             >
                                 Ask on GitHub
                             </MuiButton>
@@ -387,8 +390,8 @@ const Index = () => (
         <LightPatternBackground />
         <Header />
         <Hero />
-        <Features />
         <Gallery />
+        <Features />
         <QuickStart />
         <FAQ />
         <Footer />

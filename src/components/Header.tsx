@@ -115,6 +115,10 @@ const GitHubButton = styled.a`
     padding: 0.4375rem 0.75rem;
     font-size: 0.8125rem;
   }
+
+  @media (max-width: 640px) {
+    display: none;
+  }
 `;
 
 const MobileMenuButton = styled.button`
@@ -164,6 +168,28 @@ const MobileNavLink = styled.a`
 
   &:hover {
     color: #2563eb;
+    background: rgba(37, 99, 235, 0.04);
+  }
+`;
+
+const MobileLinkButton = styled.a`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #64748b;
+  text-decoration: none;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background: white;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: #2563eb;
+    border-color: #2563eb;
     background: rgba(37, 99, 235, 0.04);
   }
 `;
@@ -281,6 +307,23 @@ const Header = () => {
         >
           FAQ
         </MobileNavLink>
+        <div style={{ height: '1px', background: '#e2e8f0', margin: '0.5rem 0' }} />
+        <MobileLinkButton
+          href="https://github.com/tingly-dev/tingly-box"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <FaGithub style={{ width: '1rem', height: '1rem' }} />
+          GitHub
+        </MobileLinkButton>
+        <MobileLinkButton
+          href="https://github.com/tingly-dev/tingly-box/releases"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <ExternalLink style={{ width: '0.875rem', height: '0.875rem' }} />
+          Releases
+        </MobileLinkButton>
       </MobileMenu>
     </HeaderContainer>
   );
