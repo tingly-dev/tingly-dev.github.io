@@ -1,3 +1,4 @@
+import { useState } from "react";
 import LightPatternBackground from "@/components/LightPatternBackground";
 import Header from "@/components/Header";
 import { faqs, features, screenshots, heroImage } from "@/data/text";
@@ -6,9 +7,10 @@ import {
     ChevronLeft,
     ChevronRight,
     ExternalLink,
-    X
+    X,
+    ChevronDown
 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { FaGithub } from "react-icons/fa";
 import {STEPS} from "@/data/code.tsx";
 
@@ -152,40 +154,76 @@ const Gallery = () => {
     );
 };
 
-const Features = () => (
-    <section id="features" className="py-8 sm:py-12 md:py-16 lg:py-20 px-3 sm:px-4">
-        {/* Light background container with rounded corners */}
-        <div className="mx-auto rounded-2xl bg-white/80 backdrop-blur-sm shadow-soft border border-slate-200"
-            style={{ maxWidth: FULL_WIDTH, width: '100%' }}>
-            <div className="px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 py-6 sm:py-8 md:py-10 lg:py-12 xl:py-16">
-                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-6 sm:mb-8 md:mb-10 lg:mb-12">Features</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4 lg:gap-6">
-                    {features.map((f) => (
-                        <Card key={f.title} sx={{
-                            backgroundColor: 'rgba(255, 255, 255, 0.8)',
-                            border: '1px solid #e2e8f0',
-                            opacity: 1,
-                            transition: 'all 0.2s ease-in-out',
-                            borderRadius: '8px',
-                            '&:hover': {
-                                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-                                borderColor: 'rgba(37, 99, 235, 0.4)',
+const Features = () => {
+    const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
+
+    const toggleExpand = (index: number) => {
+        setExpandedIndex(expandedIndex === index ? null : index);
+    };
+
+    return (
+        <section id="features" className="py-8 sm:py-12 md:py-16 lg:py-20 px-3 sm:px-4">
+            {/* Light background container with rounded corners */}
+            <div className="mx-auto rounded-2xl bg-white/80 backdrop-blur-sm shadow-soft border border-slate-200"
+                style={{ maxWidth: FULL_WIDTH, width: '100%' }}>
+                <div className="px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 py-6 sm:py-8 md:py-10 lg:py-12 xl:py-16">
+                    <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-6 sm:mb-8 md:mb-10 lg:mb-12">Features</h2>
+
+                    {/* Mobile: Accordion style */}
+                    <div className="sm:hidden space-y-2">
+                        {features.map((f, index) => (
+                            <div
+                                key={f.title}
+                                className="bg-white/60 rounded-xl border border-slate-200 overflow-hidden transition-all duration-200"
+                            >
+                                <button
+                                    onClick={() => toggleExpand(index)}
+                                    className="w-full flex items-center gap-3 p-3 text-left hover:bg-white/80 transition-colors"
+                                >
+                                    <div className={`flex-shrink-0 w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center transition-colors ${expandedIndex === index ? 'bg-blue-100' : ''}`}>
+                                        <f.icon className="w-5 h-5 text-primary" />
+                                    </div>
+                                    <span className="flex-1 font-semibold text-base text-foreground">{f.title}</span>
+                                    <ChevronDown className={`w-5 h-5 text-muted-foreground transition-transform duration-200 ${expandedIndex === index ? 'rotate-180' : ''}`} />
+                                </button>
+                                <div className={`overflow-hidden transition-all duration-200 ${expandedIndex === index ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}>
+                                    <p className="px-3 pb-3 text-sm text-muted-foreground leading-relaxed pl-14">
+                                        {f.description}
+                                    </p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Desktop+: Grid layout */}
+                    <div className="hidden sm:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4 lg:gap-6">
+                        {features.map((f) => (
+                            <Card key={f.title} sx={{
+                                backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                                border: '1px solid #e2e8f0',
                                 opacity: 1,
-                                transform: 'translateY(-2px)',
-                            }
-                        }}>
-                            <CardContent sx={{ p: { xs: 1.5, sm: 2, md: 2.5, lg: 3 } }}>
-                                <f.icon className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-primary mb-2 sm:mb-3 md:mb-4" />
-                                <h3 className="text-base sm:text-lg md:text-xl font-semibold mb-1.5 sm:mb-2 md:mb-3 text-foreground">{f.title}</h3>
-                                <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">{f.description}</p>
-                            </CardContent>
-                        </Card>
-                    ))}
+                                transition: 'all 0.2s ease-in-out',
+                                borderRadius: '8px',
+                                '&:hover': {
+                                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                                    borderColor: 'rgba(37, 99, 235, 0.4)',
+                                    opacity: 1,
+                                    transform: 'translateY(-2px)',
+                                }
+                            }}>
+                                <CardContent sx={{ p: { xs: 1.5, sm: 2, md: 2.5, lg: 3 } }}>
+                                    <f.icon className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-primary mb-2 sm:mb-3 md:mb-4" />
+                                    <h3 className="text-base sm:text-lg md:text-xl font-semibold mb-1.5 sm:mb-2 md:mb-3 text-foreground">{f.title}</h3>
+                                    <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">{f.description}</p>
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-);
+        </section>
+    );
+};
 
 
 const QuickStart = () => {
