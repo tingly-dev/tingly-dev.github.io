@@ -23,7 +23,7 @@ const FULL_WIDTH = `${SECTION_WIDTH}px`; // 1060px (Content sections)
 
 const Hero = () => {
     return (
-        <section className="py-20 sm:py-24 md:py-28 px-3 sm:px-4">
+        <section className="pt-20 pb-8 sm:pt-24 sm:pb-10 md:pt-28 md:pb-12 px-3 sm:px-4">
             {/* Static Hero Image */}
             <div className="w-full mx-auto px-2 sm:px-3 md:px-4" style={{ maxWidth: SCALED_WIDTH }}>
                 <img
@@ -63,7 +63,7 @@ const Gallery = () => {
 
     return (
         <>
-            <section className="py-12 sm:py-16 md:py-20 px-3 sm:px-4">
+            <section className="py-6 sm:py-10 md:py-14 px-3 sm:px-4">
                 <div className="mx-auto" style={{ maxWidth: FULL_WIDTH, width: '100%' }}>
                     <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-3 sm:mb-4">Product Gallery</h2>
                     <p className="text-center text-muted-foreground mb-8 sm:mb-10 max-w-2xl mx-auto px-4">
@@ -162,7 +162,7 @@ const Features = () => {
     };
 
     return (
-        <section id="features" className="py-8 sm:py-12 md:py-16 lg:py-20 px-3 sm:px-4">
+        <section id="features" className="py-6 sm:py-10 md:py-14 lg:py-16 px-3 sm:px-4">
             {/* Light background container with rounded corners */}
             <div className="mx-auto rounded-2xl bg-white/80 backdrop-blur-sm shadow-soft border border-slate-200"
                 style={{ maxWidth: FULL_WIDTH, width: '100%' }}>
@@ -228,7 +228,7 @@ const Features = () => {
 
 const QuickStart = () => {
     return (
-        <section id="quick-start" className="py-12 sm:py-16 md:py-20 px-3 sm:px-4">
+        <section id="quick-start" className="py-6 sm:py-10 md:py-14 px-3 sm:px-4">
             {/* Light gradient background container with limited width */}
             <div className="mx-auto rounded-2xl bg-white/80 backdrop-blur-sm shadow-soft border border-slate-200"
                 style={{ maxWidth: FULL_WIDTH, width: '100%' }}>
@@ -340,7 +340,7 @@ const QuickStart = () => {
 };
 
 const Footer = () => (
-    <footer className="py-8 sm:py-10 md:py-12 px-3 sm:px-4 border-t border-slate-200">
+    <footer className="py-6 sm:py-8 px-3 sm:px-4 border-t border-slate-200">
         <div className="mx-auto flex flex-col sm:flex-row items-center justify-between gap-4"
             style={{ maxWidth: FULL_WIDTH, width: '100%' }}>
             <div className="text-muted-foreground text-sm text-center sm:text-left">MPL-2.0 License © {new Date().getFullYear()} Tingly Box</div>
@@ -364,7 +364,7 @@ const Footer = () => (
 
 const FAQ = () => {
     return (
-        <section id="faq" className="py-12 sm:py-16 md:py-20 px-3 sm:px-4">
+        <section id="faq" className="py-6 sm:py-10 md:py-14 px-3 sm:px-4">
             <div className="mx-auto rounded-2xl bg-white/80 backdrop-blur-sm shadow-soft border border-slate-200"
                 style={{ maxWidth: FULL_WIDTH, width: '100%' }}>
                 <div className="px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 py-8 sm:py-10 md:py-12">
