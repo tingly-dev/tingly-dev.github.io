@@ -5,7 +5,6 @@ const screenshotBaseUrl = "https://raw.githubusercontent.com/tingly-dev/tingly-b
 
 export const screenshots = [
     { src: `${screenshotBaseUrl}/images/0-dashboard.png`, alt: "Tingly Box Dashboard - Overview" },
-    { src: `${screenshotBaseUrl}/images/1-home.png`, alt: "Tingly Box Home - Model Proxy Config" },
     { src: `${screenshotBaseUrl}/images/3-smart.png`, alt: "Tingly Box Smart Routing Configuration" },
     { src: `${screenshotBaseUrl}/images/4-select.png`, alt: "Tingly Box Proxy Rules Configuration" },
     { src: `${screenshotBaseUrl}/images/3-claude_code.png`, alt: "Tingly Box Claude Code Usage & Routing" },
