@@ -1,6 +1,7 @@
 import { useState } from "react";
 import LightPatternBackground from "@/components/LightPatternBackground";
 import Header from "@/components/Header";
+import FeatureGrid from "@/components/FeatureGrid";
 import HeroConnectivityMap from "@/components/HeroConnectivityMap";
 import { faqs, features, screenshots } from "@/data/text";
 import { Card, CardContent, Dialog, DialogContent, Button as MuiButton } from "@mui/material";
@@ -428,7 +429,7 @@ const Index = () => (
         <Header />
         <Hero />
         <Gallery />
-        <Features />
+        <FeatureGrid />
         <QuickStart />
         <FAQ />
         <Footer />
