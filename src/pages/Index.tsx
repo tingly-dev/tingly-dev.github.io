@@ -3,6 +3,7 @@ import LightPatternBackground from "@/components/LightPatternBackground";
 import Header from "@/components/Header";
 import FeatureGrid from "@/components/FeatureGrid";
 import ProxyFlow from "@/components/ProxyFlow";
+import UniversalSdkBlock from "@/components/UniversalSdkBlock";
 import HeroConnectivityMap from "@/components/HeroConnectivityMap";
 import { faqs, features, screenshots } from "@/data/text";
 import { Card, CardContent, Dialog, DialogContent, Button as MuiButton } from "@mui/material";
@@ -432,6 +433,7 @@ const Index = () => (
         <Gallery />
         <FeatureGrid />
         <ProxyFlow />
+        <UniversalSdkBlock />
         <QuickStart />
         <FAQ />
         <Footer />
