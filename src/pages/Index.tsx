@@ -1,7 +1,8 @@
 import { useState } from "react";
 import LightPatternBackground from "@/components/LightPatternBackground";
 import Header from "@/components/Header";
-import { faqs, features, screenshots, heroImage } from "@/data/text";
+import HeroConnectivityMap from "@/components/HeroConnectivityMap";
+import { faqs, features, screenshots } from "@/data/text";
 import { Card, CardContent, Dialog, DialogContent, Button as MuiButton } from "@mui/material";
 import {
     ChevronLeft,
@@ -22,54 +23,18 @@ const FULL_WIDTH = `${SECTION_WIDTH}px`; // 1060px (Content sections)
 
 
 const Hero = () => {
-    const [previewOpen, setPreviewOpen] = useState(false);
-
     return (
-        <>
-            <section className="pt-20 pb-8 sm:pt-24 sm:pb-10 md:pt-28 md:pb-12 px-3 sm:px-4">
-                {/* Static Hero Image */}
-                <div className="w-full mx-auto px-2 sm:px-3 md:px-4" style={{ maxWidth: SCALED_WIDTH }}>
-                    <img
-                        src={heroImage.src}
-                        alt={heroImage.alt}
-                        className="w-full h-auto rounded-2xl shadow-lg cursor-pointer hover:opacity-95 transition-opacity"
-                        onClick={() => setPreviewOpen(true)}
-                    />
-                </div>
-            </section>
-
-            {/* Preview Dialog */}
-            <Dialog
-                open={previewOpen}
-                onClose={() => setPreviewOpen(false)}
-                maxWidth={false}
-                fullWidth
-                sx={{
-                    '& .MuiDialog-paper': {
-                        backgroundColor: 'transparent',
-                        boxShadow: 'none',
-                        overflow: 'hidden',
-                        margin: 0,
-                        maxWidth: '100vw',
-                        width: '100vw'
-                    }
-                }}
-            >
-                <DialogContent sx={{ p: 0, position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <button
-                        onClick={() => setPreviewOpen(false)}
-                        className="absolute top-4 right-4 z-10 p-2 rounded-full bg-gray-900/80 text-white hover:bg-gray-900 transition-colors"
-                    >
-                        <X className="w-6 h-6" />
-                    </button>
-                    <img
-                        src={heroImage.src}
-                        alt={heroImage.alt}
-                        className="max-w-[95vw] max-h-[95vh] w-auto h-auto object-contain rounded-lg"
-                    />
-                </DialogContent>
-            </Dialog>
-        </>
+        <section className="pt-28 pb-10 text-center sm:pt-32 md:pt-36 px-3 sm:px-4">
+            <h1 className="mx-auto max-w-4xl text-4xl font-semibold tracking-[-0.02em] text-[#111827] sm:text-5xl md:text-7xl">
+                Intelligence, Orchestrated.
+            </h1>
+            <p className="mx-auto mt-5 max-w-2xl text-sm text-[#4B5563] sm:text-base md:text-lg">
+                Tingly routes, secures, and accelerates multi-model AI traffic through one precise gateway.
+            </p>
+            <div className="mt-10 md:mt-14">
+                <HeroConnectivityMap />
+            </div>
+        </section>
     );
 };
 
