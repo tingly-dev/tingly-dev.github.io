@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import FeatureGrid from "@/components/FeatureGrid";
 import ProxyFlow from "@/components/ProxyFlow";
 import UniversalSdkBlock from "@/components/UniversalSdkBlock";
+import SectionReveal from "@/components/SectionReveal";
 import HeroConnectivityMap from "@/components/HeroConnectivityMap";
 import { faqs, features, screenshots } from "@/data/text";
 import { Card, CardContent, Dialog, DialogContent, Button as MuiButton } from "@mui/material";
@@ -429,11 +430,11 @@ const Index = () => (
     <main className="min-h-screen relative">
         <LightPatternBackground />
         <Header />
-        <Hero />
-        <Gallery />
-        <FeatureGrid />
-        <ProxyFlow />
-        <UniversalSdkBlock />
+        <SectionReveal><Hero /></SectionReveal>
+        <SectionReveal><Gallery /></SectionReveal>
+        <SectionReveal><FeatureGrid /></SectionReveal>
+        <SectionReveal><ProxyFlow /></SectionReveal>
+        <SectionReveal><UniversalSdkBlock /></SectionReveal>
         <QuickStart />
         <FAQ />
         <Footer />
