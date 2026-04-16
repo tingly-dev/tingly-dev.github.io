@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 const providers = [
   { name: "OpenAI", x: 130, y: 60 },
@@ -8,6 +9,16 @@ const providers = [
 ];
 
 export default function HeroConnectivityMap() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const applyMatch = () => setIsMobile(mediaQuery.matches);
+    applyMatch();
+    mediaQuery.addEventListener("change", applyMatch);
+    return () => mediaQuery.removeEventListener("change", applyMatch);
+  }, []);
+
   return (
     <div className="mx-auto w-full max-w-[760px] rounded-2xl border border-[#E5E7EB] bg-[#F9FAFB] p-6">
       <svg viewBox="0 0 560 320" className="w-full" role="img" aria-label="Connectivity map">
@@ -26,15 +37,16 @@ export default function HeroConnectivityMap() {
             <text x={provider.x} y={provider.y + 40} textAnchor="middle" fontSize="12" fill="#4B5563">
               {provider.name}
             </text>
-            <motion.circle
-              cx="280"
-              cy="160"
-              r="4"
-              fill="#60A5FA"
-              animate={{ cx: [280, provider.x], cy: [160, provider.y], opacity: [0, 1, 0] }}
-              transition={{ duration: 2.2, ease: "linear", repeat: Infinity, delay: index * 0.45 }}
-              className="hidden md:block"
-            />
+            {!isMobile && (
+              <motion.circle
+                cx="280"
+                cy="160"
+                r="4"
+                fill="#60A5FA"
+                animate={{ cx: [280, provider.x], cy: [160, provider.y], opacity: [0, 1, 0] }}
+                transition={{ duration: 2.2, ease: "linear", repeat: Infinity, delay: index * 0.45 }}
+              />
+            )}
           </g>
         ))}
       </svg>

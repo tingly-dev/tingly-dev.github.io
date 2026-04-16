@@ -1,6 +1,7 @@
 import { useState } from "react";
 import LightPatternBackground from "@/components/LightPatternBackground";
 import Header from "@/components/Header";
+import ScrollProgressBar from "@/components/ScrollProgressBar";
 import FeatureGrid from "@/components/FeatureGrid";
 import ProxyFlow from "@/components/ProxyFlow";
 import UniversalSdkBlock from "@/components/UniversalSdkBlock";
@@ -427,7 +428,8 @@ const FAQ = () => {
 };
 
 const Index = () => (
-    <main className="min-h-screen relative">
+    <main className="dot-grid-bg min-h-screen relative">
+        <ScrollProgressBar />
         <LightPatternBackground />
         <Header />
         <SectionReveal><Hero /></SectionReveal>
