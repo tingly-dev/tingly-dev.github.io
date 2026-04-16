@@ -1,332 +1,76 @@
-import { useState, useEffect } from 'react';
-import styled from '@emotion/styled';
-import { FaGithub } from 'react-icons/fa';
-import { ExternalLink } from 'lucide-react';
+import { useState } from "react";
+import { ExternalLink, Menu, X } from "lucide-react";
+import { FaGithub } from "react-icons/fa";
+import MagneticLink from "@/components/MagneticLink";
 
-const HeaderContainer = styled.header`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 50;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
-  transition: all 0.2s ease;
-`;
-
-const HeaderContent = styled.div`
-  max-width: 1060px;
-  margin: 0 auto;
-  padding: 1rem 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
-
-  @media (max-width: 768px) {
-    padding: 0.75rem 1rem;
-    gap: 1rem;
-  }
-`;
-
-const Logo = styled.a`
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: #1e293b;
-  text-decoration: none;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-
-  &:hover {
-    color: #2563eb;
-  }
-
-  @media (max-width: 768px) {
-    font-size: 1rem;
-  }
-`;
-
-const LogoIcon = styled.img`
-  width: 2rem;
-  height: 2rem;
-  border-radius: 6px;
-  flex-shrink: 0;
-  object-fit: contain;
-`;
-
-const LogoText = styled.span`
-  background: linear-gradient(135deg, #1e293b, #0f172a);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-weight: 700;
-`;
-
-const Nav = styled.nav`
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-
-  @media (max-width: 768px) {
-    display: none;
-  }
-`;
-
-const NavLink = styled.a`
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #64748b;
-  text-decoration: none;
-  transition: color 0.2s ease;
-  white-space: nowrap;
-
-  &:hover {
-    color: #2563eb;
-  }
-`;
-
-const GitHubButton = styled.a`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #64748b;
-  text-decoration: none;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-  background: white;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-
-  &:hover {
-    color: #1e293b;
-    border-color: #2563eb;
-    background: rgba(37, 99, 235, 0.04);
-    transform: translateY(-1px);
-  }
-
-  @media (max-width: 768px) {
-    padding: 0.4375rem 0.75rem;
-    font-size: 0.8125rem;
-  }
-
-  @media (max-width: 640px) {
-    display: none;
-  }
-`;
-
-const MobileMenuButton = styled.button`
-  display: none;
-  background: none;
-  border: none;
-  padding: 0.5rem;
-  cursor: pointer;
-  color: #64748b;
-
-  @media (max-width: 768px) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-`;
-
-const MobileMenu = styled.div<{ isOpen: boolean }>`
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background: rgba(255, 255, 255, 0.98);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid #e2e8f0;
-  padding: 1rem;
-  flex-direction: column;
-  gap: 0.5rem;
-  opacity: ${props => props.isOpen ? 1 : 0};
-  visibility: ${props => props.isOpen ? 'visible' : 'hidden'};
-  transition: all 0.2s ease;
-
-  @media (max-width: 768px) {
-    display: flex;
-  }
-`;
-
-const MobileNavLink = styled.a`
-  padding: 0.75rem 1rem;
-  font-size: 0.9375rem;
-  font-weight: 500;
-  color: #64748b;
-  text-decoration: none;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-
-  &:hover {
-    color: #2563eb;
-    background: rgba(37, 99, 235, 0.04);
-  }
-`;
-
-const MobileLinkButton = styled.a`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1rem;
-  font-size: 0.9375rem;
-  font-weight: 500;
-  color: #64748b;
-  text-decoration: none;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-  background: white;
-  transition: all 0.2s ease;
-
-  &:hover {
-    color: #2563eb;
-    border-color: #2563eb;
-    background: rgba(37, 99, 235, 0.04);
-  }
-`;
-
-const Header = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      setIsMobileMenuOpen(false);
-    }
-  };
+export default function Header() {
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <HeaderContainer
-      style={{
-        boxShadow: isScrolled ? '0 2px 8px -2px rgba(0, 0, 0, 0.05)' : 'none',
-      }}
-    >
-      <HeaderContent>
-        <Logo href="/">
-          <LogoIcon src="https://raw.githubusercontent.com/tingly-dev/tingly-box/refs/heads/main/build/appicon.png" alt="Tingly Box" />
-          <LogoText>Tingly Box</LogoText>
-        </Logo>
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-[#E5E7EB] bg-white/70 backdrop-blur-[8px]">
+      <div className="mx-auto grid h-16 w-full max-w-[1200px] grid-cols-[auto_1fr_auto] items-center gap-4 px-4 md:px-8">
+        <a href="/" className="relative z-50 flex items-center gap-2 text-[#111827]">
+          <span className="relative inline-flex h-8 w-8 items-center justify-center rounded-md border border-[#E5E7EB] bg-white">
+            <span className="pointer-events-none absolute inset-0 rounded-md border border-[#0057E7]/20 animate-[logoPulse_10s_ease-out_infinite]" />
+            <img src="/tingly_logo.svg" alt="Tingly logo" className="h-5 w-5" />
+          </span>
+          <span className="text-sm font-semibold tracking-[-0.02em]">Tingly</span>
+        </a>
 
-        <Nav>
-          <NavLink href="#features" onClick={(e) => { e.preventDefault(); scrollToSection('features'); }}>
-            Features
-          </NavLink>
-          <NavLink href="#quick-start" onClick={(e) => { e.preventDefault(); scrollToSection('quick-start'); }}>
-            Quick Start
-          </NavLink>
-          <NavLink href="#faq" onClick={(e) => { e.preventDefault(); scrollToSection('faq'); }}>
-            FAQ
-          </NavLink>
-        </Nav>
+        <nav className="hidden items-center justify-center gap-8 md:flex">
+          <MagneticLink href="#features">Features</MagneticLink>
+          <MagneticLink href="#proxy-flow">Proxy Flow</MagneticLink>
+          <MagneticLink href="#sdk">Universal SDK</MagneticLink>
+        </nav>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <GitHubButton
-            href="https://github.com/tingly-dev/tingly-box"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <FaGithub style={{ width: '1rem', height: '1rem' }} />
-            <span style={{ display: 'inherit' }}>GitHub</span>
-          </GitHubButton>
-          <GitHubButton
+        <div className="hidden items-center gap-3 md:flex">
+          <a
             href="https://github.com/tingly-dev/tingly-box/releases"
             target="_blank"
             rel="noopener noreferrer"
+            className="rounded-[4px] bg-[#0057E7] px-4 py-2 text-sm font-medium text-white"
           >
-            <ExternalLink style={{ width: '0.875rem', height: '0.875rem' }} />
-            <span style={{ display: 'inherit' }}>Releases</span>
-          </GitHubButton>
-
-          <MobileMenuButton
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle menu"
+            Get Started
+          </a>
+          <a
+            href="https://github.com/tingly-dev/tingly-box"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-sm text-[#4B5563]"
           >
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              {isMobileMenuOpen ? (
-                <>
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                </>
-              ) : (
-                <>
-                  <line x1="3" y1="12" x2="21" y2="12" />
-                  <line x1="3" y1="6" x2="21" y2="6" />
-                  <line x1="3" y1="18" x2="21" y2="18" />
-                </>
-              )}
-            </svg>
-          </MobileMenuButton>
+            <FaGithub className="h-4 w-4" />
+            GitHub
+            <ExternalLink className="h-3 w-3" />
+          </a>
         </div>
-      </HeaderContent>
 
-      <MobileMenu isOpen={isMobileMenuOpen}>
-        <MobileNavLink
-          href="#features"
-          onClick={(e) => { e.preventDefault(); scrollToSection('features'); }}
+        <button
+          aria-label="Toggle menu"
+          className="relative z-50 justify-self-end rounded-md border border-[#E5E7EB] bg-white p-2 text-[#4B5563] md:hidden"
+          onClick={() => setIsOpen((v) => !v)}
         >
-          Features
-        </MobileNavLink>
-        <MobileNavLink
-          href="#quick-start"
-          onClick={(e) => { e.preventDefault(); scrollToSection('quick-start'); }}
+          {isOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+        </button>
+      </div>
+
+      {isOpen && (
+        <div
+          data-testid="mobile-menu-overlay"
+          className="fixed inset-0 z-40 dot-grid-bg bg-white/95 px-8 pt-24 md:hidden"
         >
-          Quick Start
-        </MobileNavLink>
-        <MobileNavLink
-          href="#faq"
-          onClick={(e) => { e.preventDefault(); scrollToSection('faq'); }}
-        >
-          FAQ
-        </MobileNavLink>
-        <div style={{ height: '1px', background: '#e2e8f0', margin: '0.5rem 0' }} />
-        <MobileLinkButton
-          href="https://github.com/tingly-dev/tingly-box"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <FaGithub style={{ width: '1rem', height: '1rem' }} />
-          GitHub
-        </MobileLinkButton>
-        <MobileLinkButton
-          href="https://github.com/tingly-dev/tingly-box/releases"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <ExternalLink style={{ width: '0.875rem', height: '0.875rem' }} />
-          Releases
-        </MobileLinkButton>
-      </MobileMenu>
-    </HeaderContainer>
+          <div className="space-y-6 text-3xl font-semibold tracking-[-0.02em] text-[#111827]">
+            <a href="#features" onClick={() => setIsOpen(false)}>
+              Features
+            </a>
+            <a href="#proxy-flow" onClick={() => setIsOpen(false)}>
+              Proxy Flow
+            </a>
+            <a href="#sdk" onClick={() => setIsOpen(false)}>
+              Universal SDK
+            </a>
+          </div>
+        </div>
+      )}
+    </header>
   );
-};
-
-export default Header;
+}
