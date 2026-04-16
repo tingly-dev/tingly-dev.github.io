@@ -2,6 +2,7 @@ import { useState } from "react";
 import LightPatternBackground from "@/components/LightPatternBackground";
 import Header from "@/components/Header";
 import FeatureGrid from "@/components/FeatureGrid";
+import ProxyFlow from "@/components/ProxyFlow";
 import HeroConnectivityMap from "@/components/HeroConnectivityMap";
 import { faqs, features, screenshots } from "@/data/text";
 import { Card, CardContent, Dialog, DialogContent, Button as MuiButton } from "@mui/material";
@@ -430,6 +431,7 @@ const Index = () => (
         <Hero />
         <Gallery />
         <FeatureGrid />
+        <ProxyFlow />
         <QuickStart />
         <FAQ />
         <Footer />
