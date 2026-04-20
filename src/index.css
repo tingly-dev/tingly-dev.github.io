@@ -59,6 +59,16 @@
 
     /* Glow - Blue */
     --glow: 221 83% 60%;
+
+    --cyber-bg-0: #030916;
+    --cyber-bg-1: #071426;
+    --cyber-grid: rgba(45, 212, 191, 0.08);
+    --cyber-line: rgba(103, 232, 249, 0.6);
+    --cyber-neon: #56efff;
+    --cyber-neon-2: #2e7dff;
+    --cyber-danger: #ef4444;
+    --cyber-text: #d7f8ff;
+    --cyber-muted: rgba(215, 248, 255, 0.72);
   }
 }
 
@@ -69,8 +79,13 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    background: var(--tingly-bg-main);
-    color: var(--tingly-body);
+    background-color: var(--cyber-bg-0);
+    background-image:
+      linear-gradient(to right, var(--cyber-grid) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--cyber-grid) 1px, transparent 1px),
+      radial-gradient(circle at top, rgba(46, 125, 255, 0.2), transparent 40%);
+    background-size: 28px 28px, 28px 28px, auto;
+    color: var(--cyber-text);
   }
 }
 
@@ -188,5 +203,13 @@
     background: linear-gradient(white, white) padding-box,
                 linear-gradient(135deg, #2563eb, #3b82f6) border-box;
     border: 1px solid transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
   }
 }
