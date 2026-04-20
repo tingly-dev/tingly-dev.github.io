@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <defs>
+    <linearGradient id="cube" x1="20" y1="20" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#59FBFF"/>
+      <stop offset="1" stop-color="#2E7DFF"/>
+    </linearGradient>
+  </defs>
+  <path d="M60 18 95 38v44L60 102 25 82V38L60 18Z" stroke="url(#cube)" stroke-width="3"/>
+  <path d="M25 38 60 58l35-20M60 58v44" stroke="url(#cube)" stroke-width="2.5"/>
+</svg>

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" fill="none">
+  <circle cx="40" cy="40" r="30" stroke="#56EFFF" stroke-width="2.5"/>
+  <circle cx="40" cy="40" r="17" fill="#0A1F42" stroke="#3D79FF" stroke-width="2.5"/>
+  <text x="40" y="45" text-anchor="middle" font-family="monospace" font-size="14" fill="#D7F8FF">AI</text>
+</svg>
