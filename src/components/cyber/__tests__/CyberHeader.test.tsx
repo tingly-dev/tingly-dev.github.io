@@ -3,8 +3,13 @@ import CyberHeader from "@/components/cyber/CyberHeader";
 
 test("shows mobile overlay menu", () => {
   render(<CyberHeader />);
-  fireEvent.click(screen.getByLabelText("Toggle cyber menu"));
+  const toggle = screen.getByLabelText("Toggle cyber menu");
+  expect(toggle).toHaveAttribute("aria-expanded", "false");
+  fireEvent.click(toggle);
+  expect(toggle).toHaveAttribute("aria-expanded", "true");
   expect(screen.getByTestId("cyber-mobile-menu")).toBeInTheDocument();
+  fireEvent.click(toggle);
+  expect(toggle).toHaveAttribute("aria-expanded", "false");
 });
 
 test("uses cyber brand mark svg", () => {

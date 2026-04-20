@@ -38,7 +38,7 @@ export default function CyberHeader() {
           type="button"
           aria-label="Toggle cyber menu"
           aria-expanded={open}
-          className="rounded border border-cyan-300/40 p-2 text-cyan-100 md:hidden"
+          className="relative z-50 rounded border border-cyan-300/40 p-2 text-cyan-100 md:hidden"
           onClick={() => setOpen((value) => !value)}
         >
           {open ? <X size={16} /> : <Menu size={16} />}
