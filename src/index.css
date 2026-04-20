@@ -75,6 +75,24 @@
 }
 
 @layer utilities {
+  @keyframes cyberSweep {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(100%);
+    }
+  }
+
+  @keyframes cyberScan {
+    from {
+      transform: translateY(-120%);
+    }
+    to {
+      transform: translateY(520%);
+    }
+  }
+
   @keyframes logoPulse {
     0%, 88%, 100% {
       transform: scale(1);
