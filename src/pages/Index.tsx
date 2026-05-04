@@ -92,6 +92,7 @@ export default function Index() {
   const NAV_HEIGHT_MIN = Math.round(NAV_HEIGHT_MAX * 0.7);
   const SHRINK_SCROLL_RANGE = 360;
   const [navHeight, setNavHeight] = useState(NAV_HEIGHT_MAX);
+  const [previewImage, setPreviewImage] = useState<{ src: string; alt: string } | null>(null);
 
   useEffect(() => {
     let rafId = 0;
@@ -115,6 +116,7 @@ export default function Index() {
   }, []);
 
   const navScale = navHeight / NAV_HEIGHT_MAX;
+  const openPreview = (src: string, alt: string) => setPreviewImage({ src, alt });
 
   return (
     <div className="font-body text-[#2c2f31] antialiased min-h-screen flex flex-col bg-[#f5f7f9] [background-image:radial-gradient(#abadaf_1px,transparent_1px)] [background-size:24px_24px]">
@@ -124,7 +126,13 @@ export default function Index() {
           style={{ height: `${navHeight}px` }}
         >
           <div className="flex items-center gap-2 text-xl font-bold tracking-tighter text-[#2c2f31] font-display">
-            <img src="/tingly-logo.svg" alt="Tingly logo" className="w-auto object-contain transition-[height] duration-200 ease-out" style={{ height: `${48 * navScale}px` }} />
+            <img
+              src="/tingly-logo.svg"
+              alt="Tingly logo"
+              className="w-auto object-contain transition-[height] duration-200 ease-out cursor-zoom-in"
+              style={{ height: `${48 * navScale}px` }}
+              onClick={() => openPreview("/tingly-logo.svg", "Tingly logo")}
+            />
           </div>
           <a
             href="https://github.com/tingly-dev/tingly-box"
@@ -158,7 +166,13 @@ export default function Index() {
             <img
               src="/stitch/f522ca807a86478380b2723d4fa7f348/hero-diagram.png"
               alt="Comprehensive technical diagram showing an AI agent connecting to various models, tools, and skills through the Tingly Box gateway."
-              className="w-full h-auto rounded-lg object-contain"
+              className="w-full h-auto rounded-lg object-contain cursor-zoom-in"
+              onClick={() =>
+                openPreview(
+                  "/stitch/f522ca807a86478380b2723d4fa7f348/hero-diagram.png",
+                  "Comprehensive technical diagram showing an AI agent connecting to various models, tools, and skills through the Tingly Box gateway.",
+                )
+              }
             />
           </div>
         </section>
@@ -173,7 +187,12 @@ export default function Index() {
             <div key={row.title} className={`flex flex-col items-center gap-16 ${row.reverse ? "lg:flex-row-reverse" : "lg:flex-row"}`}>
               <div className="w-full lg:w-1/2">
                 <div className="bg-white rounded-xl p-6 shadow-[0_20px_40px_rgba(44,47,49,0.06)] border border-[#abadaf]/15">
-                  <img alt={row.imageAlt} className="w-full h-auto max-h-80 object-contain rounded-lg" src={row.imageSrc} />
+                  <img
+                    alt={row.imageAlt}
+                    className="w-full h-auto max-h-80 object-contain rounded-lg cursor-zoom-in"
+                    src={row.imageSrc}
+                    onClick={() => openPreview(row.imageSrc, row.imageAlt)}
+                  />
                 </div>
               </div>
               <div className="w-full lg:w-1/2 space-y-6">
@@ -217,6 +236,23 @@ export default function Index() {
           </div>
         </section>
       </main>
+
+      {previewImage ? (
+        <div
+          className="fixed inset-0 z-[90] bg-white/70 backdrop-blur-sm flex items-center justify-center p-6"
+          onClick={() => setPreviewImage(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Image preview"
+        >
+          <img
+            src={previewImage.src}
+            alt={previewImage.alt}
+            className="max-w-[95vw] max-h-[95vh] w-auto h-auto object-contain shadow-[0_24px_64px_rgba(44,47,49,0.25)] rounded-md"
+            onClick={(event) => event.stopPropagation()}
+          />
+        </div>
+      ) : null}
 
       <footer className="w-full border-t border-[#abadaf]/15 bg-[#f5f7f9]">
         <div className="px-8 py-12 max-w-7xl mx-auto text-center">
