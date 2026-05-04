@@ -92,7 +92,9 @@ export default function Index() {
     <div className="font-body text-[#2c2f31] antialiased min-h-screen flex flex-col bg-[#f5f7f9] [background-image:radial-gradient(#abadaf_1px,transparent_1px)] [background-size:24px_24px]">
       <nav className="fixed top-0 w-full z-50 bg-[#f5f7f9]/80 backdrop-blur-xl border-b border-[#abadaf]/15">
         <div className="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto">
-          <div className="text-xl font-bold tracking-tighter text-[#2c2f31] font-display">Tingly Box</div>
+          <div className="flex items-center gap-2 text-xl font-bold tracking-tighter text-[#2c2f31] font-display">
+            <img src="/tingly-logo.svg" alt="Tingly logo" className="h-12 w-auto object-contain" />
+          </div>
           <a
             href="https://github.com/tingly-dev/tingly-box"
             target="_blank"
