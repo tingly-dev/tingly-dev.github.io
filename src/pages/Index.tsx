@@ -1,5 +1,5 @@
 import { Check, Copy, Github } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type TechRow = {
   badge: string;
@@ -88,26 +88,63 @@ function CopyCommand() {
 }
 
 export default function Index() {
+  const NAV_HEIGHT_MAX = 112;
+  const NAV_HEIGHT_MIN = Math.round(NAV_HEIGHT_MAX * 0.7);
+  const SHRINK_SCROLL_RANGE = 360;
+  const [navHeight, setNavHeight] = useState(NAV_HEIGHT_MAX);
+
+  useEffect(() => {
+    let rafId = 0;
+
+    const onScroll = () => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        const y = window.scrollY;
+        const progress = Math.min(1, Math.max(0, y / SHRINK_SCROLL_RANGE));
+        const nextHeight = NAV_HEIGHT_MAX - (NAV_HEIGHT_MAX - NAV_HEIGHT_MIN) * progress;
+        setNavHeight(nextHeight);
+      });
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
+  const navScale = navHeight / NAV_HEIGHT_MAX;
+
   return (
     <div className="font-body text-[#2c2f31] antialiased min-h-screen flex flex-col bg-[#f5f7f9] [background-image:radial-gradient(#abadaf_1px,transparent_1px)] [background-size:24px_24px]">
       <nav className="fixed top-0 w-full z-50 bg-[#f5f7f9]/80 backdrop-blur-xl border-b border-[#abadaf]/15">
-        <div className="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto">
+        <div
+          className="flex justify-between items-center px-8 max-w-7xl mx-auto transition-[height] duration-200 ease-out"
+          style={{ height: `${navHeight}px` }}
+        >
           <div className="flex items-center gap-2 text-xl font-bold tracking-tighter text-[#2c2f31] font-display">
-            <img src="/tingly-logo.svg" alt="Tingly logo" className="h-12 w-auto object-contain" />
+            <img src="/tingly-logo.svg" alt="Tingly logo" className="w-auto object-contain transition-[height] duration-200 ease-out" style={{ height: `${48 * navScale}px` }} />
           </div>
           <a
             href="https://github.com/tingly-dev/tingly-box"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 bg-gradient-to-br from-[#0050d4] to-[#7b9cff] text-white px-6 py-2 rounded-md uppercase tracking-widest text-sm hover:scale-95 transition-transform duration-100 ease-in-out"
+            className="inline-flex items-center gap-2 bg-black text-white rounded-md uppercase tracking-widest text-sm hover:bg-[#111111] hover:scale-95 transition-all duration-150 ease-in-out"
+            style={{
+              paddingLeft: `${24 * navScale}px`,
+              paddingRight: `${24 * navScale}px`,
+              paddingTop: `${8 * navScale}px`,
+              paddingBottom: `${8 * navScale}px`,
+            }}
           >
-            <Github size={16} />
+            <Github size={16 * navScale} />
             Github
           </a>
         </div>
       </nav>
 
-      <main className="flex-grow pt-32 pb-24">
+      <main className="flex-grow pt-40 pb-24">
         <section className="max-w-7xl mx-auto px-8 mb-32 flex flex-col items-center text-center">
           <h1 className="font-display text-5xl md:text-7xl font-bold text-[#2c2f31] mb-6 tracking-tight leading-tight max-w-4xl">
             The Definitive Agent Gateway
